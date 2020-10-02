@@ -10,24 +10,60 @@ class MovieDetailsScreen extends StatefulWidget {
 }
 
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
-  String text;
+  bool _isLoading = false;
+  Map<String, dynamic> _movieDetails;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     final id = ModalRoute.of(context).settings.arguments;
+    _isLoading = true;
     Dio()
         .get('${Links.movieDetailsBaseUrl}/$id')
+        .catchError((error) => null) // TODO: treat this error
         .then((response) => setState(() {
-      text = response.data.toString();
-    }));
+              _isLoading = false;
+              if (response.data == null) {
+                // TODO: treat this error
+              }
+              _movieDetails = response.data;
+            }));
   }
+
+  String _parseGenres(List<dynamic> genres) =>
+      (StringBuffer()..writeAll(genres, ', ')).toString();
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(title: const Text('Movie Advisor')),
-      body: Center(
-        child: Text(text),
-      ),
-    );
+        appBar: AppBar(title: const Text('Movie Advisor')),
+        body: Center(
+            child: _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(_movieDetails['title']),
+                        Container(
+                          height: 60,
+                          width: 60,
+                          padding: const EdgeInsets.all(10),
+                          child: Image.network(
+                            _movieDetails['poster_url'],
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Image.asset(
+                              '${Links.imagesFolder}/no_image_100.png',
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const Text('Synopsis'),
+                        Text(_movieDetails['overview']),
+                        const Text('Genres'),
+                        Text(_parseGenres(_movieDetails['genres'])),
+                      ],
+                    ),
+                  )),
+      );
 }

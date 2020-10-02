@@ -23,12 +23,12 @@ class MoviesListItem extends StatelessWidget {
                 height: 60,
                 width: 60,
                 padding: const EdgeInsets.all(10),
-                child: FittedBox(
+                child: Image.network(
+                  imageUrl,
                   fit: BoxFit.cover,
-                  child: Image.network(
-                    imageUrl,
-                    errorBuilder: (_, __, ___) =>
-                        Image.asset('${Links.imagesFolder}/no_image_100.png'),
+                  errorBuilder: (_, __, ___) => Image.asset(
+                    '${Links.imagesFolder}/no_image_100.png',
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
