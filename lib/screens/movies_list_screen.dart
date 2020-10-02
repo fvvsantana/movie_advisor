@@ -28,6 +28,9 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
           builder: (_, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               final Response response = snapshot.data;
+              if(response.data == null){
+                // TODO: tread this case
+              }
               return Center(
                 child: MoviesList(response.data),
               );
