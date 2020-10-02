@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 
-class MoviesList extends StatelessWidget {
-  const MoviesList(this._movies);
+import 'movies_list_item.dart';
 
-  final List<Map<String, dynamic>> _movies;
+class MoviesList extends StatelessWidget {
+  const MoviesList(this.movies);
+
+  final List<dynamic> movies;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
-        itemCount: _movies.length,
+        itemCount: movies.length,
         itemExtent: 60,
-        itemBuilder: (_, index) => ,
+        itemBuilder: (_, index) {
+          final movie = movies.elementAt(index) as Map<String, dynamic>;
+          return MoviesListItem(
+            title: movie['title'],
+            imageUrl: movie['poster_url'],
+          );
+        },
       );
 }
