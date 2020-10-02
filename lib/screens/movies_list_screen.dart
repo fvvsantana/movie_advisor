@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_advisor/utils/links.dart';
+import 'package:movie_advisor/widgets/movies_list_item.dart';
 
 class MoviesListScreen extends StatefulWidget {
   @override
@@ -27,7 +28,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
             if (snapshot.connectionState == ConnectionState.done) {
               final response = snapshot.data;
               return Center(
-                child: Text(response.data.toString()),
+                child: MoviesListItem(),
               );
             } else {
               return const Center(
