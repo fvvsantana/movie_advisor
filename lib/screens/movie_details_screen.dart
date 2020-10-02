@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class MoviesDetailsScreen extends StatelessWidget {
+class MovieDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: const Text('Movie Advisor')),
