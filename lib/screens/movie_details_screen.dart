@@ -36,25 +36,24 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
-        body: Center(
+        body: Container(
             child: _isLoading
                 ? const Center(
                     child: CircularProgressIndicator(),
                   )
                 : SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(_movieDetails['title']),
                         Container(
-                          height: 60,
-                          width: 60,
+                          height: 300,
+                          width: double.infinity,
                           padding: const EdgeInsets.all(10),
                           child: Image.network(
                             _movieDetails['poster_url'],
-                            fit: BoxFit.cover,
                             errorBuilder: (_, __, ___) => Image.asset(
                               '${Links.imagesFolder}/no_image_100.png',
-                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
