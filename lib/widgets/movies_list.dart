@@ -14,6 +14,7 @@ class MoviesList extends StatelessWidget {
         itemBuilder: (_, index) {
           final movie = movies.elementAt(index) as Map<String, dynamic>;
           return MoviesListItem(
+            id: movie['id'],
             title: movie['title'],
             imageUrl: movie['poster_url'],
           );
