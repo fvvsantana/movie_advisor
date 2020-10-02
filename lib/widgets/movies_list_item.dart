@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/utils/links.dart';
 
 class MoviesListItem extends StatelessWidget {
   @override
@@ -16,7 +17,7 @@ class MoviesListItem extends StatelessWidget {
                 fit: BoxFit.cover,
                 child: Image.network(
                   'https://image.tmdb.org/t/p/w200/uC6TTUhPpQCmgldGyYveKRAu8JN.jpg',
-                  errorBuilder: (_, __, ___) => const Text('😢'),
+                  errorBuilder: (_, __, ___) => Image.asset('${Links.imagesFolder}/no_image_100.png'),
                 ),
               ),
             ),
