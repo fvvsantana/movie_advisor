@@ -42,27 +42,45 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     child: CircularProgressIndicator(),
                   )
                 : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(_movieDetails['title']),
-                        Container(
-                          height: 300,
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(10),
-                          child: Image.network(
-                            _movieDetails['poster_url'],
-                            errorBuilder: (_, __, ___) => Image.asset(
-                              '${Links.imagesFolder}/no_image_100.png',
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _movieDetails['title'],
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          Container(
+                            height: 300,
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(10),
+                            child: Image.network(
+                              _movieDetails['poster_url'],
+                              errorBuilder: (_, __, ___) => Image.asset(
+                                '${Links.imagesFolder}/no_image_100.png',
+                              ),
                             ),
                           ),
-                        ),
-                        const Text('Synopsis'),
-                        Text(_movieDetails['overview']),
-                        const Text('Genres'),
-                        Text(_parseGenres(
-                            _movieDetails['genres'].cast<String>().toList())),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              'Synopsis',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                          Text(_movieDetails['overview']),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              'Genres',
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
+                          ),
+                          Text(_parseGenres(
+                              _movieDetails['genres'].cast<String>().toList())),
+                        ],
+                      ),
                     ),
                   )),
       );
