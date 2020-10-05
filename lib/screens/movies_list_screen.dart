@@ -25,9 +25,9 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
                 // TODO: treat this error
                 print('NO DATA!');
               }
-              print(response.data.runtimeType);
-              _movies = (response.data as List<dynamic>).cast();
-            }));
+              assert(response.data is List<dynamic>);
+              _movies = response.data.cast<Map<String,dynamic>>().toList();
+    }));
   }
 
   @override

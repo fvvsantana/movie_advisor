@@ -30,7 +30,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             }));
   }
 
-  String _parseGenres(List<dynamic> genres) =>
+  String _parseGenres(List<String> genres) =>
       (StringBuffer()..writeAll(genres, ', ')).toString();
 
   @override
@@ -60,7 +60,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                         const Text('Synopsis'),
                         Text(_movieDetails['overview']),
                         const Text('Genres'),
-                        Text(_parseGenres(_movieDetails['genres'])),
+                        Text(_parseGenres(
+                            _movieDetails['genres'].cast<String>().toList())),
                       ],
                     ),
                   )),
