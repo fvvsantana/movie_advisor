@@ -11,8 +11,9 @@ class MoviesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => Navigator.of(context)
-            .pushNamed(MovieDetailsScreen.routeName, arguments: id),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => MovieDetailsScreen(),
+            settings: RouteSettings(arguments: id))),
         child: Card(
           elevation: 6,
           margin: const EdgeInsets.all(5),
