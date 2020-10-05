@@ -10,7 +10,7 @@ class MoviesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ListView.builder(
         itemCount: movies.length,
-        itemExtent: 60,
+        itemExtent: 70,
         itemBuilder: (_, index) {
           final movie = movies.elementAt(index) as Map<String, dynamic>;
           return MoviesListItem(
