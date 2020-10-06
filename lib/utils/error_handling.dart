@@ -15,8 +15,6 @@ class ErrorHandling {
           FlatButton(
             onPressed: () {
               Navigator.of(context).pop();
-              //Navigator.of(context).pushReplacement(
-              //MaterialPageRoute(builder: (_) => MoviesListScreen()));
               Navigator.of(context).pushReplacement(route);
             },
             child: const Text('Try again'),

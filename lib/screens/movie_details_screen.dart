@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/links.dart';
 import 'package:movie_advisor/widgets/image_from_network.dart';
 
@@ -13,22 +14,45 @@ class MovieDetailsScreen extends StatefulWidget {
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   bool _isLoading = false;
   Map<String, dynamic> _movieDetails;
+  bool _isFirstCall = true;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final id = ModalRoute.of(context).settings.arguments;
-    _isLoading = true;
-    Dio()
-        .get('${Links.movieDetailsBaseUrl}/$id')
-        .catchError((error) => null) // TODO: treat this error
-        .then((response) => setState(() {
-              _isLoading = false;
-              if (response.data == null) {
-                // TODO: treat this error
-              }
-              _movieDetails = response.data;
-            }));
+
+    if (_isFirstCall) {
+      _isFirstCall = false;
+      final id = ModalRoute.of(context).settings.arguments;
+      _isLoading = true;
+      // Fetch movie details
+      Dio().get('${Links.movieDetailsBaseUrl}/$id').catchError((error) {
+        final DioError dioError = error;
+        final isServerError = dioError.response != null;
+        ErrorHandling.showErrorDialog(
+          isServerError,
+          context,
+          MaterialPageRoute(
+            builder: (_) => MovieDetailsScreen(),
+            settings: RouteSettings(arguments: id),
+          ),
+        );
+      }).then((response) => setState(() {
+            // Treat more server errors
+            if (response.data == null) {
+              ErrorHandling.showErrorDialog(
+                true,
+                context,
+                MaterialPageRoute(
+                  builder: (_) => MovieDetailsScreen(),
+                  settings: RouteSettings(arguments: id),
+                ),
+              );
+              return;
+            }
+            _isLoading = false;
+            _movieDetails = response.data;
+          }));
+    }
   }
 
   String _parseGenres(List<String> genres) =>

@@ -27,6 +27,7 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
           MaterialPageRoute(builder: (_) => MoviesListScreen()));
     }).then((response) => setState(() {
           _isLoading = false;
+          // Treat more server errors
           if (response.data == null) {
             ErrorHandling.showErrorDialog(true, context,
                 MaterialPageRoute(builder: (_) => MoviesListScreen()));
