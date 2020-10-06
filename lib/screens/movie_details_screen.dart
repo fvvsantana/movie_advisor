@@ -1,7 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/utils/links.dart';
+import 'package:movie_advisor/widgets/image_from_network.dart';
 
 class MovieDetailsScreen extends StatefulWidget {
   static const routeName = '/movie-details';
@@ -56,21 +56,9 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                             height: 300,
                             width: double.infinity,
                             padding: const EdgeInsets.all(10),
-                            child: CachedNetworkImage(
+                            child: ImageFromNetwork(
                               imageUrl: _movieDetails['poster_url'],
-                              placeholder: (context, url) =>
-                                  const CircularProgressIndicator(),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
-                            /*
-                            child: Image.network(
-                              _movieDetails['poster_url'],
-                              errorBuilder: (_, __, ___) => Image.asset(
-                                '${Links.imagesFolder}/no_image_100.png',
-                              ),
-                            ),
-                           */
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8),

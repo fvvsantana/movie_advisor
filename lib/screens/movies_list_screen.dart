@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/links.dart';
 import 'package:movie_advisor/widgets/movies_list.dart';
 
@@ -13,21 +14,28 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
   List<Map<String, dynamic>> _movies;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _isLoading = true;
-    Dio()
-        .get(Links.moviesListUrl)
-        .catchError((error) => null) // TODO: treat this error
-        .then((response) => setState(() {
-              _isLoading = false;
-              if (response.data == null) {
-                // TODO: treat this error
-                print('NO DATA!');
-              }
-              assert(response.data is List<dynamic>);
-              _movies = response.data.cast<Map<String,dynamic>>().toList();
-    }));
+  void initState() {
+    super.initState();
+    setState(() {
+      _isLoading = true;
+    });
+    // Fetch movies list
+    Dio().get(Links.moviesListUrl).catchError((error) {
+      final DioError dioError = error;
+      final isServerError = dioError.response != null;
+      ErrorHandling.showErrorDialog(isServerError, context,
+          MaterialPageRoute(builder: (_) => MoviesListScreen()));
+    }).then((response) => setState(() {
+          _isLoading = false;
+          if (response.data == null) {
+            ErrorHandling.showErrorDialog(true, context,
+                MaterialPageRoute(builder: (_) => MoviesListScreen()));
+            _isLoading = true;
+            return;
+          }
+          assert(response.data is List<dynamic>);
+          _movies = response.data.cast<Map<String, dynamic>>().toList();
+        }));
   }
 
   @override
