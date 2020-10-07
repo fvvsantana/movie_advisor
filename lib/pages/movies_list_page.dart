@@ -13,29 +13,30 @@ class _MoviesListPageState extends State<MoviesListPage> {
   bool _isLoading = false;
   List<Map<String, dynamic>> _movies;
 
-  void tryAgain(){
-    Navigator.of(context).pop();
-    Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => MoviesListPage()));
-  }
-
-  @override
-  void initState() {
-    super.initState();
+  /*
+    Make a http request to get the movies data.
+    Update the isLoading state during the process.
+    Treat the errors involved on fetching data.
+    If no errors occurred, set the _movies data.
+   */
+  void fetchAndSetMovies() {
     setState(() {
       _isLoading = true;
     });
     // Fetch movies list
     Dio().get(UrlBuilder.moviesList()).catchError((error) {
+      // Treat errors
       final DioError dioError = error;
       final isServerError = dioError.response != null;
       showErrorDialog(
-          context: context,
-          isServerError: isServerError,
-          onTryAgainTap: tryAgain,
+        context: context,
+        isServerError: isServerError,
+        onTryAgainTap: tryAgain,
       );
     }).then((response) => setState(() {
-          _isLoading = false;
+          if (response == null) {
+            return;
+          }
           // Treat more server errors
           if (response.data == null) {
             showErrorDialog(
@@ -43,12 +44,24 @@ class _MoviesListPageState extends State<MoviesListPage> {
               isServerError: true,
               onTryAgainTap: tryAgain,
             );
-            _isLoading = true;
             return;
           }
           assert(response.data is List<dynamic>);
           _movies = response.data.cast<Map<String, dynamic>>().toList();
+          _isLoading = false;
         }));
+  }
+
+  // Pop dialog and try to fetch the movies data again
+  void tryAgain() {
+    Navigator.of(context).pop();
+    fetchAndSetMovies();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAndSetMovies();
   }
 
   @override

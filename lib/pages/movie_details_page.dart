@@ -13,16 +13,48 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   bool _isLoading = false;
   Map<String, dynamic> _movieDetails;
   bool _isFirstCall = true;
-  int id;
+  int _movieId;
 
+  /*
+    Make a http request to get the movie details data.
+    Update the isLoading state during the process.
+    Treat the errors involved on fetching data.
+    If no errors occurred, set the _movieDetails data.
+   */
+  void fetchAndSetMovieDetails() {
+    _isLoading = true;
+    // Fetch movie details
+    Dio().get(UrlBuilder.movieDetails(_movieId)).catchError((error) {
+      // Treat errors
+      final DioError dioError = error;
+      final isServerError = dioError.response != null;
+      showErrorDialog(
+        context: context,
+        isServerError: isServerError,
+        onTryAgainTap: tryAgain,
+      );
+    }).then((response) => setState(() {
+      if (response == null) {
+        return;
+      }
+      // Treat more server errors
+      if (response.data == null) {
+        showErrorDialog(
+          context: context,
+          isServerError: true,
+          onTryAgainTap: tryAgain,
+        );
+        return;
+      }
+      _movieDetails = response.data;
+      _isLoading = false;
+    }));
+  }
+
+  // Pop dialog and try to fetch the movie details data again
   void tryAgain() {
     Navigator.of(context).pop();
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => MovieDetailsPage(),
-        settings: RouteSettings(arguments: id),
-      ),
-    );
+    fetchAndSetMovieDetails();
   }
 
   @override
@@ -31,30 +63,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
     if (_isFirstCall) {
       _isFirstCall = false;
-      id = ModalRoute.of(context).settings.arguments;
-      _isLoading = true;
-      // Fetch movie details
-      Dio().get(UrlBuilder.movieDetails(id)).catchError((error) {
-        final DioError dioError = error;
-        final isServerError = dioError.response != null;
-        showErrorDialog(
-          context: context,
-          isServerError: isServerError,
-          onTryAgainTap: tryAgain,
-        );
-      }).then((response) => setState(() {
-            // Treat more server errors
-            if (response.data == null) {
-              showErrorDialog(
-                context: context,
-                isServerError: true,
-                onTryAgainTap: tryAgain,
-              );
-              return;
-            }
-            _isLoading = false;
-            _movieDetails = response.data;
-          }));
+      _movieId = ModalRoute.of(context).settings.arguments;
+      fetchAndSetMovieDetails();
     }
   }
 
