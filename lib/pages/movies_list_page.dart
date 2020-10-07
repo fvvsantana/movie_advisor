@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:movie_advisor/common/error_message.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/movies_list.dart';
@@ -54,7 +55,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
 
   // Pop dialog and try to fetch the movies data again
   void tryAgain() {
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
     fetchAndSetMovies();
   }
 
@@ -67,10 +68,18 @@ class _MoviesListPageState extends State<MoviesListPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
+        body: Center(
+          child: ErrorMessage(
+            isServerError: false,
+            onTryAgainTap: tryAgain,
+          ),
+        ),
+        /*
         body: _isLoading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
             : MoviesList(movies: _movies),
+         */
       );
 }
