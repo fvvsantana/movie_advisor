@@ -3,7 +3,13 @@ import 'package:movie_advisor/screens/movie_details_page.dart';
 import 'package:movie_advisor/widgets/image_from_network.dart';
 
 class MoviesListItem extends StatelessWidget {
-  const MoviesListItem({this.id, this.title, this.imageUrl});
+  const MoviesListItem({
+    @required this.id,
+    @required this.title,
+    @required this.imageUrl,
+  })  : assert(id != null),
+        assert(title != null),
+        assert(imageUrl != null);
 
   final int id;
   final String title;
