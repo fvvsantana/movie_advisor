@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
-import 'package:movie_advisor/widgets/image_from_network.dart';
+import 'package:movie_advisor/common/image_from_network.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   static const routeName = '/movie-details';

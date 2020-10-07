@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
-import 'package:movie_advisor/widgets/movies_list.dart';
+import 'package:movie_advisor/common/movies_list.dart';
 
 class MoviesListPage extends StatefulWidget {
   @override
