@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 void showErrorDialog({
   @required BuildContext context,
   @required bool isServerError,
-  @required Route route,
+  @required void Function() onTryAgainTap,
 }) {
   showDialog(
     context: context,
@@ -15,10 +15,7 @@ void showErrorDialog({
               'internet connection.'),
       actions: [
         FlatButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacement(route);
-          },
+          onPressed: onTryAgainTap,
           child: const Text('Try again'),
         ),
       ],

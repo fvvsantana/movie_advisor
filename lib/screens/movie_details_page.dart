@@ -15,6 +15,17 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   bool _isLoading = false;
   Map<String, dynamic> _movieDetails;
   bool _isFirstCall = true;
+  int id;
+
+  void tryAgain() {
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => MovieDetailsPage(),
+        settings: RouteSettings(arguments: id),
+      ),
+    );
+  }
 
   @override
   void didChangeDependencies() {
@@ -22,7 +33,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
     if (_isFirstCall) {
       _isFirstCall = false;
-      final id = ModalRoute.of(context).settings.arguments;
+      id = ModalRoute.of(context).settings.arguments;
       _isLoading = true;
       // Fetch movie details
       Dio().get('${Links.movieDetailsBaseUrl}/$id').catchError((error) {
@@ -31,10 +42,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         showErrorDialog(
           context: context,
           isServerError: isServerError,
-          route: MaterialPageRoute(
-            builder: (_) => MovieDetailsPage(),
-            settings: RouteSettings(arguments: id),
-          ),
+          onTryAgainTap: tryAgain,
         );
       }).then((response) => setState(() {
             // Treat more server errors
@@ -42,10 +50,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               showErrorDialog(
                 context: context,
                 isServerError: true,
-                route: MaterialPageRoute(
-                  builder: (_) => MovieDetailsPage(),
-                  settings: RouteSettings(arguments: id),
-                ),
+                onTryAgainTap: tryAgain,
               );
               return;
             }

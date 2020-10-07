@@ -13,6 +13,12 @@ class _MoviesListPageState extends State<MoviesListPage> {
   bool _isLoading = false;
   List<Map<String, dynamic>> _movies;
 
+  void tryAgain(){
+    Navigator.of(context).pop();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => MoviesListPage()));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -24,9 +30,9 @@ class _MoviesListPageState extends State<MoviesListPage> {
       final DioError dioError = error;
       final isServerError = dioError.response != null;
       showErrorDialog(
-        context: context,
-        isServerError: isServerError,
-        route: MaterialPageRoute(builder: (_) => MoviesListPage()),
+          context: context,
+          isServerError: isServerError,
+          onTryAgainTap: tryAgain,
       );
     }).then((response) => setState(() {
           _isLoading = false;
@@ -35,7 +41,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
             showErrorDialog(
               context: context,
               isServerError: true,
-              route: MaterialPageRoute(builder: (_) => MoviesListPage()),
+              onTryAgainTap: tryAgain,
             );
             _isLoading = true;
             return;
