@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
-import 'package:movie_advisor/utils/links.dart';
+import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/widgets/image_from_network.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       id = ModalRoute.of(context).settings.arguments;
       _isLoading = true;
       // Fetch movie details
-      Dio().get('${Links.movieDetailsBaseUrl}/$id').catchError((error) {
+      Dio().get(UrlBuilder.movieDetails(id)).catchError((error) {
         final DioError dioError = error;
         final isServerError = dioError.response != null;
         showErrorDialog(

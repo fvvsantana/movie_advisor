@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
-import 'package:movie_advisor/utils/links.dart';
+import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/widgets/movies_list.dart';
 
 class MoviesListPage extends StatefulWidget {
@@ -26,7 +26,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
       _isLoading = true;
     });
     // Fetch movies list
-    Dio().get(Links.moviesListUrl).catchError((error) {
+    Dio().get(UrlBuilder.moviesList()).catchError((error) {
       final DioError dioError = error;
       final isServerError = dioError.response != null;
       showErrorDialog(
