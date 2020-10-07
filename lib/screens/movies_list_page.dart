@@ -58,6 +58,6 @@ class _MoviesListPageState extends State<MoviesListPage> {
             ? const Center(
                 child: CircularProgressIndicator(),
               )
-            : MoviesList(_movies),
+            : MoviesList(movies: _movies),
       );
 }
