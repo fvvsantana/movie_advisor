@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'movies_list_item.dart';
+import 'package:movie_advisor/widgets/movies_list_item.dart';
 
 class MoviesList extends StatelessWidget {
-  const MoviesList(this.movies);
+  const MoviesList({@required this.movies}) : assert(movies != null);
 
-  final List<Map<String,dynamic>> movies;
+  final List<Map<String, dynamic>> movies;
 
   @override
   Widget build(BuildContext context) => ListView.builder(
