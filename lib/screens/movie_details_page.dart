@@ -4,14 +4,14 @@ import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/links.dart';
 import 'package:movie_advisor/widgets/image_from_network.dart';
 
-class MovieDetailsScreen extends StatefulWidget {
+class MovieDetailsPage extends StatefulWidget {
   static const routeName = '/movie-details';
 
   @override
-  _MovieDetailsScreenState createState() => _MovieDetailsScreenState();
+  _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
 
-class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
+class _MovieDetailsPageState extends State<MovieDetailsPage> {
   bool _isLoading = false;
   Map<String, dynamic> _movieDetails;
   bool _isFirstCall = true;
@@ -32,7 +32,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
           isServerError,
           context,
           MaterialPageRoute(
-            builder: (_) => MovieDetailsScreen(),
+            builder: (_) => MovieDetailsPage(),
             settings: RouteSettings(arguments: id),
           ),
         );
@@ -43,7 +43,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 true,
                 context,
                 MaterialPageRoute(
-                  builder: (_) => MovieDetailsScreen(),
+                  builder: (_) => MovieDetailsPage(),
                   settings: RouteSettings(arguments: id),
                 ),
               );

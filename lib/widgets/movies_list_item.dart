@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/screens/movie_details_screen.dart';
+import 'package:movie_advisor/screens/movie_details_page.dart';
 import 'package:movie_advisor/widgets/image_from_network.dart';
 
 class MoviesListItem extends StatelessWidget {
@@ -12,7 +12,7 @@ class MoviesListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => MovieDetailsScreen(),
+            builder: (_) => MovieDetailsPage(),
             settings: RouteSettings(arguments: id))),
         child: Card(
           elevation: 6,

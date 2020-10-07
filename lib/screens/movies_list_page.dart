@@ -4,12 +4,12 @@ import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/links.dart';
 import 'package:movie_advisor/widgets/movies_list.dart';
 
-class MoviesListScreen extends StatefulWidget {
+class MoviesListPage extends StatefulWidget {
   @override
-  _MoviesListScreenState createState() => _MoviesListScreenState();
+  _MoviesListPageState createState() => _MoviesListPageState();
 }
 
-class _MoviesListScreenState extends State<MoviesListScreen> {
+class _MoviesListPageState extends State<MoviesListPage> {
   bool _isLoading = false;
   List<Map<String, dynamic>> _movies;
 
@@ -24,13 +24,13 @@ class _MoviesListScreenState extends State<MoviesListScreen> {
       final DioError dioError = error;
       final isServerError = dioError.response != null;
       ErrorHandling.showErrorDialog(isServerError, context,
-          MaterialPageRoute(builder: (_) => MoviesListScreen()));
+          MaterialPageRoute(builder: (_) => MoviesListPage()));
     }).then((response) => setState(() {
           _isLoading = false;
           // Treat more server errors
           if (response.data == null) {
             ErrorHandling.showErrorDialog(true, context,
-                MaterialPageRoute(builder: (_) => MoviesListScreen()));
+                MaterialPageRoute(builder: (_) => MoviesListPage()));
             _isLoading = true;
             return;
           }
