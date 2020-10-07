@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/screens/movie_details_page.dart';
+import 'package:movie_advisor/pages/movie_details_page.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
 
 class MoviesListItem extends StatelessWidget {
