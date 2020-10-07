@@ -5,8 +5,6 @@ import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-  static const routeName = '/movie-details';
-
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
