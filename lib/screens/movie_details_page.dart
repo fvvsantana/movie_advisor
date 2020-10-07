@@ -28,10 +28,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       Dio().get('${Links.movieDetailsBaseUrl}/$id').catchError((error) {
         final DioError dioError = error;
         final isServerError = dioError.response != null;
-        ErrorHandling.showErrorDialog(
-          isServerError,
-          context,
-          MaterialPageRoute(
+        showErrorDialog(
+          context: context,
+          isServerError: isServerError,
+          route: MaterialPageRoute(
             builder: (_) => MovieDetailsPage(),
             settings: RouteSettings(arguments: id),
           ),
@@ -39,10 +39,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       }).then((response) => setState(() {
             // Treat more server errors
             if (response.data == null) {
-              ErrorHandling.showErrorDialog(
-                true,
-                context,
-                MaterialPageRoute(
+              showErrorDialog(
+                context: context,
+                isServerError: true,
+                route: MaterialPageRoute(
                   builder: (_) => MovieDetailsPage(),
                   settings: RouteSettings(arguments: id),
                 ),

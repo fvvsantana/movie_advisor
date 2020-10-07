@@ -23,14 +23,20 @@ class _MoviesListPageState extends State<MoviesListPage> {
     Dio().get(Links.moviesListUrl).catchError((error) {
       final DioError dioError = error;
       final isServerError = dioError.response != null;
-      ErrorHandling.showErrorDialog(isServerError, context,
-          MaterialPageRoute(builder: (_) => MoviesListPage()));
+      showErrorDialog(
+        context: context,
+        isServerError: isServerError,
+        route: MaterialPageRoute(builder: (_) => MoviesListPage()),
+      );
     }).then((response) => setState(() {
           _isLoading = false;
           // Treat more server errors
           if (response.data == null) {
-            ErrorHandling.showErrorDialog(true, context,
-                MaterialPageRoute(builder: (_) => MoviesListPage()));
+            showErrorDialog(
+              context: context,
+              isServerError: true,
+              route: MaterialPageRoute(builder: (_) => MoviesListPage()),
+            );
             _isLoading = true;
             return;
           }
