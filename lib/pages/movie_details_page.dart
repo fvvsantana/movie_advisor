@@ -71,12 +71,10 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         appBar: AppBar(title: const Text('Movie Advisor')),
         body: Container(
             child: _requestState == RequestState.error
-                ? Center(
-                    child: ErrorMessage(
-                      isServerError: _isServerError,
-                      onTryAgainTap: fetchAndSetMovieDetails,
-                    ),
-                  )
+                ? ErrorMessage(
+                  isServerError: _isServerError,
+                  onTryAgainTap: fetchAndSetMovieDetails,
+                )
                 : _requestState == RequestState.waiting
                     ? const Center(
                         child: CircularProgressIndicator(),

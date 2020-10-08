@@ -62,12 +62,10 @@ class _MoviesListPageState extends State<MoviesListPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
         body: _requestState == RequestState.error
-            ? Center(
-                child: ErrorMessage(
-                  isServerError: _isServerError,
-                  onTryAgainTap: _fetchAndSetMovies,
-                ),
-              )
+            ? ErrorMessage(
+              isServerError: _isServerError,
+              onTryAgainTap: _fetchAndSetMovies,
+            )
             : _requestState == RequestState.waiting
                 ? const Center(
                     child: CircularProgressIndicator(),
