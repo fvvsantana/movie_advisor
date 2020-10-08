@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
 import 'package:movie_advisor/common/error_message.dart';
-import 'package:movie_advisor/utils/error_handling.dart';
 import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
