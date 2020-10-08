@@ -4,7 +4,8 @@ class ErrorMessage extends StatelessWidget {
   const ErrorMessage({
     @required this.isServerError,
     @required this.onTryAgainTap,
-  }) : assert(onTryAgainTap != null);
+  })  : assert(isServerError != null),
+        assert(onTryAgainTap != null);
 
   final bool isServerError;
   final void Function() onTryAgainTap;
@@ -28,10 +29,13 @@ class ErrorMessage extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Text(isServerError
-                  ? 'Server error'
-                  : 'Server not reachable, please make sure you have '
-                      'internet connection.', textAlign: TextAlign.justify,),
+              Text(
+                isServerError
+                    ? 'Server error'
+                    : 'Server not reachable, please make sure you have '
+                        'internet connection.',
+                textAlign: TextAlign.justify,
+              ),
               const SizedBox(
                 height: 5,
               ),
