@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+
 import 'package:movie_advisor/common/error_message.dart';
-import 'package:movie_advisor/utils/error_handling.dart';
+import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/movies_list.dart';
 
@@ -10,76 +11,67 @@ class MoviesListPage extends StatefulWidget {
   _MoviesListPageState createState() => _MoviesListPageState();
 }
 
+
 class _MoviesListPageState extends State<MoviesListPage> {
-  bool _isLoading = false;
+  RequestState _requestState;
+  bool _isServerError;
   List<Map<String, dynamic>> _movies;
 
   /*
     Make a http request to get the movies data.
-    Update the isLoading state during the process.
+    Update the _requestState and _isServerError during the process.
     Treat the errors involved on fetching data.
     If no errors occurred, set the _movies data.
    */
-  void fetchAndSetMovies() {
+  void _fetchAndSetMovies() {
     setState(() {
-      _isLoading = true;
+      _requestState = RequestState.waiting;
     });
     // Fetch movies list
     Dio().get(UrlBuilder.moviesList()).catchError((error) {
       // Treat errors
       final DioError dioError = error;
-      final isServerError = dioError.response != null;
-      showErrorDialog(
-        context: context,
-        isServerError: isServerError,
-        onTryAgainTap: tryAgain,
-      );
+      setState(() {
+        _requestState = RequestState.error;
+        _isServerError = dioError.response != null;
+      });
     }).then((response) => setState(() {
           if (response == null) {
             return;
           }
           // Treat more server errors
           if (response.data == null) {
-            showErrorDialog(
-              context: context,
-              isServerError: true,
-              onTryAgainTap: tryAgain,
-            );
+            _requestState = RequestState.error;
+            _isServerError = true;
             return;
           }
           assert(response.data is List<dynamic>);
           _movies = response.data.cast<Map<String, dynamic>>().toList();
-          _isLoading = false;
+          _requestState = RequestState.successful;
+          _isServerError = null;
         }));
-  }
-
-  // Pop dialog and try to fetch the movies data again
-  void tryAgain() {
-    //Navigator.of(context).pop();
-    fetchAndSetMovies();
   }
 
   @override
   void initState() {
     super.initState();
-    fetchAndSetMovies();
+    _fetchAndSetMovies();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
-        body: Center(
-          child: ErrorMessage(
-            isServerError: false,
-            onTryAgainTap: tryAgain,
-          ),
-        ),
-        /*
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+        body: _requestState == RequestState.error
+            ? Center(
+                child: ErrorMessage(
+                  isServerError: _isServerError,
+                  onTryAgainTap: _fetchAndSetMovies,
+                ),
               )
-            : MoviesList(movies: _movies),
-         */
+            : _requestState == RequestState.waiting
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : MoviesList(movies: _movies),
       );
 }

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/common/error_message.dart';
 import 'package:movie_advisor/utils/error_handling.dart';
+import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
 
@@ -10,51 +12,44 @@ class MovieDetailsPage extends StatefulWidget {
 }
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
-  bool _isLoading = false;
+  RequestState _requestState;
+  bool _isServerError;
   Map<String, dynamic> _movieDetails;
   bool _isFirstCall = true;
   int _movieId;
 
   /*
     Make a http request to get the movie details data.
-    Update the isLoading state during the process.
+    Update the _requestState and _isServerError during the process.
     Treat the errors involved on fetching data.
     If no errors occurred, set the _movieDetails data.
    */
   void fetchAndSetMovieDetails() {
-    _isLoading = true;
+    setState(() {
+      _requestState = RequestState.waiting;
+    });
     // Fetch movie details
     Dio().get(UrlBuilder.movieDetails(_movieId)).catchError((error) {
       // Treat errors
       final DioError dioError = error;
-      final isServerError = dioError.response != null;
-      showErrorDialog(
-        context: context,
-        isServerError: isServerError,
-        onTryAgainTap: tryAgain,
-      );
+      setState(() {
+        _requestState = RequestState.error;
+        _isServerError = dioError.response != null;
+      });
     }).then((response) => setState(() {
-      if (response == null) {
-        return;
-      }
-      // Treat more server errors
-      if (response.data == null) {
-        showErrorDialog(
-          context: context,
-          isServerError: true,
-          onTryAgainTap: tryAgain,
-        );
-        return;
-      }
-      _movieDetails = response.data;
-      _isLoading = false;
-    }));
-  }
-
-  // Pop dialog and try to fetch the movie details data again
-  void tryAgain() {
-    Navigator.of(context).pop();
-    fetchAndSetMovieDetails();
+          if (response == null) {
+            return;
+          }
+          // Treat more server errors
+          if (response.data == null) {
+            _requestState = RequestState.error;
+            _isServerError = true;
+            return;
+          }
+          _movieDetails = response.data;
+          _requestState = RequestState.successful;
+          _isServerError = null;
+        }));
   }
 
   @override
@@ -75,48 +70,58 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
         body: Container(
-            child: _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _movieDetails['title'],
-                            style: Theme.of(context).textTheme.headline6,
-                          ),
-                          Container(
-                            height: 300,
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(10),
-                            child: ImageFromNetwork(
-                              imageUrl: _movieDetails['poster_url'],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              'Synopsis',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ),
-                          Text(_movieDetails['overview']),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 8),
-                            child: Text(
-                              'Genres',
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ),
-                          Text(_parseGenres(
-                              _movieDetails['genres'].cast<String>().toList())),
-                        ],
-                      ),
+            child: _requestState == RequestState.error
+                ? Center(
+                    child: ErrorMessage(
+                      isServerError: _isServerError,
+                      onTryAgainTap: fetchAndSetMovieDetails,
                     ),
-                  )),
+                  )
+                : _requestState == RequestState.waiting
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                _movieDetails['title'],
+                                style: Theme.of(context).textTheme.headline6,
+                              ),
+                              Container(
+                                height: 300,
+                                width: double.infinity,
+                                padding: const EdgeInsets.all(10),
+                                child: ImageFromNetwork(
+                                  imageUrl: _movieDetails['poster_url'],
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Text(
+                                  'Synopsis',
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                              Text(_movieDetails['overview']),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8),
+                                child: Text(
+                                  'Genres',
+                                  style: Theme.of(context).textTheme.headline6,
+                                ),
+                              ),
+                              Text(_parseGenres(_movieDetails['genres']
+                                  .cast<String>()
+                                  .toList())),
+                            ],
+                          ),
+                        ),
+                      )),
       );
 }
