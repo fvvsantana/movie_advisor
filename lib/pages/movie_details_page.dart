@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/common/error_message.dart';
+import 'package:movie_advisor/common/error_empty_state.dart';
 import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
@@ -71,7 +71,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         appBar: AppBar(title: const Text('Movie Advisor')),
         body: Container(
             child: _requestState == RequestState.error
-                ? ErrorMessage(
+                ? ErrorEmptyState(
                   isServerError: _isServerError,
                   onTryAgainTap: fetchAndSetMovieDetails,
                 )

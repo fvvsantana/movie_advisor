@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ErrorMessage extends StatelessWidget {
-  const ErrorMessage({
+class ErrorEmptyState extends StatelessWidget {
+  const ErrorEmptyState({
     @required this.isServerError,
     @required this.onTryAgainTap,
   })  : assert(isServerError != null),
         assert(onTryAgainTap != null);
 
   final bool isServerError;
-  final void Function() onTryAgainTap;
+  final VoidCallback onTryAgainTap;
 
   @override
   Widget build(BuildContext context) => Padding(

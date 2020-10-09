@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
-import 'package:movie_advisor/common/error_message.dart';
+import 'package:movie_advisor/common/error_empty_state.dart';
 import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/common/movies_list.dart';
@@ -62,7 +62,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
         body: _requestState == RequestState.error
-            ? ErrorMessage(
+            ? ErrorEmptyState(
               isServerError: _isServerError,
               onTryAgainTap: _fetchAndSetMovies,
             )
