@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class CustomError implements Exception {
   const CustomError({@required this.message}) : assert(message != null);
