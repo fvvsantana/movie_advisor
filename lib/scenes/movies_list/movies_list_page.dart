@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:movie_advisor/common/error_empty_state.dart';
 import 'package:movie_advisor/utils/request_state.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
-import 'package:movie_advisor/common/movies_list.dart';
+import 'package:movie_advisor/scenes/movies_list/movies_list.dart';
 
 class MoviesListPage extends StatefulWidget {
   @override
