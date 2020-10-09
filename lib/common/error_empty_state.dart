@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/utils/errors.dart';
 
+/*
+  Widget to display error messages.
+ */
 class ErrorEmptyState extends StatelessWidget {
-  const ErrorEmptyState({
-    @required this.isServerError,
-    @required this.onTryAgainTap,
-  })  : assert(isServerError != null),
-        assert(onTryAgainTap != null);
+  factory ErrorEmptyState(
+      {@required CustomError error, @required VoidCallback onTryAgainTap}) {
+    assert(error != null);
+    assert(onTryAgainTap != null);
+    return ErrorEmptyState._(_ContentBuilder(error: error), onTryAgainTap);
+  }
 
-  final bool isServerError;
+  const ErrorEmptyState._(this.content, this.onTryAgainTap);
+
+  final _ContentBuilder content;
   final VoidCallback onTryAgainTap;
 
   @override
   Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(8),
-    child: Column(
+        padding: const EdgeInsets.all(8),
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              isServerError ? 'Server error' : 'Connection error',
+              content.title,
               style: Theme.of(context).textTheme.headline6,
               textAlign: TextAlign.start,
             ),
@@ -26,10 +33,7 @@ class ErrorEmptyState extends StatelessWidget {
               height: 10,
             ),
             Text(
-              isServerError
-                  ? 'Server error'
-                  : 'Server not reachable, please make sure you have '
-                      'internet connection.',
+              content.message,
               textAlign: TextAlign.center,
             ),
             const SizedBox(
@@ -45,5 +49,29 @@ class ErrorEmptyState extends StatelessWidget {
             ),
           ],
         ),
-  );
+      );
+}
+
+/*
+  This class generates user-friendly content to be displayed on the page using
+  the CustomError received.
+ */
+class _ContentBuilder {
+  _ContentBuilder({@required this.error}) : assert(error != null) {
+    if (error is NoInternetError) {
+      title = 'Connection Error';
+      message = 'Make sure you have internet connection or check your DNS '
+          'settings.';
+    } else if (error is ServerResponseError) {
+      title = 'Server error';
+      message = 'Server error';
+    } else {
+      title = 'Error';
+      message = 'Error';
+    }
+  }
+
+  final CustomError error;
+  String title;
+  String message;
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 
 import 'package:movie_advisor/common/error_empty_state.dart';
-import 'package:movie_advisor/utils/request_state.dart';
+import 'package:movie_advisor/utils/errors.dart';
 import 'package:movie_advisor/utils/url_builder.dart';
 import 'package:movie_advisor/scenes/movies_list/movies_list.dart';
 
@@ -11,44 +11,49 @@ class MoviesListPage extends StatefulWidget {
   _MoviesListPageState createState() => _MoviesListPageState();
 }
 
-
 class _MoviesListPageState extends State<MoviesListPage> {
-  RequestState _requestState;
-  bool _isServerError;
+  CustomError _error;
   List<Map<String, dynamic>> _movies;
 
   /*
-    Make a http request to get the movies data.
-    Update the _requestState and _isServerError during the process.
+    Make an http request to get the movies data.
     Treat the errors involved on fetching data.
+    If errors occurred, set the attribute _error.
     If no errors occurred, set the _movies data.
    */
   void _fetchAndSetMovies() {
+    // Refresh page to show loading spinner
     setState(() {
-      _requestState = RequestState.waiting;
+      _error = null;
+      _movies = null;
     });
+
     // Fetch movies list
     Dio().get(UrlBuilder.moviesList()).catchError((error) {
       // Treat errors
-      final DioError dioError = error;
-      setState(() {
-        _requestState = RequestState.error;
-        _isServerError = dioError.response != null;
-      });
+      if (error is DioError) {
+        setState(() {
+          _error = error.response == null
+              ? const NoInternetError()
+              : const ServerResponseError();
+        });
+      } else {
+        _error = GenericError.fromObject(object: error);
+      }
     }).then((response) => setState(() {
           if (response == null) {
             return;
           }
+
           // Treat more server errors
           if (response.data == null) {
-            _requestState = RequestState.error;
-            _isServerError = true;
+            _error = const ServerResponseError();
             return;
           }
+
           assert(response.data is List<dynamic>);
+          // Request successful at this point
           _movies = response.data.cast<Map<String, dynamic>>().toList();
-          _requestState = RequestState.successful;
-          _isServerError = null;
         }));
   }
 
@@ -61,15 +66,15 @@ class _MoviesListPageState extends State<MoviesListPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(title: const Text('Movie Advisor')),
-        body: _requestState == RequestState.error
-            ? ErrorEmptyState(
-              isServerError: _isServerError,
-              onTryAgainTap: _fetchAndSetMovies,
-            )
-            : _requestState == RequestState.waiting
-                ? const Center(
-                    child: CircularProgressIndicator(),
+        body: _movies != null
+            ? MoviesList(movies: _movies)
+            : _error != null
+                ? ErrorEmptyState(
+                    error: _error,
+                    onTryAgainTap: _fetchAndSetMovies,
                   )
-                : MoviesList(movies: _movies),
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
       );
 }
