@@ -16,7 +16,7 @@ class MovieDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextTitle(
-                movieDetails['title'],
+                text: movieDetails['title'],
               ),
               Container(
                 height: 300,
@@ -29,14 +29,14 @@ class MovieDetails extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: TextTitle(
-                  'Synopsis',
+                  text: 'Synopsis',
                 ),
               ),
               Text(movieDetails['overview']),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 8),
                 child: TextTitle(
-                  'Genres',
+                  text: 'Genres',
                 ),
               ),
               Text(
