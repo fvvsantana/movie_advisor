@@ -69,7 +69,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
         body: _movies != null
             ? MoviesList(movies: _movies)
             : _error != null
-                ? ErrorEmptyState(
+                ? ErrorEmptyState.fromError(
                     error: _error,
                     onTryAgainTap: _fetchAndSetMovies,
                   )

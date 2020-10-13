@@ -75,7 +75,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         body: _movieDetails != null
             ? MovieDetails(movieDetails: _movieDetails)
             : _error != null
-                ? ErrorEmptyState(
+                ? ErrorEmptyState.fromError(
                     error: _error,
                     onTryAgainTap: _fetchAndSetMovieDetails,
                   )
