@@ -8,9 +8,6 @@ class MovieDetails extends StatelessWidget {
 
   final Map<String, dynamic> movieDetails;
 
-  String _parseGenres(List<String> genres) =>
-      (StringBuffer()..writeAll(genres, ', ')).toString();
-
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
         child: Padding(
@@ -43,7 +40,8 @@ class MovieDetails extends StatelessWidget {
                 ),
               ),
               Text(
-                  _parseGenres(movieDetails['genres'].cast<String>().toList())),
+                  movieDetails['genres'].join(', '),
+              ),
             ],
           ),
         ),
