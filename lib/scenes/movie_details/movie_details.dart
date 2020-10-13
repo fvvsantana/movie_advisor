@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/image_from_network.dart';
+import 'package:movie_advisor/common/text_title.dart';
 
 class MovieDetails extends StatelessWidget {
   const MovieDetails({@required this.movieDetails})
@@ -17,9 +18,8 @@ class MovieDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              TextTitle(
                 movieDetails['title'],
-                style: Theme.of(context).textTheme.headline6,
               ),
               Container(
                 height: 300,
@@ -29,19 +29,17 @@ class MovieDetails extends StatelessWidget {
                   imageUrl: movieDetails['poster_url'],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: TextTitle(
                   'Synopsis',
-                  style: Theme.of(context).textTheme.headline6,
                 ),
               ),
               Text(movieDetails['overview']),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Text(
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 8),
+                child: TextTitle(
                   'Genres',
-                  style: Theme.of(context).textTheme.headline6,
                 ),
               ),
               Text(
