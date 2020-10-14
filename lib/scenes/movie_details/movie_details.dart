@@ -26,18 +26,24 @@ class MovieDetails extends StatelessWidget {
                   imageUrl: movieDetails['poster_url'],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: TextTitle(
-                  text: 'Synopsis',
-                ),
+              const SizedBox(
+                height: 8,
+              ),
+              const TextTitle(
+                text: 'Synopsis',
+              ),
+              const SizedBox(
+                height: 8,
               ),
               Text(movieDetails['overview']),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 8),
-                child: TextTitle(
-                  text: 'Genres',
-                ),
+              const SizedBox(
+                height: 8,
+              ),
+              const TextTitle(
+                text: 'Genres',
+              ),
+              const SizedBox(
+                height: 8,
               ),
               Text(
                   movieDetails['genres'].join(', '),
