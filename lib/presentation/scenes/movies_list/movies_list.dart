@@ -3,12 +3,16 @@ import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_item.d
 
 
 class MoviesList extends StatelessWidget {
-  const MoviesList({@required this.movies}) : assert(movies != null);
+  const MoviesList({@required this.movies, @required this.callbacks})
+      : assert(movies != null),
+        assert(callbacks != null);
 
   final List<Map<String, dynamic>> movies;
+  final List<VoidCallback> callbacks;
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
+  Widget build(BuildContext context) =>
+      ListView.builder(
         itemCount: movies.length,
         itemExtent: 70,
         itemBuilder: (_, index) {
@@ -17,6 +21,7 @@ class MoviesList extends StatelessWidget {
             id: movie['id'],
             title: movie['title'],
             imageUrl: movie['poster_url'],
+            onTap: callbacks[index],
           );
         },
       );

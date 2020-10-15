@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list.dart';
-
 
 class MoviesListPage extends StatefulWidget {
   @override
@@ -45,23 +45,37 @@ class _MoviesListPageState extends State<MoviesListPage> {
         _error = GenericError.fromObject(object: error);
       }
     }).then(
-      (response) => setState(() {
-        if (response == null) {
-          return;
-        }
+          (response) =>
+          setState(() {
+            if (response == null) {
+              return;
+            }
 
-        // Treat more server errors
-        if (response.data == null) {
-          _error = const ServerResponseError();
-          return;
-        }
+            // Treat more server errors
+            if (response.data == null) {
+              _error = const ServerResponseError();
+              return;
+            }
 
-        assert(response.data is List<dynamic>);
-        // Request successful at this point
-        _movies = response.data.cast<Map<String, dynamic>>().toList();
-      }),
+            assert(response.data is List<dynamic>);
+            // Request successful at this point
+            _movies = response.data.cast<Map<String, dynamic>>().toList();
+          }),
     );
   }
+
+  void _pushMovieDetails(Object routeArguments) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => MovieDetailsPage(),
+        settings: RouteSettings(arguments: routeArguments),
+      ),
+    );
+  }
+
+  List<VoidCallback> _getMoviesListCallbacks() =>
+      _movies.map((movie) => () => _pushMovieDetails(movie['id']))
+          .toList();
 
   @override
   void initState() {
@@ -70,19 +84,20 @@ class _MoviesListPageState extends State<MoviesListPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) =>
+      Scaffold(
         appBar: AppBar(
           title: const Text('Movie Advisor'),
         ),
         body: _movies != null
-            ? MoviesList(movies: _movies)
+            ? MoviesList(movies: _movies, callbacks: _getMoviesListCallbacks(),)
             : _error != null
-                ? ErrorEmptyState.fromError(
-                    error: _error,
-                    onTryAgainTap: _fetchAndSetMovies,
-                  )
-                : const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+            ? ErrorEmptyState.fromError(
+          error: _error,
+          onTryAgainTap: _fetchAndSetMovies,
+        )
+            : const Center(
+          child: CircularProgressIndicator(),
+        ),
       );
 }

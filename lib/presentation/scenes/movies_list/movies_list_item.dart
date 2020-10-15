@@ -1,29 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
-
 
 class MoviesListItem extends StatelessWidget {
   const MoviesListItem({
     @required this.id,
     @required this.title,
     @required this.imageUrl,
+    @required this.onTap,
   })  : assert(id != null),
         assert(title != null),
-        assert(imageUrl != null);
+        assert(imageUrl != null),
+        assert(onTap != null);
 
   final int id;
   final String title;
   final String imageUrl;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => MovieDetailsPage(),
-            settings: RouteSettings(arguments: id),
-          ),
-        ),
+        onTap: onTap,
         child: Card(
           elevation: 6,
           margin: const EdgeInsets.all(5),
