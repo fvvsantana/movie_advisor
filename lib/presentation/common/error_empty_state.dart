@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/common/text_title.dart';
-import 'package:movie_advisor/utils/errors.dart';
+import 'package:movie_advisor/common/errors.dart';
+import 'package:movie_advisor/presentation/common/text_title.dart';
 
 /*
   Widget to display error messages.

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/common/image_from_network.dart';
-import 'package:movie_advisor/common/text_title.dart';
+import 'package:movie_advisor/presentation/common/image_from_network.dart';
+import 'package:movie_advisor/presentation/common/text_title.dart';
 
 class MovieDetails extends StatelessWidget {
   const MovieDetails({@required this.movieDetails})

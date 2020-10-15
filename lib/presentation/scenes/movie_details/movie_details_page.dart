@@ -1,37 +1,40 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:movie_advisor/common/errors.dart';
+import 'package:movie_advisor/data/remote/url_builder.dart';
+import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 
-import 'package:movie_advisor/common/error_empty_state.dart';
-import 'package:movie_advisor/utils/errors.dart';
-import 'package:movie_advisor/utils/url_builder.dart';
-import 'package:movie_advisor/scenes/movies_list/movies_list.dart';
+import 'movie_details.dart';
 
-class MoviesListPage extends StatefulWidget {
+
+class MovieDetailsPage extends StatefulWidget {
   @override
-  _MoviesListPageState createState() => _MoviesListPageState();
+  _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
 
-class _MoviesListPageState extends State<MoviesListPage> {
+class _MovieDetailsPageState extends State<MovieDetailsPage> {
   CustomError _error;
-  List<Map<String, dynamic>> _movies;
+  Map<String, dynamic> _movieDetails;
+  bool _isFirstCall = true;
+  int _movieId;
 
   /*
-    Make an http request to get the movies data.
+    Make an http request to get the movie details data.
     Treat the errors involved on fetching data.
     If errors occurred, set the attribute _error.
     If no errors occurred, set the _movies data.
    */
-  void _fetchAndSetMovies() {
+  void _fetchAndSetMovieDetails() {
     // Refresh page to show loading spinner
     setState(() {
       _error = null;
-      _movies = null;
+      _movieDetails = null;
     });
 
     // Fetch movies list
     Dio()
         .get(
-      UrlBuilder.getMoviesList(),
+      UrlBuilder.getMovieDetails(_movieId),
     )
         .catchError((error) {
       // Treat errors
@@ -56,17 +59,21 @@ class _MoviesListPageState extends State<MoviesListPage> {
           return;
         }
 
-        assert(response.data is List<dynamic>);
         // Request successful at this point
-        _movies = response.data.cast<Map<String, dynamic>>().toList();
+        _movieDetails = response.data;
       }),
     );
   }
 
   @override
-  void initState() {
-    super.initState();
-    _fetchAndSetMovies();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_isFirstCall) {
+      _isFirstCall = false;
+      _movieId = ModalRoute.of(context).settings.arguments;
+      _fetchAndSetMovieDetails();
+    }
   }
 
   @override
@@ -74,12 +81,12 @@ class _MoviesListPageState extends State<MoviesListPage> {
         appBar: AppBar(
           title: const Text('Movie Advisor'),
         ),
-        body: _movies != null
-            ? MoviesList(movies: _movies)
+        body: _movieDetails != null
+            ? MovieDetails(movieDetails: _movieDetails)
             : _error != null
                 ? ErrorEmptyState.fromError(
                     error: _error,
-                    onTryAgainTap: _fetchAndSetMovies,
+                    onTryAgainTap: _fetchAndSetMovieDetails,
                   )
                 : const Center(
                     child: CircularProgressIndicator(),

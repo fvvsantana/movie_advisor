@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_item.dart';
 
-import 'package:movie_advisor/scenes/movies_list/movies_list_item.dart';
 
 class MoviesList extends StatelessWidget {
   const MoviesList({@required this.movies}) : assert(movies != null);
