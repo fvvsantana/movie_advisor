@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
-import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 
 import 'movie_details.dart';

@@ -31,12 +31,12 @@ class _MoviesListPageState extends State<MoviesListPage> {
 
     // Fetch data, treat success and error cases
     _movieRDS.getMoviesList().then((moviesList) {
-      setState((){
+      setState(() {
         _movies = moviesList;
       });
-    }).catchError((error){
+    }).catchError((error) {
       print(error);
-      setState((){
+      setState(() {
         _error = error;
       });
     });
@@ -51,9 +51,11 @@ class _MoviesListPageState extends State<MoviesListPage> {
     );
   }
 
-  List<VoidCallback> _getMoviesListCallbacks() =>
-      _movies.map((movie) => () => _pushMovieDetails(movie['id']))
-          .toList();
+  List<VoidCallback> _getMoviesListCallbacks() => _movies
+      .map(
+        (movie) => () => _pushMovieDetails(movie['id']),
+      )
+      .toList();
 
   @override
   void initState() {
@@ -62,20 +64,22 @@ class _MoviesListPageState extends State<MoviesListPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      Scaffold(
+  Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Movie Advisor'),
         ),
         body: _movies != null
-            ? MoviesList(movies: _movies, callbacks: _getMoviesListCallbacks(),)
+            ? MoviesList(
+                movies: _movies,
+                callbacks: _getMoviesListCallbacks(),
+              )
             : _error != null
-            ? ErrorEmptyState.fromError(
-          error: _error,
-          onTryAgainTap: _fetchAndSetMovies,
-        )
-            : const Center(
-          child: CircularProgressIndicator(),
-        ),
+                ? ErrorEmptyState.fromError(
+                    error: _error,
+                    onTryAgainTap: _fetchAndSetMovies,
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  ),
       );
 }
