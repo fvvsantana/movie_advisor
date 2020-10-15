@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_advisor/common/errors.dart';
-import 'package:movie_advisor/data/remote/url_builder.dart';
+import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list.dart';
@@ -14,6 +14,7 @@ class MoviesListPage extends StatefulWidget {
 class _MoviesListPageState extends State<MoviesListPage> {
   CustomError _error;
   List<Map<String, dynamic>> _movies;
+  final _movieRDS = MovieRemoteDataSource();
 
   /*
     Make an http request to get the movies data.
@@ -28,40 +29,17 @@ class _MoviesListPageState extends State<MoviesListPage> {
       _movies = null;
     });
 
-    // Fetch movies list
-    Dio()
-        .get(
-      UrlBuilder.getMoviesList(),
-    )
-        .catchError((error) {
-      // Treat errors
-      if (error is DioError) {
-        setState(() {
-          _error = error.response == null
-              ? const NoInternetError()
-              : const ServerResponseError();
-        });
-      } else {
-        _error = GenericError.fromObject(object: error);
-      }
-    }).then(
-          (response) =>
-          setState(() {
-            if (response == null) {
-              return;
-            }
-
-            // Treat more server errors
-            if (response.data == null) {
-              _error = const ServerResponseError();
-              return;
-            }
-
-            assert(response.data is List<dynamic>);
-            // Request successful at this point
-            _movies = response.data.cast<Map<String, dynamic>>().toList();
-          }),
-    );
+    // Fetch data, treat success and error cases
+    _movieRDS.getMoviesList().then((moviesList) {
+      setState((){
+        _movies = moviesList;
+      });
+    }).catchError((error){
+      print(error);
+      setState((){
+        _error = error;
+      });
+    });
   }
 
   void _pushMovieDetails(Object routeArguments) {

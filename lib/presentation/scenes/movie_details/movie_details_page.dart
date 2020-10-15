@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
+import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 
 import 'movie_details.dart';
-
 
 class MovieDetailsPage extends StatefulWidget {
   @override
@@ -17,12 +17,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Map<String, dynamic> _movieDetails;
   bool _isFirstCall = true;
   int _movieId;
+  final _movieRDS = MovieRemoteDataSource();
 
   /*
     Make an http request to get the movie details data.
     Treat the errors involved on fetching data.
     If errors occurred, set the attribute _error.
-    If no errors occurred, set the _movies data.
+    If no errors occurred, set the _movieDetails data.
    */
   void _fetchAndSetMovieDetails() {
     // Refresh page to show loading spinner
@@ -31,38 +32,17 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       _movieDetails = null;
     });
 
-    // Fetch movies list
-    Dio()
-        .get(
-      UrlBuilder.getMovieDetails(_movieId),
-    )
-        .catchError((error) {
-      // Treat errors
-      if (error is DioError) {
-        setState(() {
-          _error = error.response == null
-              ? const NoInternetError()
-              : const ServerResponseError();
-        });
-      } else {
-        _error = GenericError.fromObject(object: error);
-      }
-    }).then(
-      (response) => setState(() {
-        if (response == null) {
-          return;
-        }
-
-        // Treat more server errors
-        if (response.data == null) {
-          _error = const ServerResponseError();
-          return;
-        }
-
-        // Request successful at this point
-        _movieDetails = response.data;
-      }),
-    );
+    // Fetch data, treat success and error cases
+    _movieRDS.getMovieDetails(_movieId).then((movieDetails) {
+      setState(() {
+        _movieDetails = movieDetails;
+      });
+    }).catchError((error) {
+      print(error);
+      setState(() {
+        _error = error;
+      });
+    });
   }
 
   @override
