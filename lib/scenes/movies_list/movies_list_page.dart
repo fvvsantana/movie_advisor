@@ -29,7 +29,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
     });
 
     // Fetch movies list
-    Dio().get(UrlBuilder.moviesList()).catchError((error) {
+    Dio().get(UrlBuilder.getMoviesList()).catchError((error) {
       // Treat errors
       if (error is DioError) {
         setState(() {
