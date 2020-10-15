@@ -31,7 +31,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     });
 
     // Fetch movies list
-    Dio().get(UrlBuilder.getMovieDetails(_movieId)).catchError((error) {
+    Dio()
+        .get(
+      UrlBuilder.getMovieDetails(_movieId),
+    )
+        .catchError((error) {
       // Treat errors
       if (error is DioError) {
         setState(() {
@@ -42,20 +46,22 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       } else {
         _error = GenericError.fromObject(object: error);
       }
-    }).then((response) => setState(() {
-          if (response == null) {
-            return;
-          }
+    }).then(
+      (response) => setState(() {
+        if (response == null) {
+          return;
+        }
 
-          // Treat more server errors
-          if (response.data == null) {
-            _error = const ServerResponseError();
-            return;
-          }
+        // Treat more server errors
+        if (response.data == null) {
+          _error = const ServerResponseError();
+          return;
+        }
 
-          // Request successful at this point
-          _movieDetails = response.data;
-        }));
+        // Request successful at this point
+        _movieDetails = response.data;
+      }),
+    );
   }
 
   @override
@@ -71,7 +77,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Movie Advisor')),
+        appBar: AppBar(
+          title: const Text('Movie Advisor'),
+        ),
         body: _movieDetails != null
             ? MovieDetails(movieDetails: _movieDetails)
             : _error != null

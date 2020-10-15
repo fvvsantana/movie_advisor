@@ -15,8 +15,8 @@ abstract class NetworkError extends CustomError {
 }
 
 class NoInternetError extends NetworkError {
-  const NoInternetError() : super(
-      message: 'Problem with internet connection or DNS service');
+  const NoInternetError()
+      : super(message: 'Problem with internet connection or DNS service');
 }
 
 class ServerResponseError extends NetworkError {
@@ -28,7 +28,7 @@ class GenericError extends CustomError {
       : assert(message != null),
         super(message: message);
 
-  factory GenericError.fromObject({@required Object object}){
+  factory GenericError.fromObject({@required Object object}) {
     assert(object != null);
     return GenericError(message: 'Error: ${object.toString()}');
   }

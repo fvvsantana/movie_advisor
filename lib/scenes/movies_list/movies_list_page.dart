@@ -29,7 +29,11 @@ class _MoviesListPageState extends State<MoviesListPage> {
     });
 
     // Fetch movies list
-    Dio().get(UrlBuilder.getMoviesList()).catchError((error) {
+    Dio()
+        .get(
+      UrlBuilder.getMoviesList(),
+    )
+        .catchError((error) {
       // Treat errors
       if (error is DioError) {
         setState(() {
@@ -40,21 +44,23 @@ class _MoviesListPageState extends State<MoviesListPage> {
       } else {
         _error = GenericError.fromObject(object: error);
       }
-    }).then((response) => setState(() {
-          if (response == null) {
-            return;
-          }
+    }).then(
+      (response) => setState(() {
+        if (response == null) {
+          return;
+        }
 
-          // Treat more server errors
-          if (response.data == null) {
-            _error = const ServerResponseError();
-            return;
-          }
+        // Treat more server errors
+        if (response.data == null) {
+          _error = const ServerResponseError();
+          return;
+        }
 
-          assert(response.data is List<dynamic>);
-          // Request successful at this point
-          _movies = response.data.cast<Map<String, dynamic>>().toList();
-        }));
+        assert(response.data is List<dynamic>);
+        // Request successful at this point
+        _movies = response.data.cast<Map<String, dynamic>>().toList();
+      }),
+    );
   }
 
   @override
@@ -65,7 +71,9 @@ class _MoviesListPageState extends State<MoviesListPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('Movie Advisor')),
+        appBar: AppBar(
+          title: const Text('Movie Advisor'),
+        ),
         body: _movies != null
             ? MoviesList(movies: _movies)
             : _error != null
