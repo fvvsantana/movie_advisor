@@ -7,10 +7,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentBarIndex = 0;
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: MoviesListPage(),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentBarIndex,
           items: [
             BottomNavigationBarItem(
               label: 'Movies',
@@ -21,6 +24,18 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.star_border),
             ),
           ],
+          onTap: (index) {
+            setState(() {
+              _currentBarIndex = index;
+            });
+          },
+          /*
+          onTap: (index) => Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => MoviesListPage(),
+            ),
+          ),
+           */
         ),
       );
 }
