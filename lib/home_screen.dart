@@ -25,34 +25,38 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final currentFlow = _appFlows[_currentBarIndex];
-    return Scaffold(
-      body: Navigator(
-        key: currentFlow.navigatorKey,
-        onGenerateRoute: (settings) => MaterialPageRoute(
-          settings: settings,
-          builder: (_) => MoviesListPage(),
+    return WillPopScope(
+      onWillPop: () async =>
+          !await currentFlow.navigatorKey.currentState.maybePop(),
+      child: Scaffold(
+        body: Navigator(
+          key: currentFlow.navigatorKey,
+          onGenerateRoute: (settings) => MaterialPageRoute(
+            settings: settings,
+            builder: (_) => MoviesListPage(),
+          ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentBarIndex,
-        items: _appFlows
-            .map(
-              (appFlow) => BottomNavigationBarItem(
-                label: appFlow.name,
-                icon: Icon(appFlow.iconData),
-              ),
-            )
-            .toList(),
-        onTap: (index) {
-          if (index != _currentBarIndex) {
-            setState(() {
-              _currentBarIndex = index;
-            });
-          } else {
-            currentFlow.navigatorKey.currentState
-                .popUntil((route) => route.isFirst);
-          }
-        },
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _currentBarIndex,
+          items: _appFlows
+              .map(
+                (appFlow) => BottomNavigationBarItem(
+                  label: appFlow.name,
+                  icon: Icon(appFlow.iconData),
+                ),
+              )
+              .toList(),
+          onTap: (index) {
+            if (index != _currentBarIndex) {
+              setState(() {
+                _currentBarIndex = index;
+              });
+            } else {
+              currentFlow.navigatorKey.currentState
+                  .popUntil((route) => route.isFirst);
+            }
+          },
+        ),
       ),
     );
   }
