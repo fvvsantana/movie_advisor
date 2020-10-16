@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //int _currentBarIndex = 0;
   final List<AppFlow> _appFlows = [
     AppFlow(
       name: 'Movies',
