@@ -43,10 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
             .toList(),
-        onTap: (index){
-          setState(() {
-            _currentBarIndex = index;
-          });
+        onTap: (index) {
+          if (index != _currentBarIndex) {
+            setState(() {
+              _currentBarIndex = index;
+            });
+          } else {
+            currentFlow.navigatorKey.currentState
+                .popUntil((route) => route.isFirst);
+          }
         },
       ),
     );
