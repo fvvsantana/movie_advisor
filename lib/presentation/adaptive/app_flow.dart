@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 
 /// Holds information about our app's flows.
-class AppFlowData {
-  const AppFlowData({
+class AppFlow {
+  const AppFlow({
     @required this.name,
     @required this.iconData,
     @required this.navigatorKey,
