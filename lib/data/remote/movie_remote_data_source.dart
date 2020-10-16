@@ -5,7 +5,7 @@ import 'package:movie_advisor/common/errors.dart';
 class MovieRemoteDataSource {
   final _dio = Dio();
 
-  void _throwCustomError(Object error) {
+  void _throwCustomError(dynamic error) {
     print(error);
     // Treat errors
     if (error is DioError) {
