@@ -22,24 +22,24 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CupertinoTabScaffold(
-    controller: CupertinoTabController(initialIndex: selectedIndex),
-    tabBar: CupertinoTabBar(
-      items: navigationBarTabs
-          .map(
-            (item) => item.bottomNavigationBarItem,
-      )
-          .toList(),
-      onTap: onItemSelected,
-    ),
-    tabBuilder: (context, index) {
-      final barItem = navigationBarTabs[index];
-      return CupertinoTabView(
-        navigatorKey: barItem.navigatorKey,
-        onGenerateRoute: (settings) => CupertinoPageRoute(
-          settings: settings,
-          builder: barItem.initialPageBuilder,
+        controller: CupertinoTabController(initialIndex: selectedIndex),
+        tabBar: CupertinoTabBar(
+          items: navigationBarTabs
+              .map(
+                (item) => item.bottomNavigationBarItem,
+              )
+              .toList(),
+          onTap: onItemSelected,
         ),
+        tabBuilder: (context, index) {
+          final barItem = navigationBarTabs[index];
+          return CupertinoTabView(
+            navigatorKey: barItem.navigatorKey,
+            onGenerateRoute: (settings) => CupertinoPageRoute(
+              settings: settings,
+              builder: barItem.initialPageBuilder,
+            ),
+          );
+        },
       );
-    },
-  );
 }
