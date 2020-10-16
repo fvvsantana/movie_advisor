@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/presentation/models/app_flow_data.dart';
@@ -36,8 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               .map(
                 (flow) => Navigator(
                   key: flow.navigatorKey,
-                  onGenerateRoute: (settings) => MaterialPageRoute(
-                    settings: settings,
+                  onGenerateRoute: (_) => _buildAdaptivePageRoute(
                     builder: (_) => MoviesListPage(),
                   ),
                 ),
@@ -68,4 +69,16 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  PageRoute<T> _buildAdaptivePageRoute<T>(
+          {@required WidgetBuilder builder, RouteSettings settings}) =>
+      Platform.isAndroid
+          ? MaterialPageRoute(
+              builder: builder,
+              settings: settings,
+            )
+          : CupertinoPageRoute(
+              builder: builder,
+              settings: settings,
+            );
 }
