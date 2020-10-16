@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/presentation/adaptive/app_flow.dart';
+import 'package:movie_advisor/presentation/adaptive/bottom_navigation/app_flow.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
 
 class HomeScreen extends StatefulWidget {
