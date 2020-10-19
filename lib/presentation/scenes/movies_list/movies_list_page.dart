@@ -52,12 +52,6 @@ class _MoviesListPageState extends State<MoviesListPage> {
     );
   }
 
-  List<VoidCallback> _getMoviesListCallbacks() => _movies
-      .map(
-        (movie) => () => _pushMovieDetails(movie.id),
-      )
-      .toList();
-
   @override
   void initState() {
     super.initState();
@@ -72,7 +66,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
         body: _movies != null
             ? MoviesList(
                 movies: _movies,
-                callbacks: _getMoviesListCallbacks(),
+                onMovieTap: _pushMovieDetails,
               )
             : _error != null
                 ? ErrorEmptyState.fromError(

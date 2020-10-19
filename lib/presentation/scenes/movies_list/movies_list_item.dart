@@ -10,11 +10,11 @@ class MoviesListItem extends StatelessWidget {
         assert(onTap != null);
 
   final MovieSummaryModel movie;
-  final VoidCallback onTap;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
+        onTap: () => onTap(movie.id),
         child: Card(
           elevation: 6,
           margin: const EdgeInsets.all(5),
