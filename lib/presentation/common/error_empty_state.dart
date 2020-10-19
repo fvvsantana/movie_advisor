@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
-import 'package:movie_advisor/presentation/common/text_title.dart';
+import 'package:movie_advisor/presentation/common/title_text.dart';
 
 /// Widget to display error messages.
 class ErrorEmptyState extends StatelessWidget {
@@ -36,7 +36,7 @@ class ErrorEmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextTitle(
+            TitleText(
               text: title,
             ),
             const SizedBox(
