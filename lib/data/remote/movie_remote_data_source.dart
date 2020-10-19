@@ -9,7 +9,7 @@ class MovieRemoteDataSource {
     print(error);
     // Treat errors
     if (error is DioError) {
-      throw error.response == null
+      throw error.type == DioErrorType.DEFAULT
           ? const NoInternetError()
           : const ServerResponseError();
     } else {
