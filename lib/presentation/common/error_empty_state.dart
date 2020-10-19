@@ -17,7 +17,7 @@ class ErrorEmptyState extends StatelessWidget {
       {@required CustomError error, @required VoidCallback onTryAgainTap}) {
     assert(error != null);
     assert(onTryAgainTap != null);
-    final content = _ContentBuilder(error: error);
+    final content = _DescriptiveError(error: error);
     return ErrorEmptyState(
       title: content.title,
       message: content.message,
@@ -66,8 +66,8 @@ class ErrorEmptyState extends StatelessWidget {
   This class generates user-friendly content to be displayed on the page using
   the received CustomError.
  */
-class _ContentBuilder {
-  _ContentBuilder({@required this.error}) : assert(error != null) {
+class _DescriptiveError {
+  _DescriptiveError({@required CustomError error}) : assert(error != null) {
     if (error is NoInternetError) {
       title = 'Connection Error';
       message = 'Make sure you have internet connection or check your DNS '
@@ -81,7 +81,6 @@ class _ContentBuilder {
     }
   }
 
-  final CustomError error;
   String title;
   String message;
 }
