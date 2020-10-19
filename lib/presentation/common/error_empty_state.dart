@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/presentation/common/text_title.dart';
 
-/*
-  Widget to display error messages.
- */
+/// Widget to display error messages.
 class ErrorEmptyState extends StatelessWidget {
   const ErrorEmptyState({
     @required this.title,
