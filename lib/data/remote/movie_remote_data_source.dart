@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:movie_advisor/data/models/movie_details_model.dart';
 import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/common/errors.dart';
@@ -39,7 +40,7 @@ class MovieRemoteDataSource {
             .toList();
       });
 
-  Future<Map<String, dynamic>> getMovieDetails(int movieId) => _dio
+  Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
           .get(
             UrlBuilder.getMovieDetails(movieId),
           )
@@ -51,6 +52,12 @@ class MovieRemoteDataSource {
         }
         // Request successful at this point
         //return Map<String,dynamic>.from(response.data);
-        return response.data;
+        final data = response.data;
+        return MovieDetailsModel(
+            id: data['id'],
+            title: data['title'],
+            imageUrl: data['poster_url'],
+            synopsis: data['overview'],
+            genres: List<String>.from(data['genres']));
       });
 }
