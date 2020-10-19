@@ -8,10 +8,8 @@ class MovieRemoteDataSource {
   void _throwCustomError(dynamic error) {
     print(error);
     // Treat errors
-    if (error is DioError) {
-      throw error.type == DioErrorType.DEFAULT
-          ? const NoInternetError()
-          : const ServerResponseError();
+    if (error is DioError && error.type == DioErrorType.DEFAULT) {
+      throw const NoInternetError();
     } else {
       throw GenericError.fromObject(object: error);
     }
