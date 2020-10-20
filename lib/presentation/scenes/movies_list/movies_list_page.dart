@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
