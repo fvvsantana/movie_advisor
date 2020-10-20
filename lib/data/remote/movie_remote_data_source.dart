@@ -47,7 +47,6 @@ class MovieRemoteDataSource {
           throw const ServerResponseError();
         }
         // Request successful at this point
-        //return Map<String,dynamic>.from(response.data);
         return MovieDetailsModel.fromJson(response.data);
       });
 }
