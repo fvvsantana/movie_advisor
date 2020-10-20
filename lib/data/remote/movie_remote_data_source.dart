@@ -31,11 +31,7 @@ class MovieRemoteDataSource {
         final data = List<Map<String, dynamic>>.from(response.data);
         return data
             .map(
-              (movie) => MovieSummaryModel(
-                id: movie['id'],
-                title: movie['title'],
-                imageUrl: movie['poster_url'],
-              ),
+              (movie) => MovieSummaryModel.fromJson(movie),
             )
             .toList();
       });
