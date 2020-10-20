@@ -38,6 +38,8 @@ analyzer:
     # see https://github.com/dart-lang/sdk/issues/28463
     - "lib/i18n/stock_messages_*.dart"
     - "lib/src/http/**"
+    - "**.g.dart"
+    #- "lib/data/models/movie_details_model.g.dart"
 
 linter:
   rules:
