@@ -48,12 +48,6 @@ class MovieRemoteDataSource {
         }
         // Request successful at this point
         //return Map<String,dynamic>.from(response.data);
-        final data = response.data;
-        return MovieDetailsModel(
-            id: data['id'],
-            title: data['title'],
-            imageUrl: data['poster_url'],
-            synopsis: data['overview'],
-            genres: List<String>.from(data['genres']));
+        return MovieDetailsModel.fromJson(response.data);
       });
 }
