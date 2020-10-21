@@ -18,40 +18,25 @@ class MovieRemoteDataSource {
   }
 
   Future<List<MovieSummaryModel>> getMoviesList() => _dio
-          .get(
-            UrlBuilder.getMoviesList(),
+      .get(
+        UrlBuilder.getMoviesList(),
+      )
+      .then((response) => List<Map<String, dynamic>>.from(response.data)
+          .map(
+            (movie) => MovieSummaryModel(
+              id: movie['id'],
+              title: movie['title'],
+              imageUrl: movie['poster_url'],
+            ),
           )
-          .catchError(_throwCustomError)
-          .then((response) {
-        // Treat more server errors
-        if (response.data == null) {
-          throw const ServerResponseError();
-        }
-        // Request successful at this point
-        final data = List<Map<String, dynamic>>.from(response.data);
-        return data
-            .map(
-              (movie) => MovieSummaryModel(
-                id: movie['id'],
-                title: movie['title'],
-                imageUrl: movie['poster_url'],
-              ),
-            )
-            .toList();
-      });
+          .toList())
+      .catchError(_throwCustomError);
 
   Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
           .get(
-            UrlBuilder.getMovieDetails(movieId),
-          )
-          .catchError(_throwCustomError)
+        UrlBuilder.getMovieDetails(movieId),
+      )
           .then((response) {
-        // Treat more server errors
-        if (response.data == null) {
-          throw const ServerResponseError();
-        }
-        // Request successful at this point
-        //return Map<String,dynamic>.from(response.data);
         final data = response.data;
         return MovieDetailsModel(
             id: data['id'],
@@ -59,5 +44,5 @@ class MovieRemoteDataSource {
             imageUrl: data['poster_url'],
             synopsis: data['overview'],
             genres: List<String>.from(data['genres']));
-      });
+      }).catchError(_throwCustomError);
 }
