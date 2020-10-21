@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
-import 'package:movie_advisor/presentation/common/text_title.dart';
+import 'package:movie_advisor/presentation/common/title_text.dart';
 
-/*
-  Widget to display error messages.
- */
+/// Widget to display error messages.
 class ErrorEmptyState extends StatelessWidget {
   const ErrorEmptyState({
     @required this.title,
@@ -19,7 +17,7 @@ class ErrorEmptyState extends StatelessWidget {
       {@required CustomError error, @required VoidCallback onTryAgainTap}) {
     assert(error != null);
     assert(onTryAgainTap != null);
-    final content = _ContentBuilder(error: error);
+    final content = _DescriptiveError(error: error);
     return ErrorEmptyState(
       title: content.title,
       message: content.message,
@@ -38,7 +36,7 @@ class ErrorEmptyState extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            TextTitle(
+            TitleText(
               text: title,
             ),
             const SizedBox(
@@ -68,22 +66,18 @@ class ErrorEmptyState extends StatelessWidget {
   This class generates user-friendly content to be displayed on the page using
   the received CustomError.
  */
-class _ContentBuilder {
-  _ContentBuilder({@required this.error}) : assert(error != null) {
+class _DescriptiveError {
+  _DescriptiveError({@required CustomError error}) : assert(error != null) {
     if (error is NoInternetError) {
       title = 'Connection Error';
       message = 'Make sure you have internet connection or check your DNS '
           'settings.';
-    } else if (error is ServerResponseError) {
-      title = 'Server error';
-      message = 'Server error';
     } else {
       title = 'Error';
       message = 'Error';
     }
   }
 
-  final CustomError error;
   String title;
   String message;
 }

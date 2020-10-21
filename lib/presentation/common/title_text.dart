@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TextTitle extends StatelessWidget {
-  const TextTitle({@required this.text}) : assert(text != null);
+class TitleText extends StatelessWidget {
+  const TitleText({@required this.text}) : assert(text != null);
   final String text;
 
   @override

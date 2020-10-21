@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 
 class MoviesListItem extends StatelessWidget {
   const MoviesListItem({
-    @required this.id,
-    @required this.title,
-    @required this.imageUrl,
+    @required this.movie,
     @required this.onTap,
-  })  : assert(id != null),
-        assert(title != null),
-        assert(imageUrl != null),
+  })  : assert(movie != null),
         assert(onTap != null);
 
-  final int id;
-  final String title;
-  final String imageUrl;
-  final VoidCallback onTap;
+  final MovieSummaryModel movie;
+  final void Function(int) onTap;
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
+        onTap: () => onTap(movie.id),
         child: Card(
           elevation: 6,
           margin: const EdgeInsets.all(5),
@@ -31,11 +26,11 @@ class MoviesListItem extends StatelessWidget {
                 width: 60,
                 padding: const EdgeInsets.all(10),
                 child: ImageFromNetwork(
-                  imageUrl: imageUrl,
+                  imageUrl: movie.imageUrl,
                   fit: BoxFit.cover,
                 ),
               ),
-              Text(title),
+              Text(movie.title),
             ],
           ),
         ),
