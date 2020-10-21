@@ -72,9 +72,6 @@ class _DescriptiveError {
       title = 'Connection Error';
       message = 'Make sure you have internet connection or check your DNS '
           'settings.';
-    } else if (error is ServerResponseError) {
-      title = 'Server error';
-      message = 'Server error';
     } else {
       title = 'Error';
       message = 'Error';

@@ -8,19 +8,9 @@ abstract class CustomError implements Exception {
   String toString() => message;
 }
 
-abstract class NetworkError extends CustomError {
-  const NetworkError({@required message})
-      : assert(message != null),
-        super(message: message);
-}
-
-class NoInternetError extends NetworkError {
+class NoInternetError extends CustomError {
   const NoInternetError()
       : super(message: 'Problem with internet connection or DNS service');
-}
-
-class ServerResponseError extends NetworkError {
-  const ServerResponseError() : super(message: 'Bad response from the server');
 }
 
 class GenericError extends CustomError {
