@@ -27,7 +27,7 @@ class MaterialBottomNavigationScaffold extends StatefulWidget {
 class _MaterialBottomNavigationScaffoldState
     extends State<MaterialBottomNavigationScaffold>
     with TickerProviderStateMixin<MaterialBottomNavigationScaffold> {
-  final List<_MaterialBottomNavigationTab> materialNavigationBarItems = [];
+  final List<_MaterialBottomNavigationTab> materialNavigationBarTabs = [];
   final List<AnimationController> _animationControllers = [];
 
   final List<bool> _shouldBuildTab = <bool>[];
@@ -46,7 +46,7 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   void _initMaterialNavigationBarItems() {
-    materialNavigationBarItems.addAll(
+    materialNavigationBarTabs.addAll(
       widget.navigationBarTabs
           .map(
             (barItem) => _MaterialBottomNavigationTab(
@@ -88,11 +88,11 @@ class _MaterialBottomNavigationScaffoldState
   Widget build(BuildContext context) => Scaffold(
     body: Stack(
       fit: StackFit.expand,
-      children: materialNavigationBarItems
+      children: materialNavigationBarTabs
           .map(
             (barItem) => _buildPageFlow(
           context,
-          materialNavigationBarItems.indexOf(barItem),
+          materialNavigationBarTabs.indexOf(barItem),
           barItem,
         ),
       )
@@ -100,7 +100,7 @@ class _MaterialBottomNavigationScaffoldState
     ),
     bottomNavigationBar: BottomNavigationBar(
       currentIndex: widget.selectedIndex,
-      items: materialNavigationBarItems
+      items: materialNavigationBarTabs
           .map(
             (item) => item.bottomNavigationBarItem,
       )
