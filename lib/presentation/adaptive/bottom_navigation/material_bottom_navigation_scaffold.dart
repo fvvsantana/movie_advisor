@@ -88,15 +88,21 @@ class _MaterialBottomNavigationScaffoldState
   Widget build(BuildContext context) => Scaffold(
         body: Stack(
           fit: StackFit.expand,
-          children: materialNavigationBarTabs
-              .map(
-                (barItem) => _buildPageFlow(
-                  context,
-                  materialNavigationBarTabs.indexOf(barItem),
-                  barItem,
-                ),
-              )
-              .toList(),
+          children: materialNavigationBarTabs.map((barItem) {
+            final tabIndex = materialNavigationBarTabs.indexOf(barItem);
+            final isCurrentlySelected = tabIndex == widget.selectedIndex;
+
+            // We should build the tab content only if it was already built or
+            // if it is currently selected.
+            _shouldBuildTab[tabIndex] =
+                isCurrentlySelected || _shouldBuildTab[tabIndex];
+
+            return _FadePageFlow(
+                item: barItem,
+                shouldBuildTab: _shouldBuildTab[tabIndex],
+                animationController: _animationControllers[tabIndex],
+                isCurrentlySelected: isCurrentlySelected);
+          }).toList(),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: widget.selectedIndex,
@@ -109,34 +115,41 @@ class _MaterialBottomNavigationScaffoldState
         ),
       );
 
-  Widget _buildPageFlow(
-    BuildContext context,
-    int tabIndex,
-    _MaterialBottomNavigationTab item,
-  ) {
-    final isCurrentlySelected = tabIndex == widget.selectedIndex;
+}
 
-    // We should build the tab content only if it was already built or
-    // if it is currently selected.
-    _shouldBuildTab[tabIndex] =
-        isCurrentlySelected || _shouldBuildTab[tabIndex];
+class _FadePageFlow extends StatelessWidget {
+  const _FadePageFlow({
+    @required this.item,
+    @required this.shouldBuildTab,
+    @required this.animationController,
+    @required this.isCurrentlySelected,
+  })  : assert(item != null),
+        assert(shouldBuildTab != null),
+        assert(animationController != null),
+        assert(isCurrentlySelected != null);
 
+  final _MaterialBottomNavigationTab item;
+  final bool shouldBuildTab;
+  final AnimationController animationController;
+  final bool isCurrentlySelected;
+
+  @override
+  Widget build(BuildContext context) {
     final Widget view = FadeTransition(
-      opacity: _animationControllers[tabIndex].drive(
+      opacity: animationController.drive(
         CurveTween(curve: Curves.fastOutSlowIn),
       ),
       child: _PageFlow(
         item: item,
-        shouldBuildTab: _shouldBuildTab[tabIndex],
+        shouldBuildTab: shouldBuildTab,
       ),
     );
-
-    if (tabIndex == widget.selectedIndex) {
-      _animationControllers[tabIndex].forward();
+    if (isCurrentlySelected) {
+      animationController.forward();
       return view;
     } else {
-      _animationControllers[tabIndex].reverse();
-      if (_animationControllers[tabIndex].isAnimating) {
+      animationController.reverse();
+      if (animationController.isAnimating) {
         return IgnorePointer(child: view);
       }
       return Offstage(child: view);
