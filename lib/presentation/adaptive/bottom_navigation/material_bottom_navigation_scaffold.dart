@@ -50,12 +50,12 @@ class _MaterialBottomNavigationScaffoldState
       widget.navigationBarTabs
           .map(
             (barItem) => _MaterialBottomNavigationTab(
-          bottomNavigationBarItem: barItem.bottomNavigationBarItem,
-          navigatorKey: barItem.navigatorKey,
-          subtreeKey: GlobalKey(),
-          initialPageBuilder: barItem.initialPageBuilder,
-        ),
-      )
+              bottomNavigationBarItem: barItem.bottomNavigationBarItem,
+              navigatorKey: barItem.navigatorKey,
+              subtreeKey: GlobalKey(),
+              initialPageBuilder: barItem.initialPageBuilder,
+            ),
+          )
           .toList(),
     );
   }
@@ -63,7 +63,7 @@ class _MaterialBottomNavigationScaffoldState
   void _initAnimationControllers() {
     _animationControllers.addAll(
       widget.navigationBarTabs.map<AnimationController>(
-            (destination) => AnimationController(
+        (destination) => AnimationController(
           vsync: this,
           duration: const Duration(milliseconds: 200),
         ),
@@ -78,7 +78,7 @@ class _MaterialBottomNavigationScaffoldState
   @override
   void dispose() {
     _animationControllers.forEach(
-          (controller) => controller.dispose(),
+      (controller) => controller.dispose(),
     );
 
     super.dispose();
@@ -86,37 +86,34 @@ class _MaterialBottomNavigationScaffoldState
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Stack(
-      fit: StackFit.expand,
-      children: materialNavigationBarTabs
-          .map(
-            (barItem) => _buildPageFlow(
-          context,
-          materialNavigationBarTabs.indexOf(barItem),
-          barItem,
+        body: Stack(
+          fit: StackFit.expand,
+          children: materialNavigationBarTabs
+              .map(
+                (barItem) => _buildPageFlow(
+                  context,
+                  materialNavigationBarTabs.indexOf(barItem),
+                  barItem,
+                ),
+              )
+              .toList(),
         ),
-      )
-          .toList(),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
-      currentIndex: widget.selectedIndex,
-      items: materialNavigationBarTabs
-          .map(
-            (item) => item.bottomNavigationBarItem,
-      )
-          .toList(),
-      onTap: widget.onItemSelected,
-    ),
-  );
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: widget.selectedIndex,
+          items: materialNavigationBarTabs
+              .map(
+                (item) => item.bottomNavigationBarItem,
+              )
+              .toList(),
+          onTap: widget.onItemSelected,
+        ),
+      );
 
-  // The best practice here would be to extract this to another Widget,
-  // however, moving it to a separate class would only harm the
-  // readability of our guide.
   Widget _buildPageFlow(
-      BuildContext context,
-      int tabIndex,
-      _MaterialBottomNavigationTab item,
-      ) {
+    BuildContext context,
+    int tabIndex,
+    _MaterialBottomNavigationTab item,
+  ) {
     final isCurrentlySelected = tabIndex == widget.selectedIndex;
 
     // We should build the tab content only if it was already built or
@@ -128,24 +125,9 @@ class _MaterialBottomNavigationScaffoldState
       opacity: _animationControllers[tabIndex].drive(
         CurveTween(curve: Curves.fastOutSlowIn),
       ),
-      child: KeyedSubtree(
-        key: item.subtreeKey,
-        child: _shouldBuildTab[tabIndex]
-            ? Navigator(
-          // The key enables us to access the Navigator's state inside the
-          // onWillPop callback and for emptying its stack when a tab is
-          // re-selected. That is why a GlobalKey is needed instead of
-          // a simpler ValueKey.
-          key: item.navigatorKey,
-          // Since this isn't the purpose of this sample, we're not using
-          // named routes. Because of that, the onGenerateRoute callback
-          // will be called only for the initial route.
-          onGenerateRoute: (settings) => MaterialPageRoute(
-            settings: settings,
-            builder: item.initialPageBuilder,
-          ),
-        )
-            : Container(),
+      child: _PageFlow(
+        item: item,
+        shouldBuildTab: _shouldBuildTab[tabIndex],
       ),
     );
 
@@ -162,6 +144,37 @@ class _MaterialBottomNavigationScaffoldState
   }
 }
 
+class _PageFlow extends StatelessWidget {
+  const _PageFlow({
+    @required this.item,
+    @required this.shouldBuildTab,
+  })  : assert(item != null),
+        assert(shouldBuildTab != null);
+
+  final bool shouldBuildTab;
+  final _MaterialBottomNavigationTab item;
+
+  @override
+  Widget build(BuildContext context) => KeyedSubtree(
+        key: item.subtreeKey,
+        child: shouldBuildTab
+            ? Navigator(
+                // The key enables us to access the Navigator's state inside the
+                // onWillPop callback and for emptying its stack when a tab is
+                // re-selected. That is why a GlobalKey is needed instead of
+                // a simpler ValueKey.
+                key: item.navigatorKey,
+                // The onGenerateRoute callback will be called only for the
+                // initial route.
+                onGenerateRoute: (settings) => MaterialPageRoute(
+                  settings: settings,
+                  builder: item.initialPageBuilder,
+                ),
+              )
+            : Container(),
+      );
+}
+
 /// Extension class of BottomNavigationTab that adds another GlobalKey to it
 /// in order to use it within the KeyedSubtree widget.
 class _MaterialBottomNavigationTab extends BottomNavigationTab {
@@ -175,10 +188,85 @@ class _MaterialBottomNavigationTab extends BottomNavigationTab {
         assert(initialPageBuilder != null),
         assert(navigatorKey != null),
         super(
-        bottomNavigationBarItem: bottomNavigationBarItem,
-        navigatorKey: navigatorKey,
-        initialPageBuilder: initialPageBuilder,
-      );
+          bottomNavigationBarItem: bottomNavigationBarItem,
+          navigatorKey: navigatorKey,
+          initialPageBuilder: initialPageBuilder,
+        );
 
   final GlobalKey subtreeKey;
 }
+
+/*
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: materialNavigationBarTabs
+              .map(
+                (barItem) => _buildPageFlow(
+                  context,
+                  materialNavigationBarTabs.indexOf(barItem),
+                  barItem,
+                ),
+              )
+              .toList(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: widget.selectedIndex,
+          items: materialNavigationBarTabs
+              .map(
+                (item) => item.bottomNavigationBarItem,
+              )
+              .toList(),
+          onTap: widget.onItemSelected,
+        ),
+      );
+
+  Widget _buildPageFlow(
+    BuildContext context,
+    int tabIndex,
+    _MaterialBottomNavigationTab item,
+  ) {
+    final isCurrentlySelected = tabIndex == widget.selectedIndex;
+
+    // We should build the tab content only if it was already built or
+    // if it is currently selected.
+    _shouldBuildTab[tabIndex] =
+        isCurrentlySelected || _shouldBuildTab[tabIndex];
+
+    final Widget view = FadeTransition(
+      opacity: _animationControllers[tabIndex].drive(
+        CurveTween(curve: Curves.fastOutSlowIn),
+      ),
+      child: KeyedSubtree(
+        key: item.subtreeKey,
+        child: _shouldBuildTab[tabIndex]
+            ? Navigator(
+                // The key enables us to access the Navigator's state inside the
+                // onWillPop callback and for emptying its stack when a tab is
+                // re-selected. That is why a GlobalKey is needed instead of
+                // a simpler ValueKey.
+                key: item.navigatorKey,
+                // The onGenerateRoute callback will be called only for the initial
+                // route.
+                onGenerateRoute: (settings) => MaterialPageRoute(
+                  settings: settings,
+                  builder: item.initialPageBuilder,
+                ),
+              )
+            : Container(),
+      ),
+    );
+
+    if (tabIndex == widget.selectedIndex) {
+      _animationControllers[tabIndex].forward();
+      return view;
+    } else {
+      _animationControllers[tabIndex].reverse();
+      if (_animationControllers[tabIndex].isAnimating) {
+        return IgnorePointer(child: view);
+      }
+      return Offstage(child: view);
+    }
+  }
+*/
