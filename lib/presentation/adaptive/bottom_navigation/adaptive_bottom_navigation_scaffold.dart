@@ -32,12 +32,12 @@ class _AdaptiveBottomNavigationScaffoldState
             .currentState
             .maybePop(),
         child: Platform.isAndroid
-            ? CupertinoBottomNavigationScaffold(
+            ? MaterialBottomNavigationScaffold(
                 navigationBarTabs: widget.navigationBarTabs,
                 onItemSelected: onTabSelected,
                 selectedIndex: _currentlySelectedIndex,
               )
-            : MaterialBottomNavigationScaffold(
+            : CupertinoBottomNavigationScaffold(
                 navigationBarTabs: widget.navigationBarTabs,
                 onItemSelected: onTabSelected,
                 selectedIndex: _currentlySelectedIndex,
