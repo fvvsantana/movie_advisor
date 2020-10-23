@@ -1,1 +1,11 @@
-{}
+{
+  "@@locale": "pt_BR",
+  "moviesListAppBarTitle": "Recomendador de Filmes",
+
+  "movieDetailsAppBarTitle": "Detalhes do filme",
+  "movieDetailsSynopsisTitle": "Sinopse",
+  "movieDetailsGenresTitle": "Gêneros",
+
+  "bottomNavigationMoviesTitle": "Filmes",
+  "bottomNavigationFavoritesTitle": "Favoritos"
+}

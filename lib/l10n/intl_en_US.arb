@@ -1,1 +1,11 @@
-{}
+{
+  "@@locale": "en_US",
+  "moviesListAppBarTitle": "Movie Advisor",
+
+  "movieDetailsAppBarTitle": "Movie details",
+  "movieDetailsSynopsisTitle": "Synopsis",
+  "movieDetailsGenresTitle": "Genres",
+
+  "bottomNavigationMoviesTitle": "Movies",
+  "bottomNavigationFavoritesTitle": "Favorites"
+}
