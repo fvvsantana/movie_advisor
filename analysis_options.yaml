@@ -39,7 +39,7 @@ analyzer:
     - "lib/i18n/stock_messages_*.dart"
     - "lib/src/http/**"
     - "**.g.dart"
-    #- "lib/data/models/movie_details_model.g.dart"
+    - "lib/generated/**"
 
 linter:
   rules:
