@@ -19,14 +19,9 @@ class MovieRemoteDataSource {
 
   Future<List<MovieSummaryModel>> getMoviesList() => _dio
           .get(
-            UrlBuilder.getMoviesList(),
-          )
-          .catchError(_throwCustomError)
+        UrlBuilder.getMoviesList(),
+      )
           .then((response) {
-        // Treat more server errors
-        if (response.data == null) {
-          throw const ServerResponseError();
-        }
         // Request successful at this point
         final data = List<Map<String, dynamic>>.from(response.data);
         return data
@@ -34,19 +29,12 @@ class MovieRemoteDataSource {
               (movie) => MovieSummaryModel.fromJson(movie),
             )
             .toList();
-      });
+      }).catchError(_throwCustomError);
 
   Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
-          .get(
-            UrlBuilder.getMovieDetails(movieId),
-          )
-          .catchError(_throwCustomError)
-          .then((response) {
-        // Treat more server errors
-        if (response.data == null) {
-          throw const ServerResponseError();
-        }
-        // Request successful at this point
-        return MovieDetailsModel.fromJson(response.data);
-      });
+      .get(
+        UrlBuilder.getMovieDetails(movieId),
+      )
+      .then((response) => MovieDetailsModel.fromJson(response.data))
+      .catchError(_throwCustomError);
 }
