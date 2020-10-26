@@ -30,11 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
         AppFlow(
           name: S.of(context).bottomNavigationMoviesTitle,
           iconData: Icons.ondemand_video,
+          //navigatorKey: GlobalKey<NavigatorState>(debugLabel: 'myFirstKey'),
           navigatorKey: GlobalKey<NavigatorState>(),
         ),
         AppFlow(
           name: S.of(context).bottomNavigationFavoritesTitle,
           iconData: Icons.star_border,
+          //navigatorKey: GlobalKey<NavigatorState>(debugLabel: 'mySecondKey'),
           navigatorKey: GlobalKey<NavigatorState>(),
         ),
       ];
