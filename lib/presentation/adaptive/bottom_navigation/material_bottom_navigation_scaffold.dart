@@ -35,7 +35,7 @@ class _MaterialBottomNavigationScaffoldState
   @override
   void initState() {
     _initAnimationControllers();
-    _initMaterialNavigationBarItems();
+    _initMaterialNavigationBarTabs();
 
     _shouldBuildTab.addAll(List<bool>.filled(
       widget.navigationBarTabs.length,
@@ -45,7 +45,7 @@ class _MaterialBottomNavigationScaffoldState
     super.initState();
   }
 
-  void _initMaterialNavigationBarItems() {
+  void _initMaterialNavigationBarTabs() {
     materialNavigationBarTabs.addAll(
       widget.navigationBarTabs
           .map(
