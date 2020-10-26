@@ -33,7 +33,65 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Movie Advisor`
+  String get moviesListAppBarTitle {
+    return Intl.message(
+      'Movie Advisor',
+      name: 'moviesListAppBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
 
+  /// `Movie details`
+  String get movieDetailsAppBarTitle {
+    return Intl.message(
+      'Movie details',
+      name: 'movieDetailsAppBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Synopsis`
+  String get movieDetailsSynopsisTitle {
+    return Intl.message(
+      'Synopsis',
+      name: 'movieDetailsSynopsisTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Genres`
+  String get movieDetailsGenresTitle {
+    return Intl.message(
+      'Genres',
+      name: 'movieDetailsGenresTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Movies`
+  String get bottomNavigationMoviesTitle {
+    return Intl.message(
+      'Movies',
+      name: 'bottomNavigationMoviesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get bottomNavigationFavoritesTitle {
+    return Intl.message(
+      'Favorites',
+      name: 'bottomNavigationFavoritesTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -41,7 +99,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
 
   List<Locale> get supportedLocales {
     return const <Locale>[
-      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'en', countryCode: 'US'),
+      Locale.fromSubtags(languageCode: 'pt', countryCode: 'BR'),
     ];
   }
 
