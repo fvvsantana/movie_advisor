@@ -106,15 +106,12 @@ class _MaterialBottomNavigationScaffoldState
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: widget.selectedIndex,
-          items: materialNavigationBarTabs
-              .map(
-                (item) => item.bottomNavigationBarItem,
-              )
+          items: widget.navigationBarTabs
+              .map((tab) => tab.bottomNavigationBarItem)
               .toList(),
           onTap: widget.onItemSelected,
         ),
       );
-
 }
 
 class _FadePageFlow extends StatelessWidget {
