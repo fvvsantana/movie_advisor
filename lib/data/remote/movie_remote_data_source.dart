@@ -18,31 +18,23 @@ class MovieRemoteDataSource {
   }
 
   Future<List<MovieSummaryModel>> getMoviesList() => _dio
-      .get(
+          .get(
         UrlBuilder.getMoviesList(),
       )
-      .then((response) => List<Map<String, dynamic>>.from(response.data)
-          .map(
-            (movie) => MovieSummaryModel(
-              id: movie['id'],
-              title: movie['title'],
-              imageUrl: movie['poster_url'],
-            ),
-          )
-          .toList())
-      .catchError(_throwCustomError);
+          .then((response) {
+        // Request successful at this point
+        final data = List<Map<String, dynamic>>.from(response.data);
+        return data
+            .map(
+              (movie) => MovieSummaryModel.fromJson(movie),
+            )
+            .toList();
+      }).catchError(_throwCustomError);
 
   Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
-          .get(
+      .get(
         UrlBuilder.getMovieDetails(movieId),
       )
-          .then((response) {
-        final data = response.data;
-        return MovieDetailsModel(
-            id: data['id'],
-            title: data['title'],
-            imageUrl: data['poster_url'],
-            synopsis: data['overview'],
-            genres: List<String>.from(data['genres']));
-      }).catchError(_throwCustomError);
+      .then((response) => MovieDetailsModel.fromJson(response.data))
+      .catchError(_throwCustomError);
 }
