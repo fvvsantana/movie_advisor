@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
 
-class CupertinoBottomNavigationScaffold extends StatefulWidget {
+class CupertinoBottomNavigationScaffold extends StatelessWidget {
   const CupertinoBottomNavigationScaffold({
     @required this.navigationBarTabs,
     @required this.onItemSelected,
@@ -21,37 +21,20 @@ class CupertinoBottomNavigationScaffold extends StatefulWidget {
   final int selectedIndex;
 
   @override
-  _CupertinoBottomNavigationScaffoldState createState() =>
-      _CupertinoBottomNavigationScaffoldState();
-}
-
-class _CupertinoBottomNavigationScaffoldState
-    extends State<CupertinoBottomNavigationScaffold> {
-  List<GlobalKey> _navigatorKeys;
-
-  @override
-  void initState() {
-    super.initState();
-    _navigatorKeys =
-        widget.navigationBarTabs.map((tab) => tab.navigatorKey).toList();
-  }
-
-  @override
   Widget build(BuildContext context) => CupertinoTabScaffold(
-        controller: CupertinoTabController(initialIndex: widget.selectedIndex),
+        controller: CupertinoTabController(initialIndex: selectedIndex),
         tabBar: CupertinoTabBar(
-          items: widget.navigationBarTabs
+          items: navigationBarTabs
               .map(
                 (item) => item.bottomNavigationBarItem,
               )
               .toList(),
-          onTap: widget.onItemSelected,
+          onTap: onItemSelected,
         ),
         tabBuilder: (context, index) {
-          final barItem = widget.navigationBarTabs[index];
+          final barItem = navigationBarTabs[index];
           return CupertinoTabView(
-            //navigatorKey: barItem.navigatorKey,
-            navigatorKey: _navigatorKeys[index],
+            navigatorKey: barItem.navigatorKey,
             onGenerateRoute: (settings) => CupertinoPageRoute(
               settings: settings,
               builder: barItem.initialPageBuilder,
