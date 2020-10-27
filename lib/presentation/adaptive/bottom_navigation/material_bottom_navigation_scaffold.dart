@@ -27,15 +27,17 @@ class MaterialBottomNavigationScaffold extends StatefulWidget {
 class _MaterialBottomNavigationScaffoldState
     extends State<MaterialBottomNavigationScaffold>
     with TickerProviderStateMixin<MaterialBottomNavigationScaffold> {
-  final List<_MaterialBottomNavigationTab> materialNavigationBarTabs = [];
   final List<AnimationController> _animationControllers = [];
 
-  final List<bool> _shouldBuildTab = <bool>[];
+  final List<bool> _shouldBuildTab = [];
+
+  final List<GlobalKey> _subtreeKeys = [];
+  List<_MaterialBottomNavigationTab> _materialNavigationBarTabs = [];
 
   @override
   void initState() {
     _initAnimationControllers();
-    _initMaterialNavigationBarTabs();
+    _initSubtreeKeys();
 
     _shouldBuildTab.addAll(List<bool>.filled(
       widget.navigationBarTabs.length,
@@ -45,19 +47,22 @@ class _MaterialBottomNavigationScaffoldState
     super.initState();
   }
 
+  void _initSubtreeKeys() {
+    _subtreeKeys.addAll(widget.navigationBarTabs.map((_) => GlobalKey()));
+  }
+
   void _initMaterialNavigationBarTabs() {
-    materialNavigationBarTabs.addAll(
-      widget.navigationBarTabs
-          .map(
-            (barItem) => _MaterialBottomNavigationTab(
-              bottomNavigationBarItem: barItem.bottomNavigationBarItem,
-              navigatorKey: barItem.navigatorKey,
-              subtreeKey: GlobalKey(),
-              initialPageBuilder: barItem.initialPageBuilder,
-            ),
-          )
-          .toList(),
-    );
+    _materialNavigationBarTabs = widget.navigationBarTabs.map(
+      (barItem) {
+        final tabIndex = widget.navigationBarTabs.indexOf(barItem);
+        return _MaterialBottomNavigationTab(
+          bottomNavigationBarItem: barItem.bottomNavigationBarItem,
+          navigatorKey: barItem.navigatorKey,
+          subtreeKey: _subtreeKeys[tabIndex],
+          initialPageBuilder: barItem.initialPageBuilder,
+        );
+      },
+    ).toList();
   }
 
   void _initAnimationControllers() {
@@ -85,33 +90,36 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: materialNavigationBarTabs.map((barItem) {
-            final tabIndex = materialNavigationBarTabs.indexOf(barItem);
-            final isCurrentlySelected = tabIndex == widget.selectedIndex;
+  Widget build(BuildContext context) {
+    _initMaterialNavigationBarTabs();
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: _materialNavigationBarTabs.map((barItem) {
+          final tabIndex = _materialNavigationBarTabs.indexOf(barItem);
+          final isCurrentlySelected = tabIndex == widget.selectedIndex;
 
-            // We should build the tab content only if it was already built or
-            // if it is currently selected.
-            _shouldBuildTab[tabIndex] =
-                isCurrentlySelected || _shouldBuildTab[tabIndex];
+          // We should build the tab content only if it was already built or
+          // if it is currently selected.
+          _shouldBuildTab[tabIndex] =
+              isCurrentlySelected || _shouldBuildTab[tabIndex];
 
-            return _FadePageFlow(
-                item: barItem,
-                shouldBuildTab: _shouldBuildTab[tabIndex],
-                animationController: _animationControllers[tabIndex],
-                isCurrentlySelected: isCurrentlySelected);
-          }).toList(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget.selectedIndex,
-          items: widget.navigationBarTabs
-              .map((tab) => tab.bottomNavigationBarItem)
-              .toList(),
-          onTap: widget.onItemSelected,
-        ),
-      );
+          return _FadePageFlow(
+              item: barItem,
+              shouldBuildTab: _shouldBuildTab[tabIndex],
+              animationController: _animationControllers[tabIndex],
+              isCurrentlySelected: isCurrentlySelected);
+        }).toList(),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: widget.selectedIndex,
+        items: _materialNavigationBarTabs
+            .map((tab) => tab.bottomNavigationBarItem)
+            .toList(),
+        onTap: widget.onItemSelected,
+      ),
+    );
+  }
 }
 
 class _FadePageFlow extends StatelessWidget {
