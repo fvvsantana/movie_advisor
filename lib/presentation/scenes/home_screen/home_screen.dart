@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    // Create keys only once to preserve the navigators' states
     _navigatorKeys = [
       GlobalKey<NavigatorState>(),
       GlobalKey<NavigatorState>(),

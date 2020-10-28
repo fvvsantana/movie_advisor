@@ -37,6 +37,7 @@ class _MaterialBottomNavigationScaffoldState
   @override
   void initState() {
     _initAnimationControllers();
+    // Create _subtreeKeys only once
     _initSubtreeKeys();
 
     _shouldBuildTab.addAll(List<bool>.filled(
@@ -51,6 +52,11 @@ class _MaterialBottomNavigationScaffoldState
     _subtreeKeys.addAll(widget.navigationBarTabs.map((_) => GlobalKey()));
   }
 
+  /// Create the _materialNavigationBarTabs list from the navigationBarTabs,
+  /// but use the existing _subtreeKeys, instead of creating new keys for the
+  /// subtreeKey attribute.
+  /// This way, whenever this method is called, it keeps the same subtreeKey
+  /// and it preserves the NavigatorState.
   void _setMaterialNavigationBarTabs() {
     _materialNavigationBarTabs = widget.navigationBarTabs.map(
       (barItem) {
@@ -91,6 +97,10 @@ class _MaterialBottomNavigationScaffoldState
 
   @override
   Widget build(BuildContext context) {
+    // This method is called here, because the _MaterialNavigationBarTab has a
+    // BottomNavigationBarItem inside of it. So whenever the label or icon
+    // attributes of the BottomNavigationBarItem changes, we want to reflect
+    // these changes to the screen.
     _setMaterialNavigationBarTabs();
     return Scaffold(
       body: Stack(
