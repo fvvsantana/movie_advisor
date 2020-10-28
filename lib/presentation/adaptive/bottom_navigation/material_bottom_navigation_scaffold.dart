@@ -51,7 +51,7 @@ class _MaterialBottomNavigationScaffoldState
     _subtreeKeys.addAll(widget.navigationBarTabs.map((_) => GlobalKey()));
   }
 
-  void _initMaterialNavigationBarTabs() {
+  void _setMaterialNavigationBarTabs() {
     _materialNavigationBarTabs = widget.navigationBarTabs.map(
       (barItem) {
         final tabIndex = widget.navigationBarTabs.indexOf(barItem);
@@ -91,7 +91,7 @@ class _MaterialBottomNavigationScaffoldState
 
   @override
   Widget build(BuildContext context) {
-    _initMaterialNavigationBarTabs();
+    _setMaterialNavigationBarTabs();
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
