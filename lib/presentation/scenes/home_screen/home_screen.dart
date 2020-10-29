@@ -32,6 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
+    // Detecting if the locale changed here is needed, because the user could
+    // change the language of the app during runtime, so that we should
+    // translate the bottom navigation bar labels.
+    // Also using the Localizations.localeOf(context) turns this class into a
+    // listener for language changes. Then flutter will automatically call
+    // didChangeDependencies whenever the language of the app changes during
+    // runtime.
     final newLocale = Localizations.localeOf(context);
     if (newLocale != _userLocale) {
       _userLocale = newLocale;
