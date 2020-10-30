@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
@@ -53,7 +54,7 @@ class _MaterialBottomNavigationScaffoldState
               bottomNavigationBarItem: barItem.bottomNavigationBarItem,
               navigatorKey: barItem.navigatorKey,
               subtreeKey: GlobalKey(),
-              initialPageBuilder: barItem.initialPageBuilder,
+              initialPageName: barItem.initialPageName,
             ),
           )
           .toList(),
@@ -114,7 +115,6 @@ class _MaterialBottomNavigationScaffoldState
           onTap: widget.onItemSelected,
         ),
       );
-
 }
 
 class _FadePageFlow extends StatelessWidget {
@@ -177,12 +177,10 @@ class _PageFlow extends StatelessWidget {
                 // re-selected. That is why a GlobalKey is needed instead of
                 // a simpler ValueKey.
                 key: item.navigatorKey,
-                // The onGenerateRoute callback will be called only for the
-                // initial route.
-                onGenerateRoute: (settings) => MaterialPageRoute(
-                  settings: settings,
-                  builder: item.initialPageBuilder,
-                ),
+                initialRoute: item.initialPageName,
+                onGenerateRoute: (settings) => FluroRouter.appRouter
+                    .matchRoute(context, settings.name, routeSettings: settings)
+                    .route,
               )
             : Container(),
       );
@@ -194,16 +192,16 @@ class _MaterialBottomNavigationTab extends BottomNavigationTab {
   const _MaterialBottomNavigationTab({
     @required BottomNavigationBarItem bottomNavigationBarItem,
     @required GlobalKey<NavigatorState> navigatorKey,
-    @required WidgetBuilder initialPageBuilder,
+    @required String initialPageName,
     @required this.subtreeKey,
   })  : assert(bottomNavigationBarItem != null),
         assert(subtreeKey != null),
-        assert(initialPageBuilder != null),
+        assert(initialPageName != null),
         assert(navigatorKey != null),
         super(
           bottomNavigationBarItem: bottomNavigationBarItem,
           navigatorKey: navigatorKey,
-          initialPageBuilder: initialPageBuilder,
+          initialPageName: initialPageName,
         );
 
   final GlobalKey subtreeKey;

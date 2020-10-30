@@ -6,6 +6,11 @@ import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details.dart';
 
 class MovieDetailsPage extends StatefulWidget {
+  const MovieDetailsPage({
+    @required this.id,
+  }) : assert(id != null);
+
+  final int id;
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -14,7 +19,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   CustomError _error;
   MovieDetailsModel _movieDetails;
   bool _isFirstCall = true;
-  int _movieId;
   final _movieRDS = MovieRemoteDataSource();
 
   /*
@@ -31,7 +35,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     });
 
     // Fetch data, treat success and error cases
-    _movieRDS.getMovieDetails(_movieId).then((movieDetails) {
+    _movieRDS.getMovieDetails(widget.id).then((movieDetails) {
       setState(() {
         _movieDetails = movieDetails;
       });
@@ -49,7 +53,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
     if (_isFirstCall) {
       _isFirstCall = false;
-      _movieId = ModalRoute.of(context).settings.arguments;
       _fetchAndSetMovieDetails();
     }
   }

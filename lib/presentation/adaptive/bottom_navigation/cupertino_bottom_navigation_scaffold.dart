@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,12 +35,30 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
         tabBuilder: (context, index) {
           final barItem = navigationBarTabs[index];
           return CupertinoTabView(
-            navigatorKey: barItem.navigatorKey,
-            onGenerateRoute: (settings) => CupertinoPageRoute(
-              settings: settings,
-              builder: barItem.initialPageBuilder,
-            ),
-          );
+              navigatorKey: barItem.navigatorKey,
+              // The [Navigator] widget has a initialRoute parameter, which
+              // enables us to define which route it should push as the initial
+              // one. See [MaterialBottomNavigationScaffold] for more details.
+              //
+              // The problem is that in the Cupertino version, we're not
+              // instantiating the [Navigator] ourselves, instead we're
+              // delegating it to the CupertinoTabView, which doesn't provides
+              // us with a way to set the initialRoute name. The best
+              // alternative I could find is to "change" the route's name of
+              // our RouteSettings to our BottomNavigationTab's initialRouteName
+              // when the onGenerateRoute is being executed for the initial
+              // route.
+              onGenerateRoute: (settings) {
+                var routeSettings = settings;
+                if (routeSettings.name == '/') {
+                  routeSettings =
+                      routeSettings.copyWith(name: barItem.initialPageName);
+                }
+                return FluroRouter.appRouter
+                    .matchRoute(context, routeSettings.name,
+                        routeSettings: routeSettings)
+                    .route;
+              });
         },
       );
 }
