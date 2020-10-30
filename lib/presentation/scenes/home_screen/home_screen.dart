@@ -16,17 +16,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<AppFlow> _appFlows;
   Locale _userLocale;
-  List<GlobalKey<NavigatorState>> _navigatorKeys;
-
-  @override
-  void initState() {
-    super.initState();
-    // Create keys only once to preserve the navigators' states
-    _navigatorKeys = [
-      GlobalKey<NavigatorState>(),
-      GlobalKey<NavigatorState>(),
-    ];
-  }
+  // Create keys only once to preserve the navigators' states
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(),
+    GlobalKey<NavigatorState>(),
+  ];
 
   @override
   void didChangeDependencies() {
