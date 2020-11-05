@@ -13,4 +13,15 @@ class AppFlow {
   final String name;
   final IconData iconData;
   final GlobalKey<NavigatorState> navigatorKey;
+
+  AppFlow copy({
+    String name,
+    IconData iconData,
+    GlobalKey<NavigatorState> navigatorKey,
+  }) =>
+      AppFlow(
+        name: name ?? this.name,
+        iconData: iconData ?? this.iconData,
+        navigatorKey: navigatorKey ?? this.navigatorKey,
+      );
 }
