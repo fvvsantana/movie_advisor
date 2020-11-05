@@ -79,7 +79,6 @@ class _MaterialBottomNavigationScaffoldState
     super.didUpdateWidget(oldWidget);
     if(widget.navigationBarTabs != oldWidget.navigationBarTabs){
       _setMaterialNavigationBarTabs();
-      print('Entered this if');
     }
   }
 
