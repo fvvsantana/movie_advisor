@@ -31,14 +31,13 @@ class _MaterialBottomNavigationScaffoldState
 
   final List<bool> _shouldBuildTab = [];
 
-  final List<GlobalKey> _subtreeKeys = [];
   List<_MaterialBottomNavigationTab> _materialNavigationBarTabs = [];
 
   @override
   void initState() {
     _initAnimationControllers();
     // Create _subtreeKeys only once
-    _initSubtreeKeys();
+    _setMaterialNavigationBarTabs();
 
     _shouldBuildTab.addAll(List<bool>.filled(
       widget.navigationBarTabs.length,
@@ -48,26 +47,15 @@ class _MaterialBottomNavigationScaffoldState
     super.initState();
   }
 
-  void _initSubtreeKeys() {
-    _subtreeKeys.addAll(widget.navigationBarTabs.map((_) => GlobalKey()));
-  }
-
-  /// Create the _materialNavigationBarTabs list from the navigationBarTabs,
-  /// but use the existing _subtreeKeys, instead of creating new keys for the
-  /// subtreeKey attribute.
-  /// This way, whenever this method is called, it keeps the same subtreeKey
-  /// and it preserves the NavigatorState.
+  /// Create the _materialNavigationBarTabs list from the navigationBarTabs list
   void _setMaterialNavigationBarTabs() {
     _materialNavigationBarTabs = widget.navigationBarTabs.map(
-      (barItem) {
-        final tabIndex = widget.navigationBarTabs.indexOf(barItem);
-        return _MaterialBottomNavigationTab(
+      (barItem) => _MaterialBottomNavigationTab(
           bottomNavigationBarItem: barItem.bottomNavigationBarItem,
           navigatorKey: barItem.navigatorKey,
-          subtreeKey: _subtreeKeys[tabIndex],
+          subtreeKey: GlobalKey(),
           initialPageBuilder: barItem.initialPageBuilder,
-        );
-      },
+        ),
     ).toList();
   }
 
@@ -87,6 +75,15 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   @override
+  void didUpdateWidget(covariant MaterialBottomNavigationScaffold oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(widget.navigationBarTabs != oldWidget.navigationBarTabs){
+      _setMaterialNavigationBarTabs();
+      print('Entered this if');
+    }
+  }
+
+  @override
   void dispose() {
     _animationControllers.forEach(
       (controller) => controller.dispose(),
@@ -96,13 +93,7 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   @override
-  Widget build(BuildContext context) {
-    // This method is called here, because the _MaterialNavigationBarTab has a
-    // BottomNavigationBarItem inside of it. So whenever the label or icon
-    // attributes of the BottomNavigationBarItem changes, we want to reflect
-    // these changes to the screen.
-    _setMaterialNavigationBarTabs();
-    return Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: _materialNavigationBarTabs.map((barItem) {
@@ -129,7 +120,6 @@ class _MaterialBottomNavigationScaffoldState
         onTap: widget.onItemSelected,
       ),
     );
-  }
 }
 
 class _FadePageFlow extends StatelessWidget {
