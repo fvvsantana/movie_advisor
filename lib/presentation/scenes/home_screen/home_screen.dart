@@ -14,13 +14,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<AppFlow> _appFlows;
-  Locale _userLocale;
   // Create keys only once to preserve the navigators' states
-  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
-    GlobalKey<NavigatorState>(),
-    GlobalKey<NavigatorState>(),
+  List<AppFlow> _appFlows = [
+    AppFlow(
+      name: '',
+      iconData: Icons.ondemand_video,
+      navigatorKey: GlobalKey<NavigatorState>(),
+    ),
+    AppFlow(
+      name: '',
+      iconData: Icons.star_border,
+      navigatorKey: GlobalKey<NavigatorState>(),
+    ),
   ];
+
+  Locale _userLocale;
 
   @override
   void didChangeDependencies() {
@@ -38,16 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
       _userLocale = newLocale;
 
       _appFlows = [
-        AppFlow(
-          name: S.of(context).bottomNavigationMoviesTitle,
-          iconData: Icons.ondemand_video,
-          navigatorKey: _navigatorKeys[0],
-        ),
-        AppFlow(
-          name: S.of(context).bottomNavigationFavoritesTitle,
-          iconData: Icons.star_border,
-          navigatorKey: _navigatorKeys[1],
-        ),
+        _appFlows[0].copy(name: S.of(context).bottomNavigationMoviesTitle),
+        _appFlows[1].copy(name: S.of(context).bottomNavigationFavoritesTitle),
       ];
     }
   }
