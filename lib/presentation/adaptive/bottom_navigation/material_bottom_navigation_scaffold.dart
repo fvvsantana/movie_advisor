@@ -75,7 +75,7 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   @override
-  void didUpdateWidget(covariant MaterialBottomNavigationScaffold oldWidget) {
+  void didUpdateWidget(MaterialBottomNavigationScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
     if(widget.navigationBarTabs != oldWidget.navigationBarTabs){
       _setMaterialNavigationBarTabs();
