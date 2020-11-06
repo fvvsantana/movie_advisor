@@ -17,12 +17,10 @@ class _HomeScreenState extends State<HomeScreen> {
   // Create keys only once to preserve the navigators' states
   List<AppFlow> _appFlows = [
     AppFlow(
-      name: '',
       iconData: Icons.ondemand_video,
       navigatorKey: GlobalKey<NavigatorState>(),
     ),
     AppFlow(
-      name: '',
       iconData: Icons.star_border,
       navigatorKey: GlobalKey<NavigatorState>(),
     ),
