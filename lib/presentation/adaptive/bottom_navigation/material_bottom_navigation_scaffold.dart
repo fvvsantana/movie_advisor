@@ -27,15 +27,17 @@ class MaterialBottomNavigationScaffold extends StatefulWidget {
 class _MaterialBottomNavigationScaffoldState
     extends State<MaterialBottomNavigationScaffold>
     with TickerProviderStateMixin<MaterialBottomNavigationScaffold> {
-  final List<_MaterialBottomNavigationTab> materialNavigationBarTabs = [];
   final List<AnimationController> _animationControllers = [];
 
-  final List<bool> _shouldBuildTab = <bool>[];
+  final List<bool> _shouldBuildTab = [];
+
+  List<_MaterialBottomNavigationTab> _materialNavigationBarTabs = [];
 
   @override
   void initState() {
     _initAnimationControllers();
-    _initMaterialNavigationBarItems();
+    // Create _subtreeKeys only once
+    _setMaterialNavigationBarTabs();
 
     _shouldBuildTab.addAll(List<bool>.filled(
       widget.navigationBarTabs.length,
@@ -45,19 +47,16 @@ class _MaterialBottomNavigationScaffoldState
     super.initState();
   }
 
-  void _initMaterialNavigationBarItems() {
-    materialNavigationBarTabs.addAll(
-      widget.navigationBarTabs
-          .map(
-            (barItem) => _MaterialBottomNavigationTab(
-              bottomNavigationBarItem: barItem.bottomNavigationBarItem,
-              navigatorKey: barItem.navigatorKey,
-              subtreeKey: GlobalKey(),
-              initialPageBuilder: barItem.initialPageBuilder,
-            ),
-          )
-          .toList(),
-    );
+  /// Create the _materialNavigationBarTabs list from the navigationBarTabs list
+  void _setMaterialNavigationBarTabs() {
+    _materialNavigationBarTabs = widget.navigationBarTabs.map(
+      (barItem) => _MaterialBottomNavigationTab(
+          bottomNavigationBarItem: barItem.bottomNavigationBarItem,
+          navigatorKey: barItem.navigatorKey,
+          subtreeKey: GlobalKey(),
+          initialPageBuilder: barItem.initialPageBuilder,
+        ),
+    ).toList();
   }
 
   void _initAnimationControllers() {
@@ -76,6 +75,14 @@ class _MaterialBottomNavigationScaffoldState
   }
 
   @override
+  void didUpdateWidget(MaterialBottomNavigationScaffold oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if(widget.navigationBarTabs != oldWidget.navigationBarTabs){
+      _setMaterialNavigationBarTabs();
+    }
+  }
+
+  @override
   void dispose() {
     _animationControllers.forEach(
       (controller) => controller.dispose(),
@@ -86,35 +93,32 @@ class _MaterialBottomNavigationScaffoldState
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: Stack(
-          fit: StackFit.expand,
-          children: materialNavigationBarTabs.map((barItem) {
-            final tabIndex = materialNavigationBarTabs.indexOf(barItem);
-            final isCurrentlySelected = tabIndex == widget.selectedIndex;
+      body: Stack(
+        fit: StackFit.expand,
+        children: _materialNavigationBarTabs.map((barItem) {
+          final tabIndex = _materialNavigationBarTabs.indexOf(barItem);
+          final isCurrentlySelected = tabIndex == widget.selectedIndex;
 
-            // We should build the tab content only if it was already built or
-            // if it is currently selected.
-            _shouldBuildTab[tabIndex] =
-                isCurrentlySelected || _shouldBuildTab[tabIndex];
+          // We should build the tab content only if it was already built or
+          // if it is currently selected.
+          _shouldBuildTab[tabIndex] =
+              isCurrentlySelected || _shouldBuildTab[tabIndex];
 
-            return _FadePageFlow(
-                item: barItem,
-                shouldBuildTab: _shouldBuildTab[tabIndex],
-                animationController: _animationControllers[tabIndex],
-                isCurrentlySelected: isCurrentlySelected);
-          }).toList(),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: widget.selectedIndex,
-          items: materialNavigationBarTabs
-              .map(
-                (item) => item.bottomNavigationBarItem,
-              )
-              .toList(),
-          onTap: widget.onItemSelected,
-        ),
-      );
-
+          return _FadePageFlow(
+              item: barItem,
+              shouldBuildTab: _shouldBuildTab[tabIndex],
+              animationController: _animationControllers[tabIndex],
+              isCurrentlySelected: isCurrentlySelected);
+        }).toList(),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: widget.selectedIndex,
+        items: _materialNavigationBarTabs
+            .map((tab) => tab.bottomNavigationBarItem)
+            .toList(),
+        onTap: widget.onItemSelected,
+      ),
+    );
 }
 
 class _FadePageFlow extends StatelessWidget {
