@@ -1,6 +1,8 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_advisor/presentation/route_name_builder.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/scenes/home_screen/home_screen.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
@@ -41,5 +43,12 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) => FluroRouter.appRouter
             .matchRoute(context, settings.name, routeSettings: settings)
             .route,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: S.delegate.supportedLocales,
       );
 }

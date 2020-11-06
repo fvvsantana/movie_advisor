@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/models/movie_details_model.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details.dart';
+
+import 'package:movie_advisor/generated/l10n.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   const MovieDetailsPage({
@@ -60,7 +63,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Movie Advisor'),
+          title: Text(S.of(context).movieDetailsAppBarTitle),
         ),
         body: _movieDetails != null
             ? MovieDetails(movieDetails: _movieDetails)

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie_advisor/data/models/movie_details_model.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
+
+import 'package:movie_advisor/generated/l10n.dart';
 
 class MovieDetails extends StatelessWidget {
   const MovieDetails({@required this.movieDetails})
@@ -30,8 +33,8 @@ class MovieDetails extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              const TitleText(
-                text: 'Synopsis',
+              TitleText(
+                text: S.of(context).movieDetailsSynopsisTitle,
               ),
               const SizedBox(
                 height: 8,
@@ -40,8 +43,8 @@ class MovieDetails extends StatelessWidget {
               const SizedBox(
                 height: 8,
               ),
-              const TitleText(
-                text: 'Genres',
+              TitleText(
+                text: S.of(context).movieDetailsGenresTitle,
               ),
               const SizedBox(
                 height: 8,
