@@ -23,10 +23,10 @@ void main() {
       ),
     )
     ..define(
-      '${RouteNameBuilder.moviesResource}/:id',
+      '${RouteNameBuilder.moviesResource}/:${RouteNameBuilder.moviesPathParameterId}',
       handler: Handler(
         handlerFunc: (context, params) => MovieDetailsPage(
-          id: int.parse(params['id'][0]),
+          id: int.parse(params[RouteNameBuilder.moviesPathParameterId][0]),
         ),
       ),
     );
