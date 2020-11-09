@@ -8,12 +8,12 @@ class AsyncSnapshotResponseView<Loading, Error, Success>
     extends StatelessWidget {
   AsyncSnapshotResponseView({
     @required this.snapshot,
-    @required this.successWidgetBuilder,
     @required this.errorWidgetBuilder,
+    @required this.successWidgetBuilder,
     Key key,
   })  : assert(snapshot != null),
-        assert(successWidgetBuilder != null),
         assert(errorWidgetBuilder != null),
+        assert(successWidgetBuilder != null),
         assert(Loading != dynamic),
         assert(Error != dynamic),
         assert(Success != dynamic),
