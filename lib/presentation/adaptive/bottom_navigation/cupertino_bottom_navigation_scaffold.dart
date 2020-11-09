@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
+import 'package:movie_advisor/presentation/route_name_builder.dart';
 
 class CupertinoBottomNavigationScaffold extends StatelessWidget {
   const CupertinoBottomNavigationScaffold({
@@ -50,7 +51,7 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
               // route.
               onGenerateRoute: (settings) {
                 var routeSettings = settings;
-                if (routeSettings.name == '/') {
+                if (routeSettings.name == RouteNameBuilder.home) {
                   routeSettings =
                       routeSettings.copyWith(name: barItem.initialPageName);
                 }
