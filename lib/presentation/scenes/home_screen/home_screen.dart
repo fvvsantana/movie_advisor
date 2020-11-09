@@ -15,18 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // Create keys only once to preserve the navigators' states
-  List<AppFlow> _appFlows = [
-    AppFlow(
-      iconData: Icons.ondemand_video,
-      navigatorKey: GlobalKey<NavigatorState>(),
-    ),
-    AppFlow(
-      iconData: Icons.star_border,
-      navigatorKey: GlobalKey<NavigatorState>(),
-    ),
-  ];
-
   Locale _userLocale;
+
+  List<AppFlow> _appFlows;
 
   @override
   void didChangeDependencies() {
@@ -43,10 +34,25 @@ class _HomeScreenState extends State<HomeScreen> {
     if (newLocale != _userLocale) {
       _userLocale = newLocale;
 
-      _appFlows = [
-        _appFlows[0].copy(name: S.of(context).bottomNavigationMoviesTitle),
-        _appFlows[1].copy(name: S.of(context).bottomNavigationFavoritesTitle),
-      ];
+      if (_appFlows == null) {
+        _appFlows = [
+          AppFlow(
+            iconData: Icons.ondemand_video,
+            navigatorKey: GlobalKey<NavigatorState>(),
+            name: S.of(context).bottomNavigationMoviesTitle,
+          ),
+          AppFlow(
+            iconData: Icons.star_border,
+            navigatorKey: GlobalKey<NavigatorState>(),
+            name: S.of(context).bottomNavigationFavoritesTitle,
+          ),
+        ];
+      } else {
+        _appFlows = [
+          _appFlows[0].copy(name: S.of(context).bottomNavigationMoviesTitle),
+          _appFlows[1].copy(name: S.of(context).bottomNavigationFavoritesTitle),
+        ];
+      }
     }
   }
 
