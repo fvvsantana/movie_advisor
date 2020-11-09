@@ -40,10 +40,12 @@ class _MaterialBottomNavigationScaffoldState
     // Create _subtreeKeys only once
     _setMaterialNavigationBarTabs();
 
-    _shouldBuildTab.addAll(List<bool>.filled(
-      widget.navigationBarTabs.length,
-      false,
-    ));
+    _shouldBuildTab.addAll(
+      List<bool>.filled(
+        widget.navigationBarTabs.length,
+        false,
+      ),
+    );
 
     super.initState();
   }

@@ -46,7 +46,9 @@ class _MoviesListPageState extends State<MoviesListPage> {
   }
 
   void _pushMovieDetails(int movieId) {
-    Navigator.of(context).pushNamed(RouteNameBuilder.movieById(movieId));
+    Navigator.of(context).pushNamed(
+      RouteNameBuilder.movieById(movieId),
+    );
   }
 
   @override

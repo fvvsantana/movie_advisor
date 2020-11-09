@@ -35,6 +35,8 @@ class MovieRemoteDataSource {
       .get(
         UrlBuilder.getMovieDetails(movieId),
       )
-      .then((response) => MovieDetailsModel.fromJson(response.data))
+      .then(
+        (response) => MovieDetailsModel.fromJson(response.data),
+      )
       .catchError(_throwCustomError);
 }
