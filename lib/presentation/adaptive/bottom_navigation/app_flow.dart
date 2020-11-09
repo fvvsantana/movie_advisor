@@ -5,7 +5,7 @@ class AppFlow {
   const AppFlow({
     @required this.iconData,
     @required this.navigatorKey,
-    this.name = '',
+    @required this.name,
   })  : assert(iconData != null),
         assert(navigatorKey != null),
         assert(name != null);
