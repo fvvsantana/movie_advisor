@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
+
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MoviesListBloc {
   MoviesListBloc() {
