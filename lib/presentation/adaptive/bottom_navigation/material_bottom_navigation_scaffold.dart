@@ -1,3 +1,4 @@
+import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
@@ -39,24 +40,27 @@ class _MaterialBottomNavigationScaffoldState
     // Create _subtreeKeys only once
     _setMaterialNavigationBarTabs();
 
-    _shouldBuildTab.addAll(List<bool>.filled(
-      widget.navigationBarTabs.length,
-      false,
-    ));
+    _shouldBuildTab.addAll(
+      List<bool>.filled(
+        widget.navigationBarTabs.length,
+        false,
+      ),
+    );
 
     super.initState();
   }
 
-  /// Create the _materialNavigationBarTabs list from the navigationBarTabs list
   void _setMaterialNavigationBarTabs() {
-    _materialNavigationBarTabs = widget.navigationBarTabs.map(
-      (barItem) => _MaterialBottomNavigationTab(
-          bottomNavigationBarItem: barItem.bottomNavigationBarItem,
-          navigatorKey: barItem.navigatorKey,
-          subtreeKey: GlobalKey(),
-          initialPageBuilder: barItem.initialPageBuilder,
-        ),
-    ).toList();
+    _materialNavigationBarTabs = widget.navigationBarTabs
+        .map(
+          (barItem) => _MaterialBottomNavigationTab(
+            bottomNavigationBarItem: barItem.bottomNavigationBarItem,
+            navigatorKey: barItem.navigatorKey,
+            subtreeKey: GlobalKey(),
+            initialPageName: barItem.initialPageName,
+          ),
+        )
+        .toList();
   }
 
   void _initAnimationControllers() {
@@ -77,7 +81,7 @@ class _MaterialBottomNavigationScaffoldState
   @override
   void didUpdateWidget(MaterialBottomNavigationScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.navigationBarTabs != oldWidget.navigationBarTabs){
+    if (widget.navigationBarTabs != oldWidget.navigationBarTabs) {
       _setMaterialNavigationBarTabs();
     }
   }
@@ -93,32 +97,34 @@ class _MaterialBottomNavigationScaffoldState
 
   @override
   Widget build(BuildContext context) => Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: _materialNavigationBarTabs.map((barItem) {
-          final tabIndex = _materialNavigationBarTabs.indexOf(barItem);
-          final isCurrentlySelected = tabIndex == widget.selectedIndex;
+        body: Stack(
+          fit: StackFit.expand,
+          children: _materialNavigationBarTabs.map((barItem) {
+            final tabIndex = _materialNavigationBarTabs.indexOf(barItem);
+            final isCurrentlySelected = tabIndex == widget.selectedIndex;
 
-          // We should build the tab content only if it was already built or
-          // if it is currently selected.
-          _shouldBuildTab[tabIndex] =
-              isCurrentlySelected || _shouldBuildTab[tabIndex];
+            // We should build the tab content only if it was already built or
+            // if it is currently selected.
+            _shouldBuildTab[tabIndex] =
+                isCurrentlySelected || _shouldBuildTab[tabIndex];
 
-          return _FadePageFlow(
-              item: barItem,
-              shouldBuildTab: _shouldBuildTab[tabIndex],
-              animationController: _animationControllers[tabIndex],
-              isCurrentlySelected: isCurrentlySelected);
-        }).toList(),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: widget.selectedIndex,
-        items: _materialNavigationBarTabs
-            .map((tab) => tab.bottomNavigationBarItem)
-            .toList(),
-        onTap: widget.onItemSelected,
-      ),
-    );
+            return _FadePageFlow(
+                item: barItem,
+                shouldBuildTab: _shouldBuildTab[tabIndex],
+                animationController: _animationControllers[tabIndex],
+                isCurrentlySelected: isCurrentlySelected);
+          }).toList(),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: widget.selectedIndex,
+          items: _materialNavigationBarTabs
+              .map(
+                (tab) => tab.bottomNavigationBarItem,
+              )
+              .toList(),
+          onTap: widget.onItemSelected,
+        ),
+      );
 }
 
 class _FadePageFlow extends StatelessWidget {
@@ -181,12 +187,10 @@ class _PageFlow extends StatelessWidget {
                 // re-selected. That is why a GlobalKey is needed instead of
                 // a simpler ValueKey.
                 key: item.navigatorKey,
-                // The onGenerateRoute callback will be called only for the
-                // initial route.
-                onGenerateRoute: (settings) => MaterialPageRoute(
-                  settings: settings,
-                  builder: item.initialPageBuilder,
-                ),
+                initialRoute: item.initialPageName,
+                onGenerateRoute: (settings) => FluroRouter.appRouter
+                    .matchRoute(context, settings.name, routeSettings: settings)
+                    .route,
               )
             : Container(),
       );
@@ -198,16 +202,16 @@ class _MaterialBottomNavigationTab extends BottomNavigationTab {
   const _MaterialBottomNavigationTab({
     @required BottomNavigationBarItem bottomNavigationBarItem,
     @required GlobalKey<NavigatorState> navigatorKey,
-    @required WidgetBuilder initialPageBuilder,
+    @required String initialPageName,
     @required this.subtreeKey,
   })  : assert(bottomNavigationBarItem != null),
         assert(subtreeKey != null),
-        assert(initialPageBuilder != null),
+        assert(initialPageName != null),
         assert(navigatorKey != null),
         super(
           bottomNavigationBarItem: bottomNavigationBarItem,
           navigatorKey: navigatorKey,
-          initialPageBuilder: initialPageBuilder,
+          initialPageName: initialPageName,
         );
 
   final GlobalKey subtreeKey;

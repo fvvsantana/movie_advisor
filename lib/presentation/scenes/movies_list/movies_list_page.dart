@@ -4,7 +4,7 @@ import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
+import 'package:movie_advisor/presentation/route_name_builder.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
@@ -45,12 +45,9 @@ class _MoviesListPageState extends State<MoviesListPage> {
     });
   }
 
-  void _pushMovieDetails(Object routeArguments) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (_) => MovieDetailsPage(),
-        settings: RouteSettings(arguments: routeArguments),
-      ),
+  void _pushMovieDetails(int movieId) {
+    Navigator.of(context).pushNamed(
+      RouteNameBuilder.movieById(movieId),
     );
   }
 
