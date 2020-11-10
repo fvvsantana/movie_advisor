@@ -11,7 +11,7 @@ void main() {
   // Define routes
   FluroRouter.appRouter
     ..define(
-      RouteNameBuilder.home,
+      RouteNameBuilder.homeResource,
       handler: Handler(
         handlerFunc: (context, params) => HomeScreen(),
       ),

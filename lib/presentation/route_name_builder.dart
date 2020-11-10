@@ -1,5 +1,5 @@
 class RouteNameBuilder {
-  static const String home = '/';
+  static const String homeResource = '/';
   static const String moviesResource = 'movies';
   static const String moviesPathParameterId = 'id';
 
