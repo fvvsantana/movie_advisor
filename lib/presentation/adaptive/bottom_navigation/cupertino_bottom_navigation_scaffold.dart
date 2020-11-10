@@ -51,7 +51,7 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
               // route.
               onGenerateRoute: (settings) {
                 var routeSettings = settings;
-                if (routeSettings.name == RouteNameBuilder.homeResource) {
+                if (routeSettings.name == RouteNameBuilder.home()) {
                   routeSettings =
                       routeSettings.copyWith(name: barItem.initialPageName);
                 }
