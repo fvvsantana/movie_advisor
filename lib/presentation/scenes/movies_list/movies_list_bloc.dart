@@ -1,17 +1,33 @@
+import 'dart:async';
+
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MoviesListBloc {
-  MoviesListBloc(){
-    _fetchMoviesList().listen(_onNewStateSubject.add);
+  MoviesListBloc() {
+    _subscriptions
+      ..add(
+        _fetchMoviesList().listen(_onNewStateSubject.add),
+      )
+      ..add(
+        _onTryAgainSubject.stream
+            .flatMap(
+              (_) => _fetchMoviesList(),
+            )
+            .listen(_onNewStateSubject.add),
+      );
   }
 
-  final _movieRDS = MovieRemoteDataSource();
+  final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MoviesListResponseState>();
+  final _onTryAgainSubject = StreamController<void>();
+  final _movieRDS = MovieRemoteDataSource();
 
   Stream<MoviesListResponseState> get onNewState => _onNewStateSubject;
+
+  Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
   Stream<MoviesListResponseState> _fetchMoviesList() async* {
     yield Loading();
@@ -29,13 +45,9 @@ class MoviesListBloc {
     }
   }
 
-  /*
-  void onTryAgain() {
-    _fetchMoviesList().listen(_onNewStateSubject.add);
-  }
-  */
-
   void dispose() {
+    _subscriptions.dispose();
     _onNewStateSubject.close();
+    _onTryAgainSubject.close();
   }
 }

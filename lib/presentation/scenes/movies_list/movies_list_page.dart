@@ -39,7 +39,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
             errorWidgetBuilder: (context, errorState) =>
                 ErrorEmptyState.fromError(
               error: errorState.error,
-              onTryAgainTap: () {},
+              onTryAgainTap: () => _bloc.onTryAgain.add(null),
             ),
             successWidgetBuilder: (context, successState) => MoviesList(
               movies: successState.moviesList,
