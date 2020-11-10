@@ -12,6 +12,6 @@ class Error implements MoviesListResponseState {
 }
 
 class Success implements MoviesListResponseState {
-  const Success({@required this.list}) : assert(list != null);
-  final List<MovieSummaryModel> list;
+  const Success({@required this.moviesList}) : assert(moviesList != null);
+  final List<MovieSummaryModel> moviesList;
 }
