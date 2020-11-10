@@ -1,35 +1,11 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/presentation/route_name_builder.dart';
+import 'package:movie_advisor/presentation/routing.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:movie_advisor/generated/l10n.dart';
-import 'package:movie_advisor/presentation/scenes/home_screen/home_screen.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
 
 void main() {
-  // Define routes
-  FluroRouter.appRouter
-    ..define(
-      RouteNameBuilder.homeResource,
-      handler: Handler(
-        handlerFunc: (context, params) => HomeScreen(),
-      ),
-    )
-    ..define(
-      RouteNameBuilder.moviesResource,
-      handler: Handler(
-        handlerFunc: (context, params) => MoviesListPage(),
-      ),
-    )
-    ..define(
-      '${RouteNameBuilder.moviesResource}/:${RouteNameBuilder.moviesPathParameterId}',
-      handler: Handler(
-        handlerFunc: (context, params) => MovieDetailsPage(
-          id: int.parse(params[RouteNameBuilder.moviesPathParameterId][0]),
-        ),
-      ),
-    );
+  defineRoutes();
 
   runApp(
     MyApp(),
