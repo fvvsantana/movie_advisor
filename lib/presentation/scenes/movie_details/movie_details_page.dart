@@ -8,23 +8,23 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bl
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsPage extends StatefulWidget {
+  const MovieDetailsPage({
+    @required this.id,
+  }) : assert(id != null);
+
+  final int id;
+
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   MovieDetailsBloc _bloc;
-  bool _isFirstCall = true;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (_isFirstCall) {
-      _isFirstCall = false;
-      final movieId = ModalRoute.of(context).settings.arguments;
-      _bloc = MovieDetailsBloc(movieId: movieId);
-    }
+  void initState() {
+    super.initState();
+    _bloc = MovieDetailsBloc(movieId: widget.id);
   }
 
   @override

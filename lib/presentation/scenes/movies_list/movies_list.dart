@@ -3,8 +3,10 @@ import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_item.dart';
 
 class MoviesList extends StatelessWidget {
-  const MoviesList({@required this.movies, @required this.onMovieTap})
-      : assert(movies != null),
+  const MoviesList({
+    @required this.movies,
+    @required this.onMovieTap,
+  })  : assert(movies != null),
         assert(onMovieTap != null);
 
   final List<MovieSummaryModel> movies;
@@ -15,8 +17,8 @@ class MoviesList extends StatelessWidget {
         itemCount: movies.length,
         itemExtent: 70,
         itemBuilder: (_, index) => MoviesListItem(
-            movie: movies.elementAt(index),
-            onTap: onMovieTap,
-          ),
+          movie: movies.elementAt(index),
+          onTap: onMovieTap,
+        ),
       );
 }

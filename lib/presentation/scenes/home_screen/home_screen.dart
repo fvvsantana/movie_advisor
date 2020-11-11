@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/adaptive_bottom_navigation_scaffold.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/app_flow.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
+import 'package:movie_advisor/presentation/route_name_builder.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 
@@ -15,18 +15,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // Create keys only once to preserve the navigators' states
-  List<AppFlow> _appFlows = [
-    AppFlow(
-      iconData: Icons.ondemand_video,
-      navigatorKey: GlobalKey<NavigatorState>(),
-    ),
-    AppFlow(
-      iconData: Icons.star_border,
-      navigatorKey: GlobalKey<NavigatorState>(),
-    ),
-  ];
-
   Locale _userLocale;
+
+  List<AppFlow> _appFlows;
 
   @override
   void didChangeDependencies() {
@@ -43,10 +34,25 @@ class _HomeScreenState extends State<HomeScreen> {
     if (newLocale != _userLocale) {
       _userLocale = newLocale;
 
-      _appFlows = [
-        _appFlows[0].copy(name: S.of(context).bottomNavigationMoviesTitle),
-        _appFlows[1].copy(name: S.of(context).bottomNavigationFavoritesTitle),
-      ];
+      if (_appFlows == null) {
+        _appFlows = [
+          AppFlow(
+            iconData: Icons.ondemand_video,
+            navigatorKey: GlobalKey<NavigatorState>(),
+            name: S.of(context).bottomNavigationMoviesTitle,
+          ),
+          AppFlow(
+            iconData: Icons.star_border,
+            navigatorKey: GlobalKey<NavigatorState>(),
+            name: S.of(context).bottomNavigationFavoritesTitle,
+          ),
+        ];
+      } else {
+        _appFlows = [
+          _appFlows[0].copy(name: S.of(context).bottomNavigationMoviesTitle),
+          _appFlows[1].copy(name: S.of(context).bottomNavigationFavoritesTitle),
+        ];
+      }
     }
   }
 
@@ -60,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(flow.iconData),
                 ),
                 navigatorKey: flow.navigatorKey,
-                initialPageBuilder: (_) => MoviesListPage(),
+                initialPageName: RouteNameBuilder.moviesList(),
               ),
             )
             .toList(),
