@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'movie_details_model.g.dart';
+part 'movie_details_rm.g.dart';
 
 @JsonSerializable(nullable: false)
-class MovieDetailsModel {
-  const MovieDetailsModel({
+class MovieDetailsRM {
+  const MovieDetailsRM({
     @required this.id,
     @required this.title,
     @required this.imageUrl,
@@ -17,9 +17,9 @@ class MovieDetailsModel {
         assert(synopsis != null),
         assert(genres != null);
 
-  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$MovieDetailsModelFromJson(json);
-  Map<String, dynamic> toJson() => _$MovieDetailsModelToJson(this);
+  factory MovieDetailsRM.fromJson(Map<String, dynamic> json) =>
+      _$MovieDetailsRMFromJson(json);
+  Map<String, dynamic> toJson() => _$MovieDetailsRMToJson(this);
 
   final int id;
   final String title;

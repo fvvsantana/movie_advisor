@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:movie_advisor/common/errors.dart';
-import 'package:movie_advisor/data/remote/models/movie_summary_model.dart';
+import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
 import 'package:movie_advisor/data/remote/remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/route_name_builder.dart';
@@ -16,7 +16,7 @@ class MoviesListPage extends StatefulWidget {
 
 class _MoviesListPageState extends State<MoviesListPage> {
   CustomError _error;
-  List<MovieSummaryModel> _movies;
+  List<MovieSummaryRM> _movies;
   final _movieRDS = RemoteDataSource();
 
   /*

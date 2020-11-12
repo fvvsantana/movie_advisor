@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:movie_advisor/data/remote/models/movie_details_model.dart';
-import 'package:movie_advisor/data/remote/models/movie_summary_model.dart';
+import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
+import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/common/errors.dart';
 
@@ -17,7 +17,7 @@ class RemoteDataSource {
     }
   }
 
-  Future<List<MovieSummaryModel>> getMoviesList() => _dio
+  Future<List<MovieSummaryRM>> getMoviesList() => _dio
           .get(
         UrlBuilder.getMoviesList(),
       )
@@ -26,17 +26,17 @@ class RemoteDataSource {
         final data = List<Map<String, dynamic>>.from(response.data);
         return data
             .map(
-              (movie) => MovieSummaryModel.fromJson(movie),
+              (movie) => MovieSummaryRM.fromJson(movie),
             )
             .toList();
       }).catchError(_throwCustomError);
 
-  Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
+  Future<MovieDetailsRM> getMovieDetails(int movieId) => _dio
       .get(
         UrlBuilder.getMovieDetails(movieId),
       )
       .then(
-        (response) => MovieDetailsModel.fromJson(response.data),
+        (response) => MovieDetailsRM.fromJson(response.data),
       )
       .catchError(_throwCustomError);
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/data/remote/models/movie_details_model.dart';
+import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
@@ -10,7 +10,7 @@ class MovieDetails extends StatelessWidget {
   const MovieDetails({@required this.movieDetails})
       : assert(movieDetails != null);
 
-  final MovieDetailsModel movieDetails;
+  final MovieDetailsRM movieDetails;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
