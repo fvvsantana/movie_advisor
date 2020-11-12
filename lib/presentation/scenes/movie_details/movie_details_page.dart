@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:movie_advisor/common/errors.dart';
-import 'package:movie_advisor/data/models/movie_details_model.dart';
+import 'package:movie_advisor/data/remote/models/movie_details_model.dart';
 import 'package:movie_advisor/data/remote/remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details.dart';

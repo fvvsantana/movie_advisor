@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/data/models/movie_details_model.dart';
+import 'package:movie_advisor/data/remote/models/movie_details_model.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
