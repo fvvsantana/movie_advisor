@@ -4,7 +4,7 @@ import 'package:movie_advisor/data/models/movie_summary_model.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/common/errors.dart';
 
-class MovieRemoteDataSource {
+class RemoteDataSource {
   final _dio = Dio();
 
   void _throwCustomError(dynamic error) {

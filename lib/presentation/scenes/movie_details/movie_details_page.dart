@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/models/movie_details_model.dart';
-import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
+import 'package:movie_advisor/data/remote/remote_data_source.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details.dart';
 
@@ -22,7 +22,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   CustomError _error;
   MovieDetailsModel _movieDetails;
   bool _isFirstCall = true;
-  final _movieRDS = MovieRemoteDataSource();
+  final _movieRDS = RemoteDataSource();
 
   /*
     Make an http request to get the movie details data.
