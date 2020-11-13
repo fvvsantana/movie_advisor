@@ -26,6 +26,7 @@ dependencies:
   dio: 3.0.10
   json_serializable: ^3.5.0
   fluro: ^1.7.7
+  rxdart: ^0.24.1
   hive: ^1.4.4+1
   path_provider: ^1.6.24
 
