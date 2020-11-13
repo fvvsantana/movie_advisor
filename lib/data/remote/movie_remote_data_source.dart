@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:movie_advisor/data/models/movie_details_model.dart';
 import 'package:movie_advisor/data/models/movie_summary_model.dart';
@@ -8,7 +10,7 @@ class MovieRemoteDataSource {
   final _dio = Dio();
 
   void _throwCustomError(dynamic error) {
-    print(error);
+    stderr.write(error);
     // Treat errors
     if (error is DioError && error.type == DioErrorType.DEFAULT) {
       throw const NoInternetError();

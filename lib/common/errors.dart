@@ -20,6 +20,8 @@ class GenericError extends CustomError {
 
   factory GenericError.fromObject({@required Object object}) {
     assert(object != null);
-    return GenericError(message: 'Error: ${object.toString()}');
+    return GenericError(
+      message: object.toString(),
+    );
   }
 }

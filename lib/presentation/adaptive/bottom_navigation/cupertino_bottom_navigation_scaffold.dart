@@ -11,7 +11,8 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
     @required this.onItemSelected,
     @required this.selectedIndex,
     Key key,
-  })  : assert(navigationBarTabs != null),
+  })
+      : assert(navigationBarTabs != null),
         assert(onItemSelected != null),
         assert(selectedIndex != null),
         super(key: key);
@@ -23,13 +24,14 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
   final int selectedIndex;
 
   @override
-  Widget build(BuildContext context) => CupertinoTabScaffold(
+  Widget build(BuildContext context) =>
+      CupertinoTabScaffold(
         controller: CupertinoTabController(initialIndex: selectedIndex),
         tabBar: CupertinoTabBar(
           items: navigationBarTabs
               .map(
                 (item) => item.bottomNavigationBarItem,
-              )
+          )
               .toList(),
           onTap: onItemSelected,
         ),
@@ -57,7 +59,7 @@ class CupertinoBottomNavigationScaffold extends StatelessWidget {
                 }
                 return FluroRouter.appRouter
                     .matchRoute(context, routeSettings.name,
-                        routeSettings: routeSettings)
+                    routeSettings: routeSettings)
                     .route;
               });
         },
