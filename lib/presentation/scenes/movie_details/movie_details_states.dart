@@ -4,10 +4,19 @@ import 'package:movie_advisor/data/models/movie_details_model.dart';
 
 abstract class MovieDetailsResponseState {}
 
-class Loading implements MovieDetailsResponseState{}
+class Loading implements MovieDetailsResponseState {}
 
 class Error implements MovieDetailsResponseState {
   const Error({@required this.error}) : assert(error != null);
+
+  factory Error.fromObject({@required Object error}) {
+    assert(error != null);
+    return Error(
+      error:
+          error is CustomError ? error : GenericError.fromObject(object: error),
+    );
+  }
+
   final CustomError error;
 }
 

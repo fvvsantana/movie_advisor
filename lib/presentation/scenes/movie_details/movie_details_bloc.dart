@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
@@ -41,11 +40,7 @@ class MovieDetailsBloc {
         movieDetails: await _movieRDS.getMovieDetails(movieId),
       );
     } catch (error) {
-      yield Error(
-        error: error is CustomError
-            ? error
-            : GenericError.fromObject(object: error),
-      );
+      yield Error.fromObject(error: error);
     }
   }
 

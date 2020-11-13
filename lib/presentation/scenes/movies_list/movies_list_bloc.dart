@@ -38,11 +38,7 @@ class MoviesListBloc {
         moviesList: await _movieRDS.getMoviesList(),
       );
     } catch (error) {
-      yield Error(
-        error: error is CustomError
-            ? error
-            : GenericError.fromObject(object: error),
-      );
+      yield Error.fromObject(error: error);
     }
   }
 
