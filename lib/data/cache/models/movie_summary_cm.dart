@@ -1,10 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
+import 'package:movie_advisor/data/cache/models/hive_type_ids.dart';
 
 part 'movie_summary_cm.g.dart';
 
 
-@HiveType(typeId: 0)
+@HiveType(typeId: HiveTypeId.movieSummary)
 class MovieSummaryCM{
   const MovieSummaryCM({
     @required this.id,

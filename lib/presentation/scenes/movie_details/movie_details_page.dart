@@ -42,7 +42,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               error: errorState.error,
               onTryAgainTap: () => _bloc.onTryAgain.add(null),
             ),
-            successWidgetBuilder: (context, successState) => MovieDetailsContent(
+            successWidgetBuilder: (context, successState) =>
+                MovieDetailsContent(
               movieDetails: successState.movieDetails,
             ),
           ),
