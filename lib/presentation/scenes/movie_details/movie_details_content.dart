@@ -6,8 +6,8 @@ import 'package:movie_advisor/presentation/common/title_text.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 
-class MovieDetails extends StatelessWidget {
-  const MovieDetails({@required this.movieDetails})
+class MovieDetailsContent extends StatelessWidget {
+  const MovieDetailsContent({@required this.movieDetails})
       : assert(movieDetails != null);
 
   final MovieDetailsRM movieDetails;
