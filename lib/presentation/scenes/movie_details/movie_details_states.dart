@@ -12,8 +12,7 @@ class Error implements MovieDetailsResponseState {
   factory Error.fromObject({@required Object error}) {
     assert(error != null);
     return Error(
-      error:
-          error is CustomError ? error : GenericError.fromObject(object: error),
+      error: error.toCustomError(),
     );
   }
 

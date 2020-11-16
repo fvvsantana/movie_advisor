@@ -25,3 +25,11 @@ class GenericError extends CustomError {
     );
   }
 }
+
+extension ErrorConversion on Object {
+  CustomError toCustomError() => this is CustomError
+      ? this
+      : GenericError(
+          message: toString(),
+        );
+}
