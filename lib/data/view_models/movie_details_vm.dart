@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-class MovieDetailsModel {
-  const MovieDetailsModel({
+class MovieDetailsVM {
+  const MovieDetailsVM({
     @required this.id,
     @required this.title,
     @required this.imageUrl,
