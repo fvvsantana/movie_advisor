@@ -10,7 +10,7 @@ class RemoteDataSource {
   final _dio = Dio();
 
   void _throwCustomError(Object error) {
-    stderr.write(error);
+    print(error);
 
     // Treat errors
     if (error is DioError && error.type == DioErrorType.DEFAULT) {

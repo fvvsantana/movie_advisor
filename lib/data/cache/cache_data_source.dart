@@ -8,12 +8,21 @@ class CacheDataSource {
   static const _moviesListKeyName = 'moviesListKey';
   static const _movieDetailsBoxName = 'movieDetailsBox';
 
+  // By default Hive was not printing errors, so I made this function to print
+  // them
+  void printError(dynamic error) {
+    print(error);
+    throw error;
+  }
+
   // Hive always stores lists as List<dynamic> in the persistent memory, it
   // won't change, even if you pass List<MovieSummaryCM> to the openBox method.
   Future<void> upsertMoviesList(List<MovieSummaryCM> moviesList) =>
-      Hive.openBox<List>(_moviesListBoxName).then(
-        (box) => box.put(_moviesListKeyName, moviesList),
-      );
+      Hive.openBox<List>(_moviesListBoxName)
+          .then(
+            (box) => box.put(_moviesListKeyName, moviesList),
+          )
+          .catchError(printError);
 
   Future<List<MovieSummaryCM>> getMoviesList() {
     /*
@@ -33,18 +42,24 @@ class CacheDataSource {
      */
     final boxFuture = Hive.openBox<List>(_moviesListBoxName);
 
-    return boxFuture.then<List<MovieSummaryCM>>(
-      (box) => box.get(_moviesListKeyName)?.cast<MovieSummaryCM>(),
-    );
+    return boxFuture
+        .then<List<MovieSummaryCM>>(
+          (box) => box.get(_moviesListKeyName)?.cast<MovieSummaryCM>(),
+        )
+        .catchError(printError);
   }
 
   Future<void> upsertMovieDetails(MovieDetailsCM movieDetails) =>
-      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName).then(
-        (box) => box.put(movieDetails.id, movieDetails),
-      );
+      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName)
+          .then(
+            (box) => box.put(movieDetails.id, movieDetails),
+          )
+          .catchError(printError);
 
   Future<MovieDetailsCM> getMovieDetails(int movieId) =>
-      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName).then<MovieDetailsCM>(
-        (box) => box.get(movieId),
-      );
+      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName)
+          .then<MovieDetailsCM>(
+            (box) => box.get(movieId),
+          )
+          .catchError(printError);
 }

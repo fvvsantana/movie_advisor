@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
+import 'package:movie_advisor/model/movie_details.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
@@ -10,7 +10,7 @@ class MovieDetailsContent extends StatelessWidget {
   const MovieDetailsContent({@required this.movieDetails})
       : assert(movieDetails != null);
 
-  final MovieDetailsRM movieDetails;
+  final MovieDetails movieDetails;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -50,7 +50,7 @@ class MovieDetailsContent extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                  movieDetails.genres.join(', '),
+                movieDetails.genres.join(', '),
               ),
             ],
           ),

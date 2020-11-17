@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:movie_advisor/data/repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/remote/remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
@@ -26,7 +26,7 @@ class MovieDetailsBloc {
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final _movieRDS = RemoteDataSource();
+  final _repository = Repository();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
@@ -37,7 +37,7 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: await _movieRDS.getMovieDetails(movieId),
+        movieDetails: await _repository.getMovieDetails(movieId),
       );
     } catch (error) {
       yield Error.fromObject(error: error);
