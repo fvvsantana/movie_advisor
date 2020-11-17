@@ -30,36 +30,38 @@ class ErrorEmptyState extends StatelessWidget {
   final VoidCallback onTryAgainTap;
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            TitleText(
-              text: title,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            RaisedButton(
-              onPressed: onTryAgainTap,
-              color: Colors.blue,
-              child: const Text(
-                'Try again',
-                style: TextStyle(color: Colors.white),
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TitleText(
+                text: title,
               ),
-            ),
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                message,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              RaisedButton(
+                onPressed: onTryAgainTap,
+                color: Colors.blue,
+                child: const Text(
+                  'Try again',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
-      );
+  );
 }
 
 /*
