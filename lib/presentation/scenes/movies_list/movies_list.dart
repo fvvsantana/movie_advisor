@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
+import 'package:movie_advisor/model/movie_summary.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_item.dart';
 
 class MoviesList extends StatelessWidget {
@@ -9,7 +9,7 @@ class MoviesList extends StatelessWidget {
   })  : assert(movies != null),
         assert(onMovieTap != null);
 
-  final List<MovieSummaryRM> movies;
+  final List<MovieSummary> movies;
   final void Function(int) onMovieTap;
 
   @override

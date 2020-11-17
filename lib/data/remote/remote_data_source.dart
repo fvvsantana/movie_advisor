@@ -9,13 +9,14 @@ import 'package:movie_advisor/common/errors.dart';
 class RemoteDataSource {
   final _dio = Dio();
 
-  void _throwCustomError(dynamic error) {
+  void _throwCustomError(Object error) {
     stderr.write(error);
+
     // Treat errors
     if (error is DioError && error.type == DioErrorType.DEFAULT) {
       throw const NoInternetError();
     } else {
-      throw GenericError.fromObject(object: error);
+      throw error.toCustomError();
     }
   }
 

@@ -8,6 +8,8 @@ class Repository {
   final _remoteDS = RemoteDataSource();
   final _cacheDS = CacheDataSource();
 
+  // Try to get movies list from remote data source.
+  // Use cache as fallback for network errors.
   Future<List<MovieSummary>> getMoviesList() async {
     // Make request
     try {

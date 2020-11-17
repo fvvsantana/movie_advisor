@@ -17,13 +17,6 @@ class GenericError extends CustomError {
   const GenericError({@required message})
       : assert(message != null),
         super(message: message);
-
-  factory GenericError.fromObject({@required Object object}) {
-    assert(object != null);
-    return GenericError(
-      message: object.toString(),
-    );
-  }
 }
 
 extension ErrorConversion on Object {
