@@ -1,11 +1,12 @@
 import 'package:hive/hive.dart';
 
-import 'models/movie_summary_cm.dart';
+import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
+import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
 
 class CacheDataSource {
   static const _moviesListBoxName = 'moviesListBox';
   static const _moviesListKeyName = 'moviesListKey';
-
+  static const _movieDetailsBoxName = 'movieDetailsBox';
 
   // Hive always stores lists as List<dynamic> in the persistent memory, it
   // won't change, even if you pass List<MovieSummaryCM> to the openBox method.
@@ -36,4 +37,14 @@ class CacheDataSource {
       (box) => box.get(_moviesListKeyName)?.cast<MovieSummaryCM>(),
     );
   }
+
+  Future<void> upsertMovieDetails(MovieDetailsCM movieDetails) =>
+      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName).then(
+        (box) => box.put(movieDetails.id, movieDetails),
+      );
+
+  Future<MovieDetailsCM> getMovieDetails(int movieId) =>
+      Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName).then<MovieDetailsCM>(
+        (box) => box.get(movieId),
+      );
 }
