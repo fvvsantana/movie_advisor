@@ -33,7 +33,7 @@ class Repository {
           .toList();
     } catch (error) {
       final moviesListC = await _cacheDS.getMoviesList();
-      // Cache hit check
+      // Cache-hit check
       if (moviesListC != null) {
         return moviesListC
             .map(
@@ -42,7 +42,7 @@ class Repository {
             .toList();
       }
 
-      // Cache miss
+      // Cache-miss
       rethrow;
     }
   }
