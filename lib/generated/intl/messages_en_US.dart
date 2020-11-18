@@ -23,6 +23,11 @@ class MessageLookup extends MessageLookupByLibrary {
   static _notInlinedMessages(_) => <String, Function> {
     "bottomNavigationFavoritesTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "bottomNavigationMoviesTitle" : MessageLookupByLibrary.simpleMessage("Movies"),
+    "errorEmptyStateButtonTitle" : MessageLookupByLibrary.simpleMessage("Try again"),
+    "errorEmptyStateGenericErrorContent" : MessageLookupByLibrary.simpleMessage("An unexpected error has occurred."),
+    "errorEmptyStateGenericErrorTitle" : MessageLookupByLibrary.simpleMessage("Error"),
+    "errorEmptyStateNoInternetErrorContent" : MessageLookupByLibrary.simpleMessage("Make sure you have internet connection or check your DNS settings."),
+    "errorEmptyStateNoInternetErrorTitle" : MessageLookupByLibrary.simpleMessage("Connection Error"),
     "movieDetailsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie details"),
     "movieDetailsGenresTitle" : MessageLookupByLibrary.simpleMessage("Genres"),
     "movieDetailsSynopsisTitle" : MessageLookupByLibrary.simpleMessage("Synopsis"),

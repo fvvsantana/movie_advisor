@@ -5,5 +5,10 @@
   "movieDetailsSynopsisTitle": "Synopsis",
   "movieDetailsGenresTitle": "Genres",
   "bottomNavigationMoviesTitle": "Movies",
-  "bottomNavigationFavoritesTitle": "Favorites"
+  "bottomNavigationFavoritesTitle": "Favorites",
+  "errorEmptyStateButtonTitle": "Try again",
+  "errorEmptyStateNoInternetErrorTitle": "Connection Error",
+  "errorEmptyStateNoInternetErrorContent": "Make sure you have internet connection or check your DNS settings.",
+  "errorEmptyStateGenericErrorTitle": "Error",
+  "errorEmptyStateGenericErrorContent": "An unexpected error has occurred."
 }
