@@ -8,10 +8,14 @@ import 'package:movie_advisor/presentation/common/title_text.dart';
 import 'package:movie_advisor/generated/l10n.dart';
 
 class MovieDetailsContent extends StatelessWidget {
-  const MovieDetailsContent({@required this.movieDetails})
-      : assert(movieDetails != null);
+  const MovieDetailsContent({
+    @required this.movieDetails,
+    @required this.onFavoriteButtonPressed,
+  })  : assert(movieDetails != null),
+        assert(onFavoriteButtonPressed != null);
 
   final MovieDetails movieDetails;
+  final Function(bool isFavorite) onFavoriteButtonPressed;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -28,9 +32,7 @@ class MovieDetailsContent extends StatelessWidget {
                     ),
                   ),
                   FavoriteButton(
-                    onPressed: (isFavorite) {
-                      print('isFavorite: $isFavorite');
-                    },
+                    onPressed: onFavoriteButtonPressed,
                   ),
                 ],
               ),
