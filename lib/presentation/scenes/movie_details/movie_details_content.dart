@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:movie_advisor/model/movie_details.dart';
+import 'package:movie_advisor/presentation/common/favorite_button.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
@@ -19,8 +20,19 @@ class MovieDetailsContent extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleText(
-                text: movieDetails.title,
+              Row(
+                children: [
+                  Expanded(
+                    child: TitleText(
+                      text: movieDetails.title,
+                    ),
+                  ),
+                  FavoriteButton(
+                    onPressed: (isFavorite) {
+                      print('isFavorite: $isFavorite');
+                    },
+                  ),
+                ],
               ),
               Container(
                 height: 300,
