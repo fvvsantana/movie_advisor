@@ -5,5 +5,10 @@
   "movieDetailsSynopsisTitle": "Sinopse",
   "movieDetailsGenresTitle": "Gêneros",
   "bottomNavigationMoviesTitle": "Filmes",
-  "bottomNavigationFavoritesTitle": "Favoritos"
+  "bottomNavigationFavoritesTitle": "Favoritos",
+  "errorEmptyStateButtonTitle": "Tentar novamente",
+  "errorEmptyStateNoInternetErrorTitle": "Erro de Conexão",
+  "errorEmptyStateNoInternetErrorContent": "Certifique-se que há conexão de internet ou verifique sua configuração de DNS.",
+  "errorEmptyStateGenericErrorTitle": "Erro",
+  "errorEmptyStateGenericErrorContent": "Um erro inesperado ocorreu."
 }

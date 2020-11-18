@@ -94,6 +94,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Try again`
+  String get errorEmptyStateButtonTitle {
+    return Intl.message(
+      'Try again',
+      name: 'errorEmptyStateButtonTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection Error`
+  String get errorEmptyStateNoInternetErrorTitle {
+    return Intl.message(
+      'Connection Error',
+      name: 'errorEmptyStateNoInternetErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make sure you have internet connection or check your DNS settings.`
+  String get errorEmptyStateNoInternetErrorContent {
+    return Intl.message(
+      'Make sure you have internet connection or check your DNS settings.',
+      name: 'errorEmptyStateNoInternetErrorContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get errorEmptyStateGenericErrorTitle {
+    return Intl.message(
+      'Error',
+      name: 'errorEmptyStateGenericErrorTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An unexpected error has occurred.`
+  String get errorEmptyStateGenericErrorContent {
+    return Intl.message(
+      'An unexpected error has occurred.',
+      name: 'errorEmptyStateGenericErrorContent',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -2,49 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
+import 'package:movie_advisor/generated/l10n.dart';
+
 /// Widget to display error messages.
 class ErrorEmptyState extends StatelessWidget {
   const ErrorEmptyState({
-    @required this.title,
-    @required this.message,
+    @required this.error,
     @required this.onTryAgainTap,
-  })  : assert(title != null),
-        assert(message != null),
+  })  : assert(error != null),
         assert(onTryAgainTap != null);
 
-  // Build the content of the widget from the CustomError
-  factory ErrorEmptyState.fromError(
-      {@required CustomError error, @required VoidCallback onTryAgainTap}) {
-    assert(error != null);
-    assert(onTryAgainTap != null);
-    final content = _DescriptiveError(error: error);
-    return ErrorEmptyState(
-      title: content.title,
-      message: content.message,
-      onTryAgainTap: onTryAgainTap,
-    );
+  final CustomError error;
+  final VoidCallback onTryAgainTap;
+
+  String _getTitle(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorTitle;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorTitle;
+    }
   }
 
-  final String title;
-  final String message;
-  final VoidCallback onTryAgainTap;
+  String _getContent(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorContent;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorContent;
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Center(
-    child: Padding(
+        child: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TitleText(
-                text: title,
+                text: _getTitle(context),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                message,
+                _getContent(context),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -53,33 +55,13 @@ class ErrorEmptyState extends StatelessWidget {
               RaisedButton(
                 onPressed: onTryAgainTap,
                 color: Colors.blue,
-                child: const Text(
-                  'Try again',
-                  style: TextStyle(color: Colors.white),
+                child: Text(
+                  S.of(context).errorEmptyStateButtonTitle,
+                  style: const TextStyle(color: Colors.white),
                 ),
               ),
             ],
           ),
         ),
-  );
-}
-
-/*
-  This class generates user-friendly content to be displayed on the page using
-  the received CustomError.
- */
-class _DescriptiveError {
-  _DescriptiveError({@required CustomError error}) : assert(error != null) {
-    if (error is NoInternetError) {
-      title = 'Connection Error';
-      message = 'Make sure you have internet connection or check your DNS '
-          'settings.';
-    } else {
-      title = 'Error';
-      message = 'Error';
-    }
-  }
-
-  String title;
-  String message;
+      );
 }
