@@ -18,6 +18,16 @@ class MovieDetailsBloc {
               (_) => _fetchMovieDetails(),
             )
             .listen(_onNewStateSubject.add),
+      )
+      ..add(
+        _onFavoriteSubject.stream.listen((isFavorite) {
+          // TODO: treat errors of Hive
+          if (isFavorite) {
+            _repository.upsertFavoriteMovie(movieId);
+          } else {
+            _repository.deleteFavoriteMovie(movieId);
+          }
+        }),
       );
   }
 
@@ -26,11 +36,14 @@ class MovieDetailsBloc {
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
+  final _onFavoriteSubject = StreamController<bool>();
   final _repository = Repository();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
+
+  Sink<bool> get onFavorite => _onFavoriteSubject.sink;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
@@ -48,5 +61,6 @@ class MovieDetailsBloc {
     _subscriptions.dispose();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
+    _onFavoriteSubject.close();
   }
 }

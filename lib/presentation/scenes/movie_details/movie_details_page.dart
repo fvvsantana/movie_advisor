@@ -44,9 +44,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             successWidgetBuilder: (context, successState) =>
                 MovieDetailsContent(
               movieDetails: successState.movieDetails,
-              onFavoriteButtonPressed: (isFavorite) {
-                print('isFavorite: $isFavorite');
-              },
+              onFavoriteButtonPressed: _bloc.onFavorite.add,
             ),
           ),
         ),

@@ -2,15 +2,17 @@ import 'package:hive/hive.dart';
 
 import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
 import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
+import 'package:movie_advisor/presentation/adaptive/bottom_navigation/adaptive_bottom_navigation_scaffold.dart';
 
 class CacheDataSource {
   static const _moviesListBoxName = 'moviesListBox';
   static const _moviesListKeyName = 'moviesListKey';
   static const _movieDetailsBoxName = 'movieDetailsBox';
+  static const _favoriteMoviesBoxName = 'favoriteMoviesBox';
 
   // By default Hive was not printing errors, so I made this function to print
   // them
-  void printError(dynamic error) {
+  void _printError(dynamic error) {
     print(error);
     throw error;
   }
@@ -22,7 +24,7 @@ class CacheDataSource {
           .then(
             (box) => box.put(_moviesListKeyName, moviesList),
           )
-          .catchError(printError);
+          .catchError(_printError);
 
   Future<List<MovieSummaryCM>> getMoviesList() {
     /*
@@ -46,7 +48,7 @@ class CacheDataSource {
         .then<List<MovieSummaryCM>>(
           (box) => box.get(_moviesListKeyName)?.cast<MovieSummaryCM>(),
         )
-        .catchError(printError);
+        .catchError(_printError);
   }
 
   Future<void> upsertMovieDetails(MovieDetailsCM movieDetails) =>
@@ -54,12 +56,26 @@ class CacheDataSource {
           .then(
             (box) => box.put(movieDetails.id, movieDetails),
           )
-          .catchError(printError);
+          .catchError(_printError);
 
   Future<MovieDetailsCM> getMovieDetails(int movieId) =>
       Hive.openBox<MovieDetailsCM>(_movieDetailsBoxName)
           .then<MovieDetailsCM>(
             (box) => box.get(movieId),
           )
-          .catchError(printError);
+          .catchError(_printError);
+
+  Future<void> upsertFavoriteMovie(int movieId) =>
+      Hive.openBox<void>(_favoriteMoviesBoxName)
+          .then(
+            (box) => box.put(movieId, null),
+          )
+          .catchError(_printError);
+
+  Future<void> deleteFavoriteMovie(int movieId) =>
+      Hive.openBox<void>(_favoriteMoviesBoxName)
+          .then(
+            (box) => box.delete(movieId),
+          )
+          .catchError(_printError);
 }

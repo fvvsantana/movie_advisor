@@ -74,4 +74,10 @@ class Repository {
       rethrow;
     }
   }
+
+  Future<void> upsertFavoriteMovie(int movieId) =>
+      _cacheDS.upsertFavoriteMovie(movieId);
+
+  Future<void> deleteFavoriteMovie(int movieId) =>
+      _cacheDS.deleteFavoriteMovie(movieId);
 }
