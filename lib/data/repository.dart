@@ -80,4 +80,6 @@ class Repository {
 
   Future<void> deleteFavoriteMovie(int movieId) =>
       _cacheDS.deleteFavoriteMovie(movieId);
+
+  Future<List<int>> getFavoriteMovies() => _cacheDS.getFavoriteMovies();
 }

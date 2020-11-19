@@ -77,4 +77,11 @@ class CacheDataSource {
             (box) => box.delete(movieId),
           )
           .catchError(_printError);
+
+  Future<List<int>> getFavoriteMovies() =>
+      Hive.openBox<void>(_favoriteMoviesBoxName)
+          .then<List<int>>(
+            (box) => List<int>.from(box.keys),
+          )
+          .catchError(_printError);
 }
