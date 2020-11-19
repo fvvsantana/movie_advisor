@@ -2,7 +2,6 @@ import 'package:hive/hive.dart';
 
 import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
 import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
-import 'package:movie_advisor/presentation/adaptive/bottom_navigation/adaptive_bottom_navigation_scaffold.dart';
 
 class CacheDataSource {
   static const _moviesListBoxName = 'moviesListBox';

@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+
 import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
 import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';

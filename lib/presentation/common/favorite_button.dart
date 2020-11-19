@@ -21,7 +21,6 @@ class _FavoriteButtonState extends State<FavoriteButton> {
               )
             : const Icon(
                 Icons.star_border,
-                color: Colors.black,
               ),
         onPressed: () {
           setState(() {
