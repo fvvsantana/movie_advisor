@@ -5,16 +5,16 @@ import 'package:movie_advisor/presentation/common/async_snapshot_response_view.d
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/movies_list.dart';
 import 'package:movie_advisor/presentation/route_name_builder.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
 
-class MoviesListPage extends StatefulWidget {
+class FavoriteMoviesPage extends StatefulWidget {
   @override
-  _MoviesListPageState createState() => _MoviesListPageState();
+  _FavoriteMoviesPageState createState() => _FavoriteMoviesPageState();
 }
 
-class _MoviesListPageState extends State<MoviesListPage> {
-  final _bloc = MoviesListBloc();
+class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
+  final _bloc = FavoriteMoviesBloc();
 
   void _pushMovieDetails(int movieId) {
     Navigator.of(context).pushNamed(
@@ -27,7 +27,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
         appBar: AppBar(
           title: Text(S.of(context).moviesListAppBarTitle),
         ),
-        body: StreamBuilder<MoviesListResponseState>(
+        body: StreamBuilder<FavoriteMoviesResponseState>(
           stream: _bloc.onNewState,
           builder: (context, snapshot) =>
               AsyncSnapshotResponseView<Loading, Error, Success>(

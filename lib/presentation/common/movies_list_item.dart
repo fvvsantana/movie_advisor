@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:movie_advisor/model/movie_summary.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 
