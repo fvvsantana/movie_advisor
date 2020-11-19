@@ -20,6 +20,7 @@ class Error implements FavoriteMoviesResponseState {
 }
 
 class Success implements FavoriteMoviesResponseState {
-  const Success({@required this.moviesList}) : assert(moviesList != null);
-  final List<MovieSummary> moviesList;
+  const Success({@required this.favoriteMovies})
+      : assert(favoriteMovies != null);
+  final List<MovieSummary> favoriteMovies;
 }

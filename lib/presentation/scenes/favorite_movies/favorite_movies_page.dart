@@ -38,7 +38,7 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
               onTryAgainTap: () => _bloc.onTryAgain.add(null),
             ),
             successWidgetBuilder: (context, successState) => MoviesList(
-              movies: successState.moviesList,
+              movies: successState.favoriteMovies,
               onMovieTap: _pushMovieDetails,
             ),
           ),
