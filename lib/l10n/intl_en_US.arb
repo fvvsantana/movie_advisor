@@ -1,6 +1,7 @@
 {
   "@@locale": "en_US",
   "moviesListAppBarTitle": "Movie Advisor",
+  "favoriteMoviesAppBarTitle": "Favorites",
   "movieDetailsAppBarTitle": "Movie details",
   "movieDetailsSynopsisTitle": "Synopsis",
   "movieDetailsGenresTitle": "Genres",

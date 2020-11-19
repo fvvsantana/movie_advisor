@@ -11,6 +11,7 @@ import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movie
 class FavoriteMoviesPage extends StatefulWidget {
   @override
   _FavoriteMoviesPageState createState() => _FavoriteMoviesPageState();
+
 }
 
 class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
@@ -25,7 +26,7 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: Text(S.of(context).moviesListAppBarTitle),
+          title: Text(S.of(context).favoriteMoviesAppBarTitle),
         ),
         body: StreamBuilder<FavoriteMoviesResponseState>(
           stream: _bloc.onNewState,

@@ -45,6 +45,16 @@ class S {
     );
   }
 
+  /// `Favorites`
+  String get favoriteMoviesAppBarTitle {
+    return Intl.message(
+      'Favorites',
+      name: 'favoriteMoviesAppBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Movie details`
   String get movieDetailsAppBarTitle {
     return Intl.message(
