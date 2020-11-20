@@ -40,11 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
             iconData: Icons.ondemand_video,
             navigatorKey: GlobalKey<NavigatorState>(),
             name: S.of(context).bottomNavigationMoviesTitle,
+            initialPageName: RouteNameBuilder.moviesList(),
           ),
           AppFlow(
             iconData: Icons.star_border,
             navigatorKey: GlobalKey<NavigatorState>(),
             name: S.of(context).bottomNavigationFavoritesTitle,
+            initialPageName: RouteNameBuilder.favoritesList(),
           ),
         ];
       } else {
@@ -66,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: Icon(flow.iconData),
                 ),
                 navigatorKey: flow.navigatorKey,
-                initialPageName: RouteNameBuilder.moviesList(),
+                initialPageName: flow.initialPageName,
               ),
             )
             .toList(),

@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive/hive.dart';
 import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
 import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_page.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:movie_advisor/presentation/route_name_builder.dart';
@@ -33,6 +34,12 @@ Future<void> main() async {
         handlerFunc: (context, params) => MovieDetailsPage(
           id: int.parse(params[RouteNameBuilder.moviesPathParameterId][0]),
         ),
+      ),
+    )
+    ..define(
+      RouteNameBuilder.favoritesResource,
+      handler: Handler(
+        handlerFunc: (context, params) => FavoriteMoviesPage(),
       ),
     );
 
