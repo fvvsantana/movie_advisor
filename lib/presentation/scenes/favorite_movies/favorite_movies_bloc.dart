@@ -5,16 +5,17 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/data/repository.dart';
 
+// TODO: implement error handling
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc() {
     _subscriptions
       ..add(
-        _fetchMoviesList().listen(_onNewStateSubject.add),
+        _fetchFavoriteMovies().listen(_onNewStateSubject.add),
       )
       ..add(
         _onTryAgainSubject.stream
             .flatMap(
-              (_) => _fetchMoviesList(),
+              (_) => _fetchFavoriteMovies(),
             )
             .listen(_onNewStateSubject.add),
       );
@@ -29,12 +30,12 @@ class FavoriteMoviesBloc {
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
-  Stream<FavoriteMoviesResponseState> _fetchMoviesList() async* {
+  Stream<FavoriteMoviesResponseState> _fetchFavoriteMovies() async* {
     yield Loading();
 
     try {
       yield Success(
-        favoriteMovies: await _repository.getMoviesList(),
+        favoriteMovies: await _repository.getFavoriteMovies(),
       );
     } catch (error) {
       yield Error.fromObject(error: error);

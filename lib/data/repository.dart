@@ -81,5 +81,14 @@ class Repository {
   Future<void> deleteFavoriteMovie(int movieId) =>
       _cacheDS.deleteFavoriteMovie(movieId);
 
-  Future<List<int>> getFavoriteMovies() => _cacheDS.getFavoriteMovies();
+  Future<List<MovieSummary>> getFavoriteMovies() async {
+    // TODO: fetch things in parallel and handle errors
+    final moviesList = await getMoviesList();
+    final favoriteMovieIds = await _cacheDS.getFavoriteMovies();
+    return moviesList
+        .where(
+          (movie) => favoriteMovieIds.contains(movie.id),
+        )
+        .toList();
+  }
 }
