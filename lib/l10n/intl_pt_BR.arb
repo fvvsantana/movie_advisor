@@ -2,6 +2,7 @@
   "@@locale": "pt_BR",
   "moviesListAppBarTitle": "Recomendador de Filmes",
   "favoriteMoviesAppBarTitle": "Favoritos",
+  "favoriteMoviesEmptyStateMessage": "Sem filmes favoritos ainda.",
   "movieDetailsAppBarTitle": "Detalhes do filme",
   "movieDetailsSynopsisTitle": "Sinopse",
   "movieDetailsGenresTitle": "Gêneros",

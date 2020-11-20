@@ -55,6 +55,16 @@ class S {
     );
   }
 
+  /// `No favorite movies yet.`
+  String get favoriteMoviesEmptyStateMessage {
+    return Intl.message(
+      'No favorite movies yet.',
+      name: 'favoriteMoviesEmptyStateMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Movie details`
   String get movieDetailsAppBarTitle {
     return Intl.message(

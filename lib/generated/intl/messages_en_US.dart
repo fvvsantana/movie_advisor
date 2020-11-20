@@ -29,6 +29,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmptyStateNoInternetErrorContent" : MessageLookupByLibrary.simpleMessage("Make sure you have internet connection or check your DNS settings."),
     "errorEmptyStateNoInternetErrorTitle" : MessageLookupByLibrary.simpleMessage("Connection Error"),
     "favoriteMoviesAppBarTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
+    "favoriteMoviesEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No favorite movies yet."),
     "movieDetailsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie details"),
     "movieDetailsGenresTitle" : MessageLookupByLibrary.simpleMessage("Genres"),
     "movieDetailsSynopsisTitle" : MessageLookupByLibrary.simpleMessage("Synopsis"),

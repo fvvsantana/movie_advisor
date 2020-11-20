@@ -2,6 +2,7 @@
   "@@locale": "en_US",
   "moviesListAppBarTitle": "Movie Advisor",
   "favoriteMoviesAppBarTitle": "Favorites",
+  "favoriteMoviesEmptyStateMessage": "No favorite movies yet.",
   "movieDetailsAppBarTitle": "Movie details",
   "movieDetailsSynopsisTitle": "Synopsis",
   "movieDetailsGenresTitle": "Genres",
