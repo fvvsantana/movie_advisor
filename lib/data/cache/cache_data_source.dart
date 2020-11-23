@@ -64,4 +64,11 @@ class CacheDataSource {
             (box) => Set<int>.from(box.keys),
           )
           .catchError(_printError);
+
+  Future<bool> isFavoriteMovie(int movieId) =>
+      Hive.openBox<void>(_favoriteMoviesBoxName)
+          .then(
+            (box) => box.containsKey(movieId),
+          )
+          .catchError(_printError);
 }

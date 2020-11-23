@@ -60,6 +60,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
               movieDetails: successState.movieDetails,
               onFavoriteButtonPressed: (isFavorite) =>
                   onFavoriteButtonPressed(context, isFavorite),
+              initialFavoriteState: successState.isFavorite,
             ),
           ),
         ),

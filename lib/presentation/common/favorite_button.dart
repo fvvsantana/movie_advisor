@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
 
 class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({@required this.onPressed}) : assert(onPressed != null);
+  const FavoriteButton({
+    @required this.onPressed,
+    @required this.initialFavoriteState,
+  })  : assert(onPressed != null),
+        assert(initialFavoriteState != null);
 
   final Function(bool isFavorite) onPressed;
+  final bool initialFavoriteState;
 
   @override
   _FavoriteButtonState createState() => _FavoriteButtonState();
 }
 
 class _FavoriteButtonState extends State<FavoriteButton> {
-  bool isFavorite = false;
+  bool isFavorite;
+
+  @override
+  void initState() {
+    super.initState();
+    isFavorite = widget.initialFavoriteState;
+  }
 
   @override
   Widget build(BuildContext context) => IconButton(

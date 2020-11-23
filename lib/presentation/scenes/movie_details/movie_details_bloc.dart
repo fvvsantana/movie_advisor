@@ -51,6 +51,7 @@ class MovieDetailsBloc {
     try {
       yield Success(
         movieDetails: await _repository.getMovieDetails(movieId),
+        isFavorite: await _repository.isFavoriteMovie(movieId),
       );
     } catch (error) {
       yield Error.fromObject(error: error);

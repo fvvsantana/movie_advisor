@@ -91,4 +91,7 @@ class Repository {
         )
         .toList();
   }
+
+  Future<bool> isFavoriteMovie(int movieId) =>
+      _cacheDS.isFavoriteMovie(movieId);
 }
