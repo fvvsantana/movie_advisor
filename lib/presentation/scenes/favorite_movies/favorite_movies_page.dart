@@ -38,7 +38,8 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
             builder: (context, snapshot) =>
                 AsyncSnapshotResponseView<Loading, Error, Success>(
                     snapshot: snapshot,
-                    errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
+                    errorWidgetBuilder: (context, errorState) =>
+                        ErrorEmptyState(
                           error: errorState.error,
                           onTryAgainTap: () => _bloc.onTryAgain.add(null),
                         ),
