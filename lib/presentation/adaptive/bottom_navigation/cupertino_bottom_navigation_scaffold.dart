@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
-import 'package:movie_advisor/presentation/route_name_builder.dart';
+import 'package:movie_advisor/presentation/routing.dart';
 
 class CupertinoBottomNavigationScaffold extends StatelessWidget {
   const CupertinoBottomNavigationScaffold({
