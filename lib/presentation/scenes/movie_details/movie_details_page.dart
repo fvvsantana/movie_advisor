@@ -27,6 +27,18 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     _bloc = MovieDetailsBloc(movieId: widget.id);
   }
 
+  void onFavoriteButtonPressed(BuildContext context, bool isFavorite) {
+    _bloc.onFavorite.add(isFavorite);
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        // TODO: translate this text
+        content: Text(
+          isFavorite ? 'Added to favorites' : 'Removed from favorites',
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -44,7 +56,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             successWidgetBuilder: (context, successState) =>
                 MovieDetailsContent(
               movieDetails: successState.movieDetails,
-              onFavoriteButtonPressed: _bloc.onFavorite.add,
+              onFavoriteButtonPressed: (isFavorite) =>
+                  onFavoriteButtonPressed(context, isFavorite),
             ),
           ),
         ),
