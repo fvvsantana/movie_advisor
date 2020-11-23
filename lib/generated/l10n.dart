@@ -95,6 +95,26 @@ class S {
     );
   }
 
+  /// `Added to favorites`
+  String get movieDetailsAddToFavoritesMessage {
+    return Intl.message(
+      'Added to favorites',
+      name: 'movieDetailsAddToFavoritesMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed from favorites`
+  String get movieDetailsRemoveFromFavoritesMessage {
+    return Intl.message(
+      'Removed from favorites',
+      name: 'movieDetailsRemoveFromFavoritesMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Movies`
   String get bottomNavigationMoviesTitle {
     return Intl.message(

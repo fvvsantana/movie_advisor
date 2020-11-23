@@ -29,11 +29,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   void onFavoriteButtonPressed(BuildContext context, bool isFavorite) {
     _bloc.onFavorite.add(isFavorite);
+    Scaffold.of(context).removeCurrentSnackBar();
     Scaffold.of(context).showSnackBar(
       SnackBar(
-        // TODO: translate this text
         content: Text(
-          isFavorite ? 'Added to favorites' : 'Removed from favorites',
+          isFavorite
+              ? S.of(context).movieDetailsAddToFavoritesMessage
+              : S.of(context).movieDetailsRemoveFromFavoritesMessage,
         ),
       ),
     );

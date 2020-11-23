@@ -6,6 +6,8 @@
   "movieDetailsAppBarTitle": "Movie details",
   "movieDetailsSynopsisTitle": "Synopsis",
   "movieDetailsGenresTitle": "Genres",
+  "movieDetailsAddToFavoritesMessage": "Added to favorites",
+  "movieDetailsRemoveFromFavoritesMessage": "Removed from favorites",
   "bottomNavigationMoviesTitle": "Movies",
   "bottomNavigationFavoritesTitle": "Favorites",
   "errorEmptyStateButtonTitle": "Try again",
