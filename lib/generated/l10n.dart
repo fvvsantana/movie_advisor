@@ -96,20 +96,40 @@ class S {
   }
 
   /// `Added to favorites`
-  String get movieDetailsAddToFavoritesMessage {
+  String get movieDetailsAddToFavoritesSuccessMessage {
     return Intl.message(
       'Added to favorites',
-      name: 'movieDetailsAddToFavoritesMessage',
+      name: 'movieDetailsAddToFavoritesSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on adding to favorites`
+  String get movieDetailsAddToFavoritesErrorMessage {
+    return Intl.message(
+      'Error on adding to favorites',
+      name: 'movieDetailsAddToFavoritesErrorMessage',
       desc: '',
       args: [],
     );
   }
 
   /// `Removed from favorites`
-  String get movieDetailsRemoveFromFavoritesMessage {
+  String get movieDetailsRemoveFromFavoritesSuccessMessage {
     return Intl.message(
       'Removed from favorites',
-      name: 'movieDetailsRemoveFromFavoritesMessage',
+      name: 'movieDetailsRemoveFromFavoritesSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on removing from favorites`
+  String get movieDetailsRemoveFromFavoritesErrorMessage {
+    return Intl.message(
+      'Error on removing from favorites',
+      name: 'movieDetailsRemoveFromFavoritesErrorMessage',
       desc: '',
       args: [],
     );

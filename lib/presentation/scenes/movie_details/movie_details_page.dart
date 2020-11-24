@@ -25,19 +25,45 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   void initState() {
     super.initState();
     _bloc = MovieDetailsBloc(movieId: widget.id);
+    setOnFavoritingErrorListener();
+    setOnUnfavoritingErrorListener();
   }
 
-  void onFavoriteButtonPressed(BuildContext context, bool isFavorite) {
-    _bloc.onFavorite.add(isFavorite);
-    Scaffold.of(context).removeCurrentSnackBar();
-    Scaffold.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          isFavorite
-              ? S.of(context).movieDetailsAddToFavoritesMessage
-              : S.of(context).movieDetailsRemoveFromFavoritesMessage,
-        ),
-      ),
+  void setOnFavoritingErrorListener() {
+    _bloc.onFavoritingError.listen(
+      (gotError) {
+        String message;
+        if (gotError) {
+          message = S.of(context).movieDetailsAddToFavoritesErrorMessage;
+        } else {
+          message = S.of(context).movieDetailsAddToFavoritesSuccessMessage;
+        }
+        Scaffold.of(context).removeCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+          ),
+        );
+      },
+    );
+  }
+
+  void setOnUnfavoritingErrorListener() {
+    _bloc.onUnfavoritingError.listen(
+      (gotError) {
+        String message;
+        if (gotError) {
+          message = S.of(context).movieDetailsRemoveFromFavoritesErrorMessage;
+        } else {
+          message = S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
+        }
+        Scaffold.of(context).removeCurrentSnackBar();
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+          ),
+        );
+      },
     );
   }
 
@@ -58,8 +84,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             successWidgetBuilder: (context, successState) =>
                 MovieDetailsContent(
               movieDetails: successState.movieDetails,
-              onFavoriteButtonPressed: (isFavorite) =>
-                  onFavoriteButtonPressed(context, isFavorite),
+              onFavoriteButtonPressed: _bloc.onFavorite.add,
               initialFavoriteState: successState.isFavorite,
             ),
           ),

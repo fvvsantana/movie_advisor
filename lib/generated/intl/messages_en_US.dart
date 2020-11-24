@@ -30,10 +30,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmptyStateNoInternetErrorTitle" : MessageLookupByLibrary.simpleMessage("Connection Error"),
     "favoriteMoviesAppBarTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
     "favoriteMoviesEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No favorite movies yet."),
-    "movieDetailsAddToFavoritesMessage" : MessageLookupByLibrary.simpleMessage("Added to favorites"),
+    "movieDetailsAddToFavoritesErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on adding to favorites"),
+    "movieDetailsAddToFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Added to favorites"),
     "movieDetailsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie details"),
     "movieDetailsGenresTitle" : MessageLookupByLibrary.simpleMessage("Genres"),
-    "movieDetailsRemoveFromFavoritesMessage" : MessageLookupByLibrary.simpleMessage("Removed from favorites"),
+    "movieDetailsRemoveFromFavoritesErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on removing from favorites"),
+    "movieDetailsRemoveFromFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Removed from favorites"),
     "movieDetailsSynopsisTitle" : MessageLookupByLibrary.simpleMessage("Synopsis"),
     "moviesListAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie Advisor")
   };

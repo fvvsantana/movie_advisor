@@ -20,12 +20,21 @@ class MovieDetailsBloc {
             .listen(_onNewStateSubject.add),
       )
       ..add(
-        _onFavoriteSubject.stream.listen((isFavorite) {
-          // TODO: treat errors of Hive
+        _onFavoriteSubject.stream.listen((isFavorite) async {
           if (isFavorite) {
-            _repository.upsertFavoriteMovie(movieId);
+            try {
+              await _repository.upsertFavoriteMovie(movieId);
+              _onFavoritingErrorSubject.sink.add(false);
+            } catch (_) {
+              _onFavoritingErrorSubject.sink.add(true);
+            }
           } else {
-            _repository.deleteFavoriteMovie(movieId);
+            try {
+              await _repository.deleteFavoriteMovie(movieId);
+              _onUnfavoritingErrorSubject.sink.add(false);
+            } catch (_) {
+              _onUnfavoritingErrorSubject.sink.add(true);
+            }
           }
         }),
       );
@@ -37,6 +46,8 @@ class MovieDetailsBloc {
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
   final _onFavoriteSubject = StreamController<bool>();
+  final _onFavoritingErrorSubject = StreamController<bool>();
+  final _onUnfavoritingErrorSubject = StreamController<bool>();
   final _repository = Repository();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
@@ -44,6 +55,10 @@ class MovieDetailsBloc {
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
   Sink<bool> get onFavorite => _onFavoriteSubject.sink;
+
+  Stream<bool> get onFavoritingError => _onFavoritingErrorSubject.stream;
+
+  Stream<bool> get onUnfavoritingError => _onUnfavoritingErrorSubject.stream;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
@@ -63,5 +78,7 @@ class MovieDetailsBloc {
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
     _onFavoriteSubject.close();
+    _onFavoritingErrorSubject.close();
+    _onUnfavoritingErrorSubject.close();
   }
 }
