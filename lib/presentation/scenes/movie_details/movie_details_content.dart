@@ -11,14 +11,14 @@ class MovieDetailsContent extends StatelessWidget {
   const MovieDetailsContent({
     @required this.movieDetails,
     @required this.onFavoriteButtonPressed,
-    @required this.initialFavoriteState,
+    @required this.isFavorite,
   })  : assert(movieDetails != null),
         assert(onFavoriteButtonPressed != null),
-        assert(initialFavoriteState != null);
+        assert(isFavorite != null);
 
   final MovieDetails movieDetails;
-  final Function(bool isFavorite) onFavoriteButtonPressed;
-  final bool initialFavoriteState;
+  final VoidCallback onFavoriteButtonPressed;
+  final bool isFavorite;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -36,7 +36,7 @@ class MovieDetailsContent extends StatelessWidget {
                   ),
                   FavoriteButton(
                     onPressed: onFavoriteButtonPressed,
-                    initialFavoriteState: initialFavoriteState,
+                    isFavorite: isFavorite,
                   ),
                 ],
               ),

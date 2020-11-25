@@ -22,9 +22,6 @@ class Error implements MovieDetailsResponseState {
 class Success implements MovieDetailsResponseState {
   const Success({
     @required this.movieDetails,
-    @required this.isFavorite,
-  })  : assert(movieDetails != null),
-        assert(isFavorite != null);
+  })  : assert(movieDetails != null);
   final MovieDetails movieDetails;
-  final bool isFavorite;
 }

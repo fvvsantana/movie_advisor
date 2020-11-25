@@ -95,6 +95,16 @@ class S {
     );
   }
 
+  /// `Error on fetching favorite status of the movie`
+  String get movieDetailsFavoriteFetchingErrorMessage {
+    return Intl.message(
+      'Error on fetching favorite status of the movie',
+      name: 'movieDetailsFavoriteFetchingErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Added to favorites`
   String get movieDetailsAddToFavoritesSuccessMessage {
     return Intl.message(

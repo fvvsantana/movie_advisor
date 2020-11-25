@@ -6,6 +6,7 @@
   "movieDetailsAppBarTitle": "Detalhes do filme",
   "movieDetailsSynopsisTitle": "Sinopse",
   "movieDetailsGenresTitle": "Gêneros",
+  "movieDetailsFavoriteFetchingErrorMessage": "Erro ao buscar o status de favorito do filme",
   "movieDetailsAddToFavoritesSuccessMessage": "Adicionado aos favoritos",
   "movieDetailsAddToFavoritesErrorMessage": "Erro ao adicionar aos favoritos",
   "movieDetailsRemoveFromFavoritesSuccessMessage": "Removido dos favoritos",

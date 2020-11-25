@@ -20,8 +20,11 @@ class MovieDetailsBloc {
             .listen(_onNewStateSubject.add),
       )
       ..add(
-        _onFavoriteSubject.stream.listen((isFavorite) async {
-          if (isFavorite) {
+        _fetchIsFavorite().listen(_onIsFavoriteResponseSubject.sink.add),
+      )
+      ..add(
+        _onFavoritingRequestSubject.stream.listen((favoriting) async {
+          if (favoriting) {
             try {
               await _repository.upsertFavoriteMovie(movieId);
               _onFavoritingErrorSubject.sink.add(false);
@@ -45,7 +48,8 @@ class MovieDetailsBloc {
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final _onFavoriteSubject = StreamController<bool>();
+  final _onIsFavoriteResponseSubject = StreamController<bool>();
+  final _onFavoritingRequestSubject = StreamController<bool>();
   final _onFavoritingErrorSubject = StreamController<bool>();
   final _onUnfavoritingErrorSubject = StreamController<bool>();
   final _repository = Repository();
@@ -54,7 +58,9 @@ class MovieDetailsBloc {
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
-  Sink<bool> get onFavorite => _onFavoriteSubject.sink;
+  Stream<bool> get onIsFavoriteResponse => _onIsFavoriteResponseSubject.stream;
+
+  Sink<bool> get onFavoritingRequest => _onFavoritingRequestSubject.sink;
 
   Stream<bool> get onFavoritingError => _onFavoritingErrorSubject.stream;
 
@@ -66,18 +72,27 @@ class MovieDetailsBloc {
     try {
       yield Success(
         movieDetails: await _repository.getMovieDetails(movieId),
-        isFavorite: await _repository.isFavoriteMovie(movieId),
       );
     } catch (error) {
       yield Error.fromObject(error: error);
     }
   }
 
+  Stream<bool> _fetchIsFavorite() async* {
+    try {
+      yield await _repository.isFavoriteMovie(movieId);
+    } catch (_) {
+      yield null;
+    }
+  }
+
+
   void dispose() {
     _subscriptions.dispose();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
-    _onFavoriteSubject.close();
+    _onIsFavoriteResponseSubject.close();
+    _onFavoritingRequestSubject.close();
     _onFavoritingErrorSubject.close();
     _onUnfavoritingErrorSubject.close();
   }

@@ -20,52 +20,71 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   MovieDetailsBloc _bloc;
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _bloc = MovieDetailsBloc(movieId: widget.id);
-    setOnFavoritingErrorListener();
-    setOnUnfavoritingErrorListener();
+    _setInitialFavoriteStatusListener();
+    _setFavoritingErrorListener();
+    _setUnfavoritingErrorListener();
   }
 
-  void setOnFavoritingErrorListener() {
+  void _setInitialFavoriteStatusListener() {
+    _bloc.onIsFavoriteResponse.listen((favorite) {
+      if (favorite == null) {
+        _showSnackBar(S.of(context).movieDetailsFavoriteFetchingErrorMessage);
+        return;
+      }
+      setState(() {
+        isFavorite = favorite;
+      });
+    });
+  }
+
+  void _setFavoritingErrorListener() {
     _bloc.onFavoritingError.listen(
       (gotError) {
-        String message;
         if (gotError) {
-          message = S.of(context).movieDetailsAddToFavoritesErrorMessage;
+          _showSnackBar(S.of(context).movieDetailsAddToFavoritesErrorMessage);
         } else {
-          message = S.of(context).movieDetailsAddToFavoritesSuccessMessage;
+          _showSnackBar(S.of(context).movieDetailsAddToFavoritesSuccessMessage);
+          setState(() {
+            isFavorite = true;
+          });
         }
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-          ),
-        );
       },
     );
   }
 
-  void setOnUnfavoritingErrorListener() {
+  void _setUnfavoritingErrorListener() {
     _bloc.onUnfavoritingError.listen(
       (gotError) {
-        String message;
         if (gotError) {
-          message = S.of(context).movieDetailsRemoveFromFavoritesErrorMessage;
+          _showSnackBar(
+              S.of(context).movieDetailsRemoveFromFavoritesErrorMessage);
         } else {
-          message = S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
+          _showSnackBar(
+              S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage);
+          setState(() {
+            isFavorite = false;
+          });
         }
-        Scaffold.of(context).removeCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-          ),
-        );
       },
     );
   }
+
+  // TODO: put this function on another file as an utility
+  void _showSnackBar(String message) {
+    Scaffold.of(context).removeCurrentSnackBar();
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -84,10 +103,14 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
             successWidgetBuilder: (context, successState) =>
                 MovieDetailsContent(
               movieDetails: successState.movieDetails,
-              onFavoriteButtonPressed: _bloc.onFavorite.add,
-              initialFavoriteState: successState.isFavorite,
+              onFavoriteButtonPressed: _onFavoriteButtonPressed,
+              isFavorite: isFavorite,
             ),
           ),
         ),
       );
+
+  void _onFavoriteButtonPressed() {
+    _bloc.onFavoritingRequest.add(!isFavorite);
+  }
 }
