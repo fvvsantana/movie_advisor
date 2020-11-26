@@ -1,6 +1,7 @@
 {
   "@@locale": "pt_BR",
   "moviesListAppBarTitle": "Recomendador de Filmes",
+  "moviesListEmptyStateMessage": "Sem filmes para mostrar.",
   "favoriteMoviesAppBarTitle": "Favoritos",
   "favoriteMoviesEmptyStateMessage": "Sem filmes favoritos ainda.",
   "movieDetailsAppBarTitle": "Detalhes do filme",

@@ -1,6 +1,7 @@
 {
   "@@locale": "en_US",
   "moviesListAppBarTitle": "Movie Advisor",
+  "moviesListEmptyStateMessage": "No movies to show.",
   "favoriteMoviesAppBarTitle": "Favorites",
   "favoriteMoviesEmptyStateMessage": "No favorite movies yet.",
   "movieDetailsAppBarTitle": "Movie details",

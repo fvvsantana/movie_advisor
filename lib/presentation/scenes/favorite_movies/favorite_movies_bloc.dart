@@ -5,7 +5,6 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/data/repository.dart';
 
-// TODO: implement error handling
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc() {
     _subscriptions
