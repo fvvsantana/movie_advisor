@@ -17,12 +17,6 @@ class MoviesListPage extends StatefulWidget {
 class _MoviesListPageState extends State<MoviesListPage> {
   final _bloc = MoviesListBloc();
 
-  void _pushMovieDetails(int movieId) {
-    Navigator.of(context).pushNamed(
-      RouteNameBuilder.movieById(movieId),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -50,4 +44,10 @@ class _MoviesListPageState extends State<MoviesListPage> {
           ),
         ),
       );
+
+  void _pushMovieDetails(int movieId) {
+    Navigator.of(context).pushNamed(
+      RouteNameBuilder.movieById(movieId),
+    );
+  }
 }

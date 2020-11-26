@@ -23,23 +23,7 @@ class MovieDetailsBloc {
         _fetchIsFavorite().listen(_onIsFavoriteResponseSubject.sink.add),
       )
       ..add(
-        _onFavoritingRequestSubject.stream.listen((favoriting) async {
-          if (favoriting) {
-            try {
-              await _repository.upsertFavoriteMovie(movieId);
-              _onFavoritingErrorSubject.sink.add(false);
-            } catch (_) {
-              _onFavoritingErrorSubject.sink.add(true);
-            }
-          } else {
-            try {
-              await _repository.deleteFavoriteMovie(movieId);
-              _onUnfavoritingErrorSubject.sink.add(false);
-            } catch (_) {
-              _onUnfavoritingErrorSubject.sink.add(true);
-            }
-          }
-        }),
+        _handleFavoritingRequests(),
       );
   }
 
@@ -86,6 +70,30 @@ class MovieDetailsBloc {
     }
   }
 
+  /*
+    It listens to requests for favoriting the movie, coming from the
+    _onFavoritingRequestSubject stream. It follows the request to the data base,
+    and it reports the result of this request to other two stream controllers:
+    _onFavoritingErrorSubject and _onUnfavoritingErrorSubject.
+   */
+  StreamSubscription<bool> _handleFavoritingRequests() =>
+      _onFavoritingRequestSubject.stream.listen((favoriting) async {
+        if (favoriting) {
+          try {
+            await _repository.upsertFavoriteMovie(movieId);
+            _onFavoritingErrorSubject.sink.add(false);
+          } catch (_) {
+            _onFavoritingErrorSubject.sink.add(true);
+          }
+        } else {
+          try {
+            await _repository.deleteFavoriteMovie(movieId);
+            _onUnfavoritingErrorSubject.sink.add(false);
+          } catch (_) {
+            _onUnfavoritingErrorSubject.sink.add(true);
+          }
+        }
+      });
 
   void dispose() {
     _subscriptions.dispose();

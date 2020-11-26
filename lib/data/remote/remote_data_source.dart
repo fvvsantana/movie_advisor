@@ -8,17 +8,6 @@ import 'package:movie_advisor/common/errors.dart';
 class RemoteDataSource {
   final _dio = Dio();
 
-  void _throwCustomError(Object error) {
-    print(error);
-
-    // Treat errors
-    if (error is DioError && error.type == DioErrorType.DEFAULT) {
-      throw const NoInternetError();
-    } else {
-      throw error.toCustomError();
-    }
-  }
-
   Future<List<MovieSummaryRM>> getMoviesList() => _dio
           .get(
         UrlBuilder.getMoviesList(),
@@ -41,4 +30,16 @@ class RemoteDataSource {
         (response) => MovieDetailsRM.fromJson(response.data),
       )
       .catchError(_throwCustomError);
+
+  void _throwCustomError(Object error) {
+    print(error);
+
+    // Treat errors
+    if (error is DioError && error.type == DioErrorType.DEFAULT) {
+      throw const NoInternetError();
+    } else {
+      throw error.toCustomError();
+    }
+  }
+
 }

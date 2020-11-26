@@ -9,13 +9,6 @@ class CacheDataSource {
   static const _movieDetailsBoxName = 'movieDetailsBox';
   static const _favoriteMoviesBoxName = 'favoriteMoviesBox';
 
-  // By default Hive was not printing errors, so I made this function to print
-  // them
-  void _printError(dynamic error) {
-    print(error);
-    throw error;
-  }
-
   Future<void> upsertMoviesList(List<MovieSummaryCM> moviesList) =>
       Hive.openBox<List>(_moviesListBoxName)
           .then(
@@ -71,4 +64,12 @@ class CacheDataSource {
             (box) => box.containsKey(movieId),
           )
           .catchError(_printError);
+
+  // By default Hive was not printing errors, so I made this function to print
+  // them
+  void _printError(dynamic error) {
+    print(error);
+    throw error;
+  }
+
 }

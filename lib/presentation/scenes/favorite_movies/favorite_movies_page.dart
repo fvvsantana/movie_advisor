@@ -19,12 +19,6 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
   final _bloc = FavoriteMoviesBloc();
   final _focusDetectorKey = UniqueKey();
 
-  void _pushMovieDetails(int movieId) {
-    Navigator.of(context).pushNamed(
-      RouteNameBuilder.movieById(movieId),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
@@ -56,4 +50,10 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
           ),
         ),
       );
+
+  void _pushMovieDetails(int movieId) {
+    Navigator.of(context).pushNamed(
+      RouteNameBuilder.movieById(movieId),
+    );
+  }
 }

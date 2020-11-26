@@ -15,22 +15,6 @@ class ErrorEmptyState extends StatelessWidget {
   final CustomError error;
   final VoidCallback onTryAgainTap;
 
-  String _getTitle(BuildContext context) {
-    if (error is NoInternetError) {
-      return S.of(context).errorEmptyStateNoInternetErrorTitle;
-    } else {
-      return S.of(context).errorEmptyStateGenericErrorTitle;
-    }
-  }
-
-  String _getContent(BuildContext context) {
-    if (error is NoInternetError) {
-      return S.of(context).errorEmptyStateNoInternetErrorContent;
-    } else {
-      return S.of(context).errorEmptyStateGenericErrorContent;
-    }
-  }
-
   @override
   Widget build(BuildContext context) => Center(
         child: Padding(
@@ -64,4 +48,20 @@ class ErrorEmptyState extends StatelessWidget {
           ),
         ),
       );
+
+  String _getTitle(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorTitle;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorTitle;
+    }
+  }
+
+  String _getContent(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorContent;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorContent;
+    }
+  }
 }
