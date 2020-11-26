@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/adaptive_bottom_navigation_scaffold.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/app_flow.dart';
 import 'package:movie_advisor/presentation/adaptive/bottom_navigation/bottom_navigation_tab.dart';
-import 'package:movie_advisor/presentation/route_name_builder.dart';
+import 'package:movie_advisor/presentation/routing.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 

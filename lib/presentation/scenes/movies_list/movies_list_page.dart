@@ -4,7 +4,7 @@ import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/movies_list.dart';
-import 'package:movie_advisor/presentation/route_name_builder.dart';
+import 'package:movie_advisor/presentation/routing.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
