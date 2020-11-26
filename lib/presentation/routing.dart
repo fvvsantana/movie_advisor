@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_page.dart';
 import 'package:movie_advisor/presentation/scenes/home_screen/home_screen.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
@@ -23,6 +24,12 @@ void defineRoutes() {
         handlerFunc: (context, params) => MovieDetailsPage(
           id: int.parse(params[_Constants.moviesPathParameterId][0]),
         ),
+      ),
+    )
+    ..define(
+      _Constants.favoritesResource,
+      handler: Handler(
+        handlerFunc: (context, params) => FavoriteMoviesPage(),
       ),
     );
 }
