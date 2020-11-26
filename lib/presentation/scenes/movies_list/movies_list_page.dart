@@ -6,6 +6,7 @@ import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/movies_list.dart';
 import 'package:movie_advisor/presentation/routing.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
 class MoviesListPage extends StatefulWidget {
@@ -36,10 +37,16 @@ class _MoviesListPageState extends State<MoviesListPage> {
               error: errorState.error,
               onTryAgainTap: () => _bloc.onTryAgain.add(null),
             ),
-            successWidgetBuilder: (context, successState) => MoviesList(
-              movies: successState.moviesList,
-              onMovieTap: _pushMovieDetails,
-            ),
+            successWidgetBuilder: (context, successState) {
+              final moviesList = successState.moviesList;
+              if (moviesList.isEmpty) {
+                return MoviesListEmptyState();
+              }
+              return MoviesList(
+                movies: successState.moviesList,
+                onMovieTap: _pushMovieDetails,
+              );
+            },
           ),
         ),
       );
