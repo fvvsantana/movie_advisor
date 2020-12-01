@@ -57,6 +57,16 @@ class MovieDetailsBloc {
     }
   }
 
+  /*
+    The reason why this function receives the 'favoriting' parameter, instead of
+    just being a _toggleFavorite() function, is because we want to execute the
+    action based on what is on the screen of the user.
+    In scenarios where we have multiple screens with the same favorite button,
+    if you use _toggleFavorite(), things can get messy. For example, if you have
+    two screens opened, and you hit the favorite button of the first screen, the
+    button of the second screen will have it's effect inverted. It will favorite
+    when it's supposed to unfavorite, and vice-versa.
+   */
   Stream<FavoriteResponseState> _setFavorite(bool favoriting) async* {
     final lastState = _onNewStateSubject.value;
     if (lastState is Success) {
