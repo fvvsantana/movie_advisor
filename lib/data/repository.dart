@@ -51,6 +51,8 @@ class Repository {
   // Try to get movie details from remote data source.
   // Use cache as fallback for network errors.
   Future<MovieDetails> getMovieDetails(int movieId) async {
+    final isFavorite = await isFavoriteMovie(movieId);
+
     // Make request
     try {
       // Fetch movies list from network
@@ -62,12 +64,12 @@ class Repository {
       await _cacheDS.upsertMovieDetails(movieDetailsC);
 
       // Cache to domain
-      return movieDetailsC.toDomain();
+      return movieDetailsC.toDomain(isFavorite);
     } catch (error) {
       final movieDetailsC = await _cacheDS.getMovieDetails(movieId);
       // Cache-hit check
       if (movieDetailsC != null) {
-        return movieDetailsC.toDomain();
+        return movieDetailsC.toDomain(isFavorite);
       }
 
       // Cache-miss
@@ -93,4 +95,9 @@ class Repository {
 
   Future<bool> isFavoriteMovie(int movieId) =>
       _cacheDS.isFavoriteMovie(movieId);
+
+  Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
+      isFavorite
+          ? await upsertFavoriteMovie(movieId)
+          : await deleteFavoriteMovie(movieId);
 }

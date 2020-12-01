@@ -12,11 +12,12 @@ extension MovieSummaryCMapper on MovieSummaryCM {
 }
 
 extension MovieDetailsCMapper on MovieDetailsCM {
-  MovieDetails toDomain() => MovieDetails(
+  MovieDetails toDomain(bool isFavorite) => MovieDetails(
         id: id,
         title: title,
         imageUrl: imageUrl,
         synopsis: synopsis,
         genres: genres,
+        isFavorite: isFavorite,
       );
 }

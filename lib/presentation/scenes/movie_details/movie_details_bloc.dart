@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/favorite_states.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
@@ -20,35 +21,29 @@ class MovieDetailsBloc {
             .listen(_onNewStateSubject.add),
       )
       ..add(
-        _fetchIsFavorite().listen(_onIsFavoriteResponseSubject.sink.add),
-      )
-      ..add(
-        _handleFavoritingRequests(),
+        _onSetFavorite.stream
+            .flatMap(_setFavorite)
+            .listen(_onNewFavoriteStateSubject.add),
       );
   }
 
   final int movieId;
+  final _repository = Repository();
 
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final _onIsFavoriteResponseSubject = StreamController<bool>();
-  final _onFavoritingRequestSubject = StreamController<bool>();
-  final _onFavoritingErrorSubject = StreamController<bool>();
-  final _onUnfavoritingErrorSubject = StreamController<bool>();
-  final _repository = Repository();
+  final _onNewFavoriteStateSubject = BehaviorSubject<FavoriteResponseState>();
+  final _onSetFavorite = StreamController<bool>();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
-  Stream<bool> get onIsFavoriteResponse => _onIsFavoriteResponseSubject.stream;
+  Stream<FavoriteResponseState> get onNewFavoriteState =>
+      _onNewFavoriteStateSubject.stream;
 
-  Sink<bool> get onFavoritingRequest => _onFavoritingRequestSubject.sink;
-
-  Stream<bool> get onFavoritingError => _onFavoritingErrorSubject.stream;
-
-  Stream<bool> get onUnfavoritingError => _onUnfavoritingErrorSubject.stream;
+  Sink<bool> get onSetFavorite => _onSetFavorite.sink;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
@@ -62,46 +57,33 @@ class MovieDetailsBloc {
     }
   }
 
-  Stream<bool> _fetchIsFavorite() async* {
-    try {
-      yield await _repository.isFavoriteMovie(movieId);
-    } catch (_) {
+  Stream<FavoriteResponseState> _setFavorite(bool favoriting) async* {
+    final lastState = _onNewStateSubject.value;
+    if (lastState is Success) {
+      final movieDetails = lastState.movieDetails;
+
+      try {
+        await _repository.setFavoriteMovie(movieId, favoriting);
+        // Update the UI
+        _onNewStateSubject.sink.add(
+          Success(
+            movieDetails: movieDetails.copy(isFavorite: favoriting),
+          ),
+        );
+        yield FavoriteSuccess(favoriting: favoriting);
+      } catch (_) {
+        yield FavoriteError(favoriting: favoriting);
+      }
+    } else {
       yield null;
     }
   }
-
-  /*
-    It listens to requests for favoriting the movie, coming from the
-    _onFavoritingRequestSubject stream. It follows the request to the data base,
-    and it reports the result of this request to other two stream controllers:
-    _onFavoritingErrorSubject and _onUnfavoritingErrorSubject.
-   */
-  StreamSubscription<bool> _handleFavoritingRequests() =>
-      _onFavoritingRequestSubject.stream.listen((favoriting) async {
-        if (favoriting) {
-          try {
-            await _repository.upsertFavoriteMovie(movieId);
-            _onFavoritingErrorSubject.sink.add(false);
-          } catch (_) {
-            _onFavoritingErrorSubject.sink.add(true);
-          }
-        } else {
-          try {
-            await _repository.deleteFavoriteMovie(movieId);
-            _onUnfavoritingErrorSubject.sink.add(false);
-          } catch (_) {
-            _onUnfavoritingErrorSubject.sink.add(true);
-          }
-        }
-      });
 
   void dispose() {
     _subscriptions.dispose();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
-    _onIsFavoriteResponseSubject.close();
-    _onFavoritingRequestSubject.close();
-    _onFavoritingErrorSubject.close();
-    _onUnfavoritingErrorSubject.close();
+    _onNewFavoriteStateSubject.close();
+    _onSetFavorite.close();
   }
 }

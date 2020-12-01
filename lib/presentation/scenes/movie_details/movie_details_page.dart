@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
+import 'package:movie_advisor/presentation/common/action_handler.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/popups.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/favorite_states.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_content.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
@@ -27,66 +29,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   void initState() {
     super.initState();
     _bloc = MovieDetailsBloc(movieId: widget.id);
-    _setInitialFavoriteStatusListener();
-    _setFavoritingErrorListener();
-    _setUnfavoritingErrorListener();
-  }
-
-  void _setInitialFavoriteStatusListener() {
-    _bloc.onIsFavoriteResponse.listen((favorite) {
-      if (favorite == null) {
-        showSnackBar(
-          context,
-          S.of(context).movieDetailsFavoriteFetchingErrorMessage,
-        );
-        return;
-      }
-      setState(() {
-        isFavorite = favorite;
-      });
-    });
-  }
-
-  void _setFavoritingErrorListener() {
-    _bloc.onFavoritingError.listen(
-      (gotError) {
-        if (gotError) {
-          showSnackBar(
-            context,
-            S.of(context).movieDetailsAddToFavoritesErrorMessage,
-          );
-        } else {
-          showSnackBar(
-            context,
-            S.of(context).movieDetailsAddToFavoritesSuccessMessage,
-          );
-          setState(() {
-            isFavorite = true;
-          });
-        }
-      },
-    );
-  }
-
-  void _setUnfavoritingErrorListener() {
-    _bloc.onUnfavoritingError.listen(
-      (gotError) {
-        if (gotError) {
-          showSnackBar(
-            context,
-            S.of(context).movieDetailsRemoveFromFavoritesErrorMessage,
-          );
-        } else {
-          showSnackBar(
-            context,
-            S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage,
-          );
-          setState(() {
-            isFavorite = false;
-          });
-        }
-      },
-    );
   }
 
   @override
@@ -94,26 +36,48 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         appBar: AppBar(
           title: Text(S.of(context).movieDetailsAppBarTitle),
         ),
-        body: StreamBuilder<MovieDetailsResponseState>(
-          stream: _bloc.onNewState,
-          builder: (context, snapshot) =>
-              AsyncSnapshotResponseView<Loading, Error, Success>(
-            snapshot: snapshot,
-            errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
-              error: errorState.error,
-              onTryAgainTap: () => _bloc.onTryAgain.add(null),
-            ),
-            successWidgetBuilder: (context, successState) =>
-                MovieDetailsContent(
-              movieDetails: successState.movieDetails,
-              onFavoriteButtonPressed: _onFavoriteButtonPressed,
-              isFavorite: isFavorite,
+        body: ActionHandler<FavoriteResponseState>(
+          actionStream: _bloc.onNewFavoriteState,
+          onReceived: _handleFavoriteAction,
+          child: StreamBuilder<MovieDetailsResponseState>(
+            stream: _bloc.onNewState,
+            builder: (context, snapshot) =>
+                AsyncSnapshotResponseView<Loading, Error, Success>(
+              snapshot: snapshot,
+              errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
+                error: errorState.error,
+                onTryAgainTap: () => _bloc.onTryAgain.add(null),
+              ),
+              successWidgetBuilder: (context, successState) {
+                final movieDetails = successState.movieDetails;
+                final favoriting = !movieDetails.isFavorite;
+                return MovieDetailsContent(
+                  movieDetails: movieDetails,
+                  onFavoriteButtonPressed: () =>
+                      _bloc.onSetFavorite.add(favoriting),
+                );
+              },
             ),
           ),
         ),
       );
 
-  void _onFavoriteButtonPressed() {
-    _bloc.onFavoritingRequest.add(!isFavorite);
+  void _handleFavoriteAction(FavoriteResponseState favoriteState) {
+    if (favoriteState == null) {
+      return;
+    }
+
+    String message;
+    if (favoriteState is FavoriteError) {
+      message = favoriteState.favoriting
+          ? S.of(context).movieDetailsAddToFavoritesErrorMessage
+          : S.of(context).movieDetailsRemoveFromFavoritesErrorMessage;
+    } else if (favoriteState is FavoriteSuccess) {
+      message = favoriteState.favoriting
+          ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
+          : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
+    }
+
+    showSnackBar(context, message);
   }
 }
