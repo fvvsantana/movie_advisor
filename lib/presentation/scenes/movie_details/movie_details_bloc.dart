@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:movie_advisor/data/repository.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/favorite_states.dart';
 import 'package:rxdart/rxdart.dart';
 
+import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_states.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
