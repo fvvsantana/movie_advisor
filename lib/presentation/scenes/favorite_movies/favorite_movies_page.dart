@@ -31,22 +31,21 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
             stream: _bloc.onNewState,
             builder: (context, snapshot) =>
                 AsyncSnapshotResponseView<Loading, Error, Success>(
-                    snapshot: snapshot,
-                    errorWidgetBuilder: (context, errorState) =>
-                        ErrorEmptyState(
-                          error: errorState.error,
-                          onTryAgainTap: () => _bloc.onTryAgain.add(null),
-                        ),
-                    successWidgetBuilder: (context, successState) {
-                      final favoriteMovies = successState.favoriteMovies;
-                      if (favoriteMovies.isEmpty) {
-                        return FavoriteMoviesEmptyState();
-                      }
-                      return MoviesList(
+              snapshot: snapshot,
+              errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
+                error: errorState.error,
+                onTryAgainTap: () => _bloc.onTryAgain.add(null),
+              ),
+              successWidgetBuilder: (context, successState) {
+                final favoriteMovies = successState.favoriteMovies;
+                return favoriteMovies.isEmpty
+                    ? FavoriteMoviesEmptyState()
+                    : MoviesList(
                         movies: successState.favoriteMovies,
                         onMovieTap: _pushMovieDetails,
                       );
-                    }),
+              },
+            ),
           ),
         ),
       );
