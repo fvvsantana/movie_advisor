@@ -23,7 +23,6 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   MovieDetailsBloc _bloc;
-  bool isFavorite = false;
 
   @override
   void initState() {
