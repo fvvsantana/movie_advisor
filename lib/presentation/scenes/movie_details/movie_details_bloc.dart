@@ -21,8 +21,8 @@ class MovieDetailsBloc {
             .listen(_onNewStateSubject.add),
       )
       ..add(
-        _onSetFavorite.stream
-            .flatMap(_setFavorite)
+        _onToggleFavorite.stream
+            .flatMap((_) => _toggleFavorite())
             .listen(_onNewFavoriteStateSubject.add),
       );
   }
@@ -34,7 +34,7 @@ class MovieDetailsBloc {
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
   final _onNewFavoriteStateSubject = BehaviorSubject<FavoriteResponseState>();
-  final _onSetFavorite = StreamController<bool>();
+  final _onToggleFavorite = StreamController<bool>();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
@@ -43,7 +43,7 @@ class MovieDetailsBloc {
   Stream<FavoriteResponseState> get onNewFavoriteState =>
       _onNewFavoriteStateSubject.stream;
 
-  Sink<bool> get onSetFavorite => _onSetFavorite.sink;
+  Sink<void> get onToggleFavorite => _onToggleFavorite.sink;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
@@ -57,20 +57,11 @@ class MovieDetailsBloc {
     }
   }
 
-  /*
-    The reason why this function receives the 'favoriting' parameter, instead of
-    just being a _toggleFavorite() function, is because we want to execute the
-    action based on what is on the screen of the user.
-    In scenarios where we have multiple screens with the same favorite button,
-    if you use _toggleFavorite(), things can get messy. For example, if you have
-    two screens opened, and you hit the favorite button of the first screen, the
-    button of the second screen will have it's effect inverted. It will favorite
-    when it's supposed to unfavorite, and vice-versa.
-   */
-  Stream<FavoriteResponseState> _setFavorite(bool favoriting) async* {
+  Stream<FavoriteResponseState> _toggleFavorite() async* {
     final lastState = _onNewStateSubject.value;
     if (lastState is Success) {
       final movieDetails = lastState.movieDetails;
+      final favoriting = !movieDetails.isFavorite;
 
       try {
         await _repository.setFavoriteMovie(movieId, favoriting);
@@ -94,6 +85,6 @@ class MovieDetailsBloc {
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
     _onNewFavoriteStateSubject.close();
-    _onSetFavorite.close();
+    _onToggleFavorite.close();
   }
 }

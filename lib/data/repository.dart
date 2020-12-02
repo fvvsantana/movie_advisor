@@ -96,6 +96,19 @@ class Repository {
   Future<bool> isFavoriteMovie(int movieId) =>
       _cacheDS.isFavoriteMovie(movieId);
 
+  /*
+    The reason why this function receives the 'isFavorite' parameter, instead of
+    just being a toggleFavoriteMovie() function, is because we want to execute
+    the action based on the state that is in the Bloc, no the state of the
+    database.
+    In scenarios where we have multiple screens with the same favorite button
+    for example, if you use toggleFavorite() in the repository, things can get
+    messy.
+    For instance, if you have two screens opened, and you hit the favorite
+    button of the first screen, then the button of the second screen will have
+    it's effect inverted. It will favorite when it's supposed to unfavorite, and
+    vice-versa.
+   */
   Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
       isFavorite
           ? await upsertFavoriteMovie(movieId)

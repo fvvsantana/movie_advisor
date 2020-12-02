@@ -47,15 +47,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 error: errorState.error,
                 onTryAgainTap: () => _bloc.onTryAgain.add(null),
               ),
-              successWidgetBuilder: (context, successState) {
-                final movieDetails = successState.movieDetails;
-                final favoriting = !movieDetails.isFavorite;
-                return MovieDetailsContent(
-                  movieDetails: movieDetails,
-                  onFavoriteButtonPressed: () =>
-                      _bloc.onSetFavorite.add(favoriting),
-                );
-              },
+              successWidgetBuilder: (context, successState) =>
+                  MovieDetailsContent(
+                movieDetails: successState.movieDetails,
+                onFavoriteButtonPressed: () => _bloc.onToggleFavorite.add(null),
+              ),
             ),
           ),
         ),
