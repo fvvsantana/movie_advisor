@@ -7,7 +7,11 @@ import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
-  MovieDetailsBloc({@required this.movieId}) : assert(movieId != null) {
+  MovieDetailsBloc({@required remoteDS, @required movieId})
+      : _remoteDS = remoteDS,
+        _movieId = movieId,
+        assert(remoteDS != null),
+        assert(movieId != null) {
     _subscriptions
       ..add(
         _fetchMovieDetails().listen(_onNewStateSubject.add),
@@ -21,12 +25,12 @@ class MovieDetailsBloc {
       );
   }
 
-  final int movieId;
+  final MovieRemoteDataSource _remoteDS;
+  final int _movieId;
 
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final _movieRDS = MovieRemoteDataSource();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
@@ -37,7 +41,7 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: await _movieRDS.getMovieDetails(movieId),
+        movieDetails: await _remoteDS.getMovieDetails(_movieId),
       );
     } catch (error) {
       yield Error.fromObject(error: error);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
@@ -14,12 +15,12 @@ class MoviesListPage extends StatefulWidget {
 }
 
 class _MoviesListPageState extends State<MoviesListPage> {
-  final _bloc = MoviesListBloc();
+  MoviesListBloc _bloc;
 
-  void _pushMovieDetails(int movieId) {
-    Navigator.of(context).pushNamed(
-      RouteNameBuilder.movieById(movieId),
-    );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _bloc = Provider.of<MoviesListBloc>(context, listen: false);
   }
 
   @override
@@ -43,4 +44,11 @@ class _MoviesListPageState extends State<MoviesListPage> {
           ),
         ),
       );
+
+  void _pushMovieDetails(int movieId) {
+    Navigator.of(context).pushNamed(
+      RouteNameBuilder.movieById(movieId),
+    );
+  }
+
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
@@ -8,12 +9,6 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bl
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-  const MovieDetailsPage({
-    @required this.id,
-  }) : assert(id != null);
-
-  final int id;
-
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
@@ -24,7 +19,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   @override
   void initState() {
     super.initState();
-    _bloc = MovieDetailsBloc(movieId: widget.id);
+    _bloc = Provider.of<MovieDetailsBloc>(context, listen: false);
   }
 
   @override
