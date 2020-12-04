@@ -12,38 +12,31 @@ class Repository {
   // Try to get movies list from remote data source.
   // Use cache as fallback for network errors.
   Future<List<MovieSummary>> getMoviesList() async {
-    // Make request
     try {
-      // Fetch movies list from network
-      final moviesListR = await _remoteDS.getMoviesList();
+      final remoteModelList = await _remoteDS.getMoviesList();
 
-      // Remote to cache
-      final moviesListC = moviesListR
+      final cacheModelList = remoteModelList
           .map(
             (remoteModel) => remoteModel.toCache(),
           )
           .toList();
-      // Update cache
-      await _cacheDS.upsertMoviesList(moviesListC);
+      await _cacheDS.upsertMoviesList(cacheModelList);
 
-      // Cache to domain
-      return moviesListC
+      return cacheModelList
           .map(
             (cacheModel) => cacheModel.toDomain(),
           )
           .toList();
     } catch (error) {
-      final moviesListC = await _cacheDS.getMoviesList();
-      // Cache-hit check
-      if (moviesListC != null) {
-        return moviesListC
+      final cacheModelList = await _cacheDS.getMoviesList();
+      if (cacheModelList != null) {
+        return cacheModelList
             .map(
-              (remoteModel) => remoteModel.toDomain(),
+              (cacheModel) => cacheModel.toDomain(),
             )
             .toList();
       }
 
-      // Cache-miss
       rethrow;
     }
   }
@@ -53,35 +46,22 @@ class Repository {
   Future<MovieDetails> getMovieDetails(int movieId) async {
     final isFavorite = await isFavoriteMovie(movieId);
 
-    // Make request
     try {
-      // Fetch movies list from network
-      final movieDetailsR = await _remoteDS.getMovieDetails(movieId);
+      final remoteModel = await _remoteDS.getMovieDetails(movieId);
 
-      // Remote to cache
-      final movieDetailsC = movieDetailsR.toCache();
-      // Update cache
-      await _cacheDS.upsertMovieDetails(movieDetailsC);
+      final cacheModel = remoteModel.toCache();
+      await _cacheDS.upsertMovieDetails(cacheModel);
 
-      // Cache to domain
-      return movieDetailsC.toDomain(isFavorite);
+      return cacheModel.toDomain(isFavorite);
     } catch (error) {
-      final movieDetailsC = await _cacheDS.getMovieDetails(movieId);
-      // Cache-hit check
-      if (movieDetailsC != null) {
-        return movieDetailsC.toDomain(isFavorite);
+      final cacheModel = await _cacheDS.getMovieDetails(movieId);
+      if (cacheModel != null) {
+        return cacheModel.toDomain(isFavorite);
       }
 
-      // Cache-miss
       rethrow;
     }
   }
-
-  Future<void> upsertFavoriteMovie(int movieId) =>
-      _cacheDS.upsertFavoriteMovie(movieId);
-
-  Future<void> deleteFavoriteMovie(int movieId) =>
-      _cacheDS.deleteFavoriteMovie(movieId);
 
   Future<List<MovieSummary>> getFavoriteMovies() async {
     final moviesList = await getMoviesList();
@@ -111,6 +91,6 @@ class Repository {
    */
   Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
       isFavorite
-          ? await upsertFavoriteMovie(movieId)
-          : await deleteFavoriteMovie(movieId);
+          ? await _cacheDS.upsertFavoriteMovie(movieId)
+          : await _cacheDS.deleteFavoriteMovie(movieId);
 }

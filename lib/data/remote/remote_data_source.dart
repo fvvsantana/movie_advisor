@@ -13,7 +13,6 @@ class RemoteDataSource {
         UrlBuilder.getMoviesList(),
       )
           .then((response) {
-        // Request successful at this point
         final data = List<Map<String, dynamic>>.from(response.data);
         return data
             .map(
@@ -34,7 +33,6 @@ class RemoteDataSource {
   void _throwCustomError(Object error) {
     print(error);
 
-    // Treat errors
     if (error is DioError && error.type == DioErrorType.DEFAULT) {
       throw const NoInternetError();
     } else {
