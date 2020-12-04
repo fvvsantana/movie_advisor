@@ -9,8 +9,6 @@ class Repository {
   final _remoteDS = RemoteDataSource();
   final _cacheDS = CacheDataSource();
 
-  // Try to get movies list from remote data source.
-  // Use cache as fallback for network errors.
   Future<List<MovieSummary>> getMoviesList() async {
     try {
       final remoteModelList = await _remoteDS.getMoviesList();
@@ -41,8 +39,6 @@ class Repository {
     }
   }
 
-  // Try to get movie details from remote data source.
-  // Use cache as fallback for network errors.
   Future<MovieDetails> getMovieDetails(int movieId) async {
     final isFavorite = await isFavoriteMovie(movieId);
 
