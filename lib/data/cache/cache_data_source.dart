@@ -67,7 +67,7 @@ class CacheDataSource {
 
   // By default Hive was not printing errors, so I made this function to print
   // them
-  void _printError(dynamic error) {
+  void _printError(Object error) {
     print(error);
     throw error;
   }

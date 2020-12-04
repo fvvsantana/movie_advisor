@@ -12,17 +12,3 @@ class NoInternetError extends CustomError {
   const NoInternetError()
       : super(message: 'Problem with internet connection or DNS service');
 }
-
-class GenericError extends CustomError {
-  const GenericError({@required message})
-      : assert(message != null),
-        super(message: message);
-}
-
-extension ErrorConversion on Object {
-  CustomError toCustomError() => this is CustomError
-      ? this
-      : GenericError(
-          message: toString(),
-        );
-}

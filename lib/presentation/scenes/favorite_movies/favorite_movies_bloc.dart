@@ -37,7 +37,7 @@ class FavoriteMoviesBloc {
         favoriteMovies: await _repository.getFavoriteMovies(),
       );
     } catch (error) {
-      yield Error.fromObject(error: error);
+      yield Error(error: error);
     }
   }
 

@@ -53,7 +53,7 @@ class MovieDetailsBloc {
         movieDetails: await _repository.getMovieDetails(movieId),
       );
     } catch (error) {
-      yield Error.fromObject(error: error);
+      yield Error(error: error);
     }
   }
 

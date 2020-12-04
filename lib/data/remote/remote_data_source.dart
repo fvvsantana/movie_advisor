@@ -19,7 +19,7 @@ class RemoteDataSource {
               (movie) => MovieSummaryRM.fromJson(movie),
             )
             .toList();
-      }).catchError(_throwCustomError);
+      }).catchError(_treatError);
 
   Future<MovieDetailsRM> getMovieDetails(int movieId) => _dio
       .get(
@@ -28,15 +28,15 @@ class RemoteDataSource {
       .then(
         (response) => MovieDetailsRM.fromJson(response.data),
       )
-      .catchError(_throwCustomError);
+      .catchError(_treatError);
 
-  void _throwCustomError(Object error) {
+  void _treatError(Object error) {
     print(error);
 
     if (error is DioError && error.type == DioErrorType.DEFAULT) {
       throw const NoInternetError();
     } else {
-      throw error.toCustomError();
+      throw error;
     }
   }
 

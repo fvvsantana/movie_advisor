@@ -8,15 +8,7 @@ class Loading implements FavoriteMoviesResponseState {}
 
 class Error implements FavoriteMoviesResponseState {
   const Error({@required this.error}) : assert(error != null);
-
-  factory Error.fromObject({@required Object error}) {
-    assert(error != null);
-    return Error(
-      error: error.toCustomError(),
-    );
-  }
-
-  final CustomError error;
+  final Object error;
 }
 
 class Success implements FavoriteMoviesResponseState {

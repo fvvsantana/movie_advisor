@@ -37,7 +37,7 @@ class MoviesListBloc {
         moviesList: await _repository.getMoviesList(),
       );
     } catch (error) {
-      yield Error.fromObject(error: error);
+      yield Error(error: error);
     }
   }
 

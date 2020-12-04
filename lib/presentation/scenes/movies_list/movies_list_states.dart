@@ -8,15 +8,7 @@ class Loading implements MoviesListResponseState {}
 
 class Error implements MoviesListResponseState {
   const Error({@required this.error}) : assert(error != null);
-
-  factory Error.fromObject({@required Object error}) {
-    assert(error != null);
-    return Error(
-      error: error.toCustomError(),
-    );
-  }
-
-  final CustomError error;
+  final Object error;
 }
 
 class Success implements MoviesListResponseState {
