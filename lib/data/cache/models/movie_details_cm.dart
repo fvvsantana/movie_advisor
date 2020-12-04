@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:movie_advisor/data/cache/models/hive_type_ids.dart';
+import 'package:movie_advisor/data/cache/hive_type_ids.dart';
 
 part 'movie_details_cm.g.dart';
 
