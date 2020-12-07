@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
 import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
 
-class CacheDataSource {
+class MovieCacheDataSource {
   static const _moviesListBoxName = 'moviesListBox';
   static const _moviesListKeyName = 0;
   static const _movieDetailsBoxName = 'movieDetailsBox';

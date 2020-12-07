@@ -5,7 +5,7 @@ import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
 import 'package:movie_advisor/common/errors.dart';
 
-class RemoteDataSource {
+class MovieRemoteDataSource {
   final _dio = Dio();
 
   Future<List<MovieSummaryRM>> getMoviesList() => _dio

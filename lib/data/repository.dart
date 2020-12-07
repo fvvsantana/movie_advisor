@@ -6,8 +6,8 @@ import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
 class Repository {
-  final _remoteDS = RemoteDataSource();
-  final _cacheDS = CacheDataSource();
+  final _remoteDS = MovieRemoteDataSource();
+  final _cacheDS = MovieCacheDataSource();
 
   Future<List<MovieSummary>> getMoviesList() async {
     try {
