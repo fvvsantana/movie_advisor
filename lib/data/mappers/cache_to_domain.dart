@@ -3,7 +3,7 @@ import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
 import 'package:movie_advisor/model/movie_details.dart';
 import 'package:movie_advisor/model/movie_summary.dart';
 
-extension MovieSummaryCMapper on MovieSummaryCM {
+extension MovieSummaryCMMapper on MovieSummaryCM {
   MovieSummary toDomain() => MovieSummary(
         id: id,
         title: title,
@@ -11,7 +11,7 @@ extension MovieSummaryCMapper on MovieSummaryCM {
       );
 }
 
-extension MovieDetailsCMapper on MovieDetailsCM {
+extension MovieDetailsCMMapper on MovieDetailsCM {
   MovieDetails toDomain(bool isFavorite) => MovieDetails(
         id: id,
         title: title,
