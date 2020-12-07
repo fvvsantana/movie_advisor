@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:focus_detector/focus_detector.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/action_handler.dart';
@@ -23,6 +24,7 @@ class MovieDetailsPage extends StatefulWidget {
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
   MovieDetailsBloc _bloc;
+  final _focusDetectorKey = UniqueKey();
 
   @override
   void initState() {
@@ -38,19 +40,24 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         body: ActionHandler<FavoriteResponseState>(
           actionStream: _bloc.onNewFavoriteState,
           onReceived: _handleFavoriteAction,
-          child: StreamBuilder<MovieDetailsResponseState>(
-            stream: _bloc.onNewState,
-            builder: (context, snapshot) =>
-                AsyncSnapshotResponseView<Loading, Error, Success>(
-              snapshot: snapshot,
-              errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
-                error: errorState.error,
-                onTryAgainTap: () => _bloc.onTryAgain.add(null),
-              ),
-              successWidgetBuilder: (context, successState) =>
-                  MovieDetailsContent(
-                movieDetails: successState.movieDetails,
-                onFavoriteButtonPressed: () => _bloc.onToggleFavorite.add(null),
+          child: FocusDetector(
+            onFocusGained: () => _bloc.onTryAgain.add(null),
+            key: _focusDetectorKey,
+            child: StreamBuilder<MovieDetailsResponseState>(
+              stream: _bloc.onNewState,
+              builder: (context, snapshot) =>
+                  AsyncSnapshotResponseView<Loading, Error, Success>(
+                snapshot: snapshot,
+                errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
+                  error: errorState.error,
+                  onTryAgainTap: () => _bloc.onTryAgain.add(null),
+                ),
+                successWidgetBuilder: (context, successState) =>
+                    MovieDetailsContent(
+                  movieDetails: successState.movieDetails,
+                  onFavoriteButtonPressed: () =>
+                      _bloc.onToggleFavorite.add(null),
+                ),
               ),
             ),
           ),

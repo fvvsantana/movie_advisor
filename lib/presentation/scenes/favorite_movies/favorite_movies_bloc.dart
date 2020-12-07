@@ -7,17 +7,13 @@ import 'package:movie_advisor/data/repository.dart';
 
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc() {
-    _subscriptions
-      ..add(
-        _fetchFavoriteMovies().listen(_onNewStateSubject.add),
-      )
-      ..add(
-        _onTryAgainSubject.stream
-            .flatMap(
-              (_) => _fetchFavoriteMovies(),
-            )
-            .listen(_onNewStateSubject.add),
-      );
+    _subscriptions.add(
+      _onTryAgainSubject.stream
+          .flatMap(
+            (_) => _fetchFavoriteMovies(),
+          )
+          .listen(_onNewStateSubject.add),
+    );
   }
 
   final _subscriptions = CompositeSubscription();

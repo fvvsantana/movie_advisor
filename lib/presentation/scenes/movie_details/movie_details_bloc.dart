@@ -11,9 +11,6 @@ class MovieDetailsBloc {
   MovieDetailsBloc({@required this.movieId}) : assert(movieId != null) {
     _subscriptions
       ..add(
-        _fetchMovieDetails().listen(_onNewStateSubject.add),
-      )
-      ..add(
         _onTryAgainSubject.stream
             .flatMap(
               (_) => _fetchMovieDetails(),
@@ -21,7 +18,7 @@ class MovieDetailsBloc {
             .listen(_onNewStateSubject.add),
       )
       ..add(
-        _onToggleFavorite.stream
+        _onToggleFavoriteSubject.stream
             .flatMap((_) => _toggleFavorite())
             .listen(_onNewFavoriteStateSubject.add),
       );
@@ -34,7 +31,7 @@ class MovieDetailsBloc {
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
   final _onNewFavoriteStateSubject = BehaviorSubject<FavoriteResponseState>();
-  final _onToggleFavorite = StreamController<bool>();
+  final _onToggleFavoriteSubject = StreamController<bool>();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
@@ -43,7 +40,7 @@ class MovieDetailsBloc {
   Stream<FavoriteResponseState> get onNewFavoriteState =>
       _onNewFavoriteStateSubject.stream;
 
-  Sink<void> get onToggleFavorite => _onToggleFavorite.sink;
+  Sink<void> get onToggleFavorite => _onToggleFavoriteSubject.sink;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
@@ -65,7 +62,6 @@ class MovieDetailsBloc {
 
       try {
         await _repository.setFavoriteMovie(movieId, favoriting);
-        // Update the UI
         _onNewStateSubject.sink.add(
           Success(
             movieDetails: movieDetails.copy(isFavorite: favoriting),
@@ -85,6 +81,6 @@ class MovieDetailsBloc {
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
     _onNewFavoriteStateSubject.close();
-    _onToggleFavorite.close();
+    _onToggleFavoriteSubject.close();
   }
 }
