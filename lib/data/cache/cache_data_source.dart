@@ -5,7 +5,7 @@ import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
 
 class CacheDataSource {
   static const _moviesListBoxName = 'moviesListBox';
-  static const _moviesListKeyName = 'moviesListKey';
+  static const _moviesListKeyName = 0;
   static const _movieDetailsBoxName = 'movieDetailsBox';
   static const _favoriteMoviesBoxName = 'favoriteMoviesBox';
 
