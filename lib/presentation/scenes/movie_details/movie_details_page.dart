@@ -34,7 +34,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
   @override
   Widget build(BuildContext context) => FocusDetector(
-        onFocusGained: () => _bloc.onTryAgain.add(null),
+        onFocusGained: () => _bloc.onFocusGained.add(null),
         key: _focusDetectorKey,
         child: Scaffold(
           appBar: AppBar(

@@ -7,19 +7,26 @@ import 'package:movie_advisor/data/repository.dart';
 
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc() {
-    _subscriptions.add(
-      _onTryAgainSubject.stream
-          .flatMap(
-            (_) => _fetchFavoriteMovies(),
-          )
-          .listen(_onNewStateSubject.add),
-    );
+    _subscriptions
+      ..add(
+        _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
+      )
+      ..add(
+        _onTryAgainSubject.stream
+            .flatMap(
+              (_) => _fetchFavoriteMovies(),
+            )
+            .listen(_onNewStateSubject.add),
+      );
   }
 
   final _subscriptions = CompositeSubscription();
+  final _onFocusGainedSubject = StreamController<void>();
   final _onNewStateSubject = BehaviorSubject<FavoriteMoviesResponseState>();
   final _onTryAgainSubject = StreamController<void>();
   final _repository = Repository();
+
+  Sink<void> get onFocusGained => _onFocusGainedSubject.sink;
 
   Stream<FavoriteMoviesResponseState> get onNewState => _onNewStateSubject;
 
@@ -39,6 +46,7 @@ class FavoriteMoviesBloc {
 
   void dispose() {
     _subscriptions.dispose();
+    _onFocusGainedSubject.close();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
   }

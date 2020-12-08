@@ -11,6 +11,9 @@ class MovieDetailsBloc {
   MovieDetailsBloc({@required this.movieId}) : assert(movieId != null) {
     _subscriptions
       ..add(
+        _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
+      )
+      ..add(
         _onTryAgainSubject.stream
             .flatMap(
               (_) => _fetchMovieDetails(),
@@ -28,10 +31,13 @@ class MovieDetailsBloc {
   final _repository = Repository();
 
   final _subscriptions = CompositeSubscription();
+  final _onFocusGainedSubject = StreamController<void>();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
   final _onNewFavoriteResultSubject = BehaviorSubject<FavoriteActionResult>();
   final _onToggleFavoriteSubject = StreamController<bool>();
+
+  Sink<void> get onFocusGained => _onFocusGainedSubject.sink;
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
@@ -78,6 +84,7 @@ class MovieDetailsBloc {
 
   void dispose() {
     _subscriptions.dispose();
+    _onFocusGainedSubject.close();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
     _onNewFavoriteResultSubject.close();

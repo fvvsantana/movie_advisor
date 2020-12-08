@@ -25,7 +25,7 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
           title: Text(S.of(context).favoriteMoviesAppBarTitle),
         ),
         body: FocusDetector(
-          onFocusGained: () => _bloc.onTryAgain.add(null),
+          onFocusGained: () => _bloc.onFocusGained.add(null),
           key: _focusDetectorKey,
           child: StreamBuilder<FavoriteMoviesResponseState>(
             stream: _bloc.onNewState,
