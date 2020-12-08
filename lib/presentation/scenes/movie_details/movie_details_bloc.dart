@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/data/repository.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_states.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
@@ -20,7 +20,7 @@ class MovieDetailsBloc {
       ..add(
         _onToggleFavoriteSubject.stream
             .flatMap((_) => _toggleFavorite())
-            .listen(_onNewFavoriteStateSubject.add),
+            .listen(_onNewFavoriteResultSubject.add),
       );
   }
 
@@ -30,15 +30,15 @@ class MovieDetailsBloc {
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final _onNewFavoriteStateSubject = BehaviorSubject<FavoriteResponseState>();
+  final _onNewFavoriteResultSubject = BehaviorSubject<FavoriteActionResult>();
   final _onToggleFavoriteSubject = StreamController<bool>();
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
 
-  Stream<FavoriteResponseState> get onNewFavoriteState =>
-      _onNewFavoriteStateSubject.stream;
+  Stream<FavoriteActionResult> get onNewFavoriteResult =>
+      _onNewFavoriteResultSubject.stream;
 
   Sink<void> get onToggleFavorite => _onToggleFavoriteSubject.sink;
 
@@ -54,7 +54,7 @@ class MovieDetailsBloc {
     }
   }
 
-  Stream<FavoriteResponseState> _toggleFavorite() async* {
+  Stream<FavoriteActionResult> _toggleFavorite() async* {
     final lastState = _onNewStateSubject.value;
     if (lastState is Success) {
       final movieDetails = lastState.movieDetails;
@@ -80,7 +80,7 @@ class MovieDetailsBloc {
     _subscriptions.dispose();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
-    _onNewFavoriteStateSubject.close();
+    _onNewFavoriteResultSubject.close();
     _onToggleFavoriteSubject.close();
   }
 }

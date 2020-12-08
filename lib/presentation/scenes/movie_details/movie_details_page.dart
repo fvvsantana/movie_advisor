@@ -6,7 +6,7 @@ import 'package:movie_advisor/presentation/common/action_handler.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/popups.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_states.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_content.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
@@ -40,8 +40,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           appBar: AppBar(
             title: Text(S.of(context).movieDetailsAppBarTitle),
           ),
-          body: ActionHandler<FavoriteResponseState>(
-            actionStream: _bloc.onNewFavoriteState,
+          body: ActionHandler<FavoriteActionResult>(
+            actionStream: _bloc.onNewFavoriteResult,
             onReceived: _handleFavoriteAction,
             child: StreamBuilder<MovieDetailsResponseState>(
               stream: _bloc.onNewState,
@@ -64,7 +64,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
         ),
       );
 
-  void _handleFavoriteAction(FavoriteResponseState favoriteState) {
+  void _handleFavoriteAction(FavoriteActionResult favoriteState) {
     if (favoriteState == null) {
       return;
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/model/movie_details.dart';
 
 abstract class MovieDetailsResponseState {}
