@@ -33,16 +33,16 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(S.of(context).movieDetailsAppBarTitle),
-        ),
-        body: ActionHandler<FavoriteResponseState>(
-          actionStream: _bloc.onNewFavoriteState,
-          onReceived: _handleFavoriteAction,
-          child: FocusDetector(
-            onFocusGained: () => _bloc.onTryAgain.add(null),
-            key: _focusDetectorKey,
+  Widget build(BuildContext context) => FocusDetector(
+        onFocusGained: () => _bloc.onTryAgain.add(null),
+        key: _focusDetectorKey,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(S.of(context).movieDetailsAppBarTitle),
+          ),
+          body: ActionHandler<FavoriteResponseState>(
+            actionStream: _bloc.onNewFavoriteState,
+            onReceived: _handleFavoriteAction,
             child: StreamBuilder<MovieDetailsResponseState>(
               stream: _bloc.onNewState,
               builder: (context, snapshot) =>
