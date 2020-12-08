@@ -24,13 +24,13 @@ class ErrorEmptyState extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TitleText(
-                text: _getTitle(context),
+                text: _getErrorTitle(context),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                _getContent(context),
+                _getErrorContent(context),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -49,7 +49,7 @@ class ErrorEmptyState extends StatelessWidget {
         ),
       );
 
-  String _getTitle(BuildContext context) {
+  String _getErrorTitle(BuildContext context) {
     if (error is NoInternetError) {
       return S.of(context).errorEmptyStateNoInternetErrorTitle;
     } else {
@@ -57,7 +57,7 @@ class ErrorEmptyState extends StatelessWidget {
     }
   }
 
-  String _getContent(BuildContext context) {
+  String _getErrorContent(BuildContext context) {
     if (error is NoInternetError) {
       return S.of(context).errorEmptyStateNoInternetErrorContent;
     } else {
