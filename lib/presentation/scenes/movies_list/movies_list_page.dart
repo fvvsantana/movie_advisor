@@ -4,9 +4,9 @@ import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/movies_list.dart';
+import 'package:movie_advisor/presentation/common/retry_empty_state.dart';
 import 'package:movie_advisor/presentation/routing.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_empty_state.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
 class MoviesListPage extends StatefulWidget {
@@ -29,21 +29,25 @@ class _MoviesListPageState extends State<MoviesListPage> {
             snapshot: snapshot,
             errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
               error: errorState.error,
-              onTryAgainTap: () => _bloc.onTryAgain.add(null),
+              onTryAgainTap: onTryAgain,
             ),
             successWidgetBuilder: (context, successState) {
               final moviesList = successState.moviesList;
-              if (moviesList.isEmpty) {
-                return MoviesListEmptyState();
-              }
-              return MoviesList(
-                movies: successState.moviesList,
-                onMovieTap: _pushMovieDetails,
-              );
+              return moviesList.isEmpty
+                  ? RetryEmptyState(
+                      message: S.of(context).moviesListEmptyStateMessage,
+                      onRetry: onTryAgain,
+                    )
+                  : MoviesList(
+                      movies: moviesList,
+                      onMovieTap: _pushMovieDetails,
+                    );
             },
           ),
         ),
       );
+
+  void onTryAgain() => _bloc.onTryAgain.add(null);
 
   void _pushMovieDetails(int movieId) {
     Navigator.of(context).pushNamed(

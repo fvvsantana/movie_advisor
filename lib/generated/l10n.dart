@@ -224,6 +224,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Retry`
+  String get retryEmptyStateRetryButtonText {
+    return Intl.message(
+      'Retry',
+      name: 'retryEmptyStateRetryButtonText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "movieDetailsRemoveFromFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Removed from favorites"),
     "movieDetailsSynopsisTitle" : MessageLookupByLibrary.simpleMessage("Synopsis"),
     "moviesListAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie Advisor"),
-    "moviesListEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No movies to show.")
+    "moviesListEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No movies to show."),
+    "retryEmptyStateRetryButtonText" : MessageLookupByLibrary.simpleMessage("Retry")
   };
 }

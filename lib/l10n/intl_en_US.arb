@@ -18,5 +18,6 @@
   "errorEmptyStateNoInternetErrorTitle": "Connection Error",
   "errorEmptyStateNoInternetErrorContent": "Make sure you have internet connection or check your DNS settings.",
   "errorEmptyStateGenericErrorTitle": "Error",
-  "errorEmptyStateGenericErrorContent": "An unexpected error has occurred."
+  "errorEmptyStateGenericErrorContent": "An unexpected error has occurred.",
+  "retryEmptyStateRetryButtonText": "Retry"
 }
