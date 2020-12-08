@@ -25,7 +25,7 @@ class Repository {
             (cacheModel) => cacheModel.toDomain(),
           )
           .toList();
-    } catch (error) {
+    } catch (_) {
       final cacheModelList = await _cacheDS.getMoviesList();
       if (cacheModelList != null) {
         return cacheModelList
@@ -49,7 +49,7 @@ class Repository {
       await _cacheDS.upsertMovieDetails(cacheModel);
 
       return cacheModel.toDomain(isFavorite);
-    } catch (error) {
+    } catch (_) {
       final cacheModel = await _cacheDS.getMovieDetails(movieId);
       if (cacheModel != null) {
         return cacheModel.toDomain(isFavorite);

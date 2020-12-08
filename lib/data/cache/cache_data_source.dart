@@ -65,11 +65,10 @@ class MovieCacheDataSource {
           )
           .catchError(_printError);
 
-  // By default Hive was not printing errors, so I made this function to print
+  // By default Hive was not printing errors, so this function was made to print
   // them
   void _printError(Object error) {
     print(error);
     throw error;
   }
-
 }
