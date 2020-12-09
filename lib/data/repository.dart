@@ -6,19 +6,19 @@ import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
 class Repository {
-  final _remoteDS = MovieRemoteDataSource();
-  final _cacheDS = MovieCacheDataSource();
+  final _movieRDS = MovieRemoteDataSource();
+  final _movieCDS = MovieCacheDataSource();
 
   Future<List<MovieSummary>> getMoviesList() async {
     try {
-      final remoteModelList = await _remoteDS.getMoviesList();
+      final remoteModelList = await _movieRDS.getMoviesList();
 
       final cacheModelList = remoteModelList
           .map(
             (remoteModel) => remoteModel.toCache(),
           )
           .toList();
-      await _cacheDS.upsertMoviesList(cacheModelList);
+      await _movieCDS.upsertMoviesList(cacheModelList);
 
       return cacheModelList
           .map(
@@ -26,7 +26,7 @@ class Repository {
           )
           .toList();
     } catch (_) {
-      final cacheModelList = await _cacheDS.getMoviesList();
+      final cacheModelList = await _movieCDS.getMoviesList();
       if (cacheModelList != null) {
         return cacheModelList
             .map(
@@ -43,14 +43,14 @@ class Repository {
     final isFavorite = await isFavoriteMovie(movieId);
 
     try {
-      final remoteModel = await _remoteDS.getMovieDetails(movieId);
+      final remoteModel = await _movieRDS.getMovieDetails(movieId);
 
       final cacheModel = remoteModel.toCache();
-      await _cacheDS.upsertMovieDetails(cacheModel);
+      await _movieCDS.upsertMovieDetails(cacheModel);
 
       return cacheModel.toDomain(isFavorite);
     } catch (_) {
-      final cacheModel = await _cacheDS.getMovieDetails(movieId);
+      final cacheModel = await _movieCDS.getMovieDetails(movieId);
       if (cacheModel != null) {
         return cacheModel.toDomain(isFavorite);
       }
@@ -61,7 +61,7 @@ class Repository {
 
   Future<List<MovieSummary>> getFavoriteMovies() async {
     final moviesList = await getMoviesList();
-    final favoriteMovieIds = await _cacheDS.getFavoriteMovies();
+    final favoriteMovieIds = await _movieCDS.getFavoriteMovies();
     return moviesList
         .where(
           (movie) => favoriteMovieIds.contains(movie.id),
@@ -70,7 +70,7 @@ class Repository {
   }
 
   Future<bool> isFavoriteMovie(int movieId) =>
-      _cacheDS.isFavoriteMovie(movieId);
+      _movieCDS.isFavoriteMovie(movieId);
 
   /*
     The reason why this function receives the 'isFavorite' parameter, instead of
@@ -87,6 +87,6 @@ class Repository {
    */
   Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
       isFavorite
-          ? await _cacheDS.upsertFavoriteMovie(movieId)
-          : await _cacheDS.deleteFavoriteMovie(movieId);
+          ? await _movieCDS.upsertFavoriteMovie(movieId)
+          : await _movieCDS.deleteFavoriteMovie(movieId);
 }
