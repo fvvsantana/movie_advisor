@@ -67,7 +67,7 @@ class MovieCacheDataSource {
 
   // By default Hive was not printing errors, so this function was made to print
   // them
-  void _printError(Object error) {
+  void _printError(dynamic error) {
     print(error);
     throw error;
   }

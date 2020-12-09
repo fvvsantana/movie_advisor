@@ -30,7 +30,7 @@ class MovieRemoteDataSource {
       )
       .catchError(_treatError);
 
-  void _treatError(Object error) {
+  void _treatError(dynamic error) {
     print(error);
 
     if (error is DioError && error.type == DioErrorType.DEFAULT) {

@@ -12,7 +12,7 @@ class ErrorEmptyState extends StatelessWidget {
   })  : assert(error != null),
         assert(onTryAgainTap != null);
 
-  final Object error;
+  final dynamic error;
   final VoidCallback onTryAgainTap;
 
   @override

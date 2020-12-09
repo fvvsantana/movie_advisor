@@ -7,7 +7,7 @@ class Loading implements MovieDetailsResponseState {}
 
 class Error implements MovieDetailsResponseState {
   const Error({@required this.error}) : assert(error != null);
-  final Object error;
+  final dynamic error;
 }
 
 class Success implements MovieDetailsResponseState {

@@ -7,7 +7,7 @@ class Loading implements MoviesListResponseState {}
 
 class Error implements MoviesListResponseState {
   const Error({@required this.error}) : assert(error != null);
-  final Object error;
+  final dynamic error;
 }
 
 class Success implements MoviesListResponseState {
