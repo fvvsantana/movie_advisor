@@ -12,6 +12,7 @@
   "movieDetailsAddToFavoritesErrorMessage": "Erro ao adicionar aos favoritos",
   "movieDetailsRemoveFromFavoritesSuccessMessage": "Removido dos favoritos",
   "movieDetailsRemoveFromFavoritesErrorMessage": "Erro ao remover dos favoritos",
+  "movieDetailsGenericFavoriteErrorMessage": "Error na operação de favoritos",
   "bottomNavigationMoviesTitle": "Filmes",
   "bottomNavigationFavoritesTitle": "Favoritos",
   "errorEmptyStateButtonTitle": "Tentar novamente",

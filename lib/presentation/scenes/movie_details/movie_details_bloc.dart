@@ -77,8 +77,8 @@ class MovieDetailsBloc {
       } catch (_) {
         yield FavoriteError(newIsFavorite: newIsFavorite);
       }
-    } else {
-      yield null;
+    }else{
+      yield FavoriteRaceConditionError();
     }
   }
 

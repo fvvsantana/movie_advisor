@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "movieDetailsAddToFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Added to favorites"),
     "movieDetailsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie details"),
     "movieDetailsFavoriteFetchingErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on fetching favorite status of the movie"),
+    "movieDetailsGenericFavoriteErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on favorite operation"),
     "movieDetailsGenresTitle" : MessageLookupByLibrary.simpleMessage("Genres"),
     "movieDetailsRemoveFromFavoritesErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on removing from favorites"),
     "movieDetailsRemoveFromFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Removed from favorites"),

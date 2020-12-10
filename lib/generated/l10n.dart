@@ -155,6 +155,16 @@ class S {
     );
   }
 
+  /// `Error on favorite operation`
+  String get movieDetailsGenericFavoriteErrorMessage {
+    return Intl.message(
+      'Error on favorite operation',
+      name: 'movieDetailsGenericFavoriteErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Movies`
   String get bottomNavigationMoviesTitle {
     return Intl.message(

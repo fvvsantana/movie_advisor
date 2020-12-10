@@ -13,3 +13,5 @@ class FavoriteSuccess implements FavoriteActionResult {
       : assert(newIsFavorite != null);
   final bool newIsFavorite;
 }
+
+class FavoriteRaceConditionError implements FavoriteActionResult {}

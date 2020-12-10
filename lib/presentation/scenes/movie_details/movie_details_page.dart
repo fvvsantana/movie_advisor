@@ -65,10 +65,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       );
 
   void _handleFavoriteAction(FavoriteActionResult favoriteState) {
-    if (favoriteState == null) {
-      return;
-    }
-
     String message;
     if (favoriteState is FavoriteError) {
       message = favoriteState.newIsFavorite
@@ -78,6 +74,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       message = favoriteState.newIsFavorite
           ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
           : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
+    }else if(favoriteState is FavoriteRaceConditionError){
+      message = S.of(context).movieDetailsGenericFavoriteErrorMessage;
     }
 
     showSnackBar(context, message);
