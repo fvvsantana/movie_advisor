@@ -73,9 +73,9 @@ class MovieDetailsBloc {
             movieDetails: movieDetails.copy(isFavorite: newIsFavorite),
           ),
         );
-        yield FavoriteSuccess(isFavoriting: newIsFavorite);
+        yield FavoriteSuccess(newIsFavorite: newIsFavorite);
       } catch (_) {
-        yield FavoriteError(isFavoriting: newIsFavorite);
+        yield FavoriteError(newIsFavorite: newIsFavorite);
       }
     } else {
       yield null;
