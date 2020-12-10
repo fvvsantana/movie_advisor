@@ -64,18 +64,18 @@ class MovieDetailsBloc {
     final lastState = _onNewStateSubject.value;
     if (lastState is Success) {
       final movieDetails = lastState.movieDetails;
-      final favoriting = !movieDetails.isFavorite;
+      final isFavoriting = !movieDetails.isFavorite;
 
       try {
-        await _repository.setFavoriteMovie(movieId, favoriting);
+        await _repository.setFavoriteMovie(movieId, isFavoriting);
         _onNewStateSubject.sink.add(
           Success(
-            movieDetails: movieDetails.copy(isFavorite: favoriting),
+            movieDetails: movieDetails.copy(isFavorite: isFavoriting),
           ),
         );
-        yield FavoriteSuccess(favoriting: favoriting);
+        yield FavoriteSuccess(isFavoriting: isFavoriting);
       } catch (_) {
-        yield FavoriteError(favoriting: favoriting);
+        yield FavoriteError(isFavoriting: isFavoriting);
       }
     } else {
       yield null;

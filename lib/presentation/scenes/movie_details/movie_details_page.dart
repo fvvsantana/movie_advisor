@@ -71,11 +71,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
 
     String message;
     if (favoriteState is FavoriteError) {
-      message = favoriteState.favoriting
+      message = favoriteState.isFavoriting
           ? S.of(context).movieDetailsAddToFavoritesErrorMessage
           : S.of(context).movieDetailsRemoveFromFavoritesErrorMessage;
     } else if (favoriteState is FavoriteSuccess) {
-      message = favoriteState.favoriting
+      message = favoriteState.isFavoriting
           ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
           : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
     }
