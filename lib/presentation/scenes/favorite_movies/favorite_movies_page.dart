@@ -34,14 +34,14 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
               snapshot: snapshot,
               errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
                 error: errorState.error,
-                onTryAgainTap: tryAgain,
+                onTryAgainTap: _tryAgain,
               ),
               successWidgetBuilder: (context, successState) {
                 final favoriteMovies = successState.favoriteMovies;
                 return favoriteMovies.isEmpty
                     ? RetryEmptyState(
                         message: S.of(context).favoriteMoviesEmptyStateMessage,
-                        onRetry: tryAgain,
+                        onRetry: _tryAgain,
                       )
                     : MoviesList(
                         movies: favoriteMovies,
@@ -53,7 +53,7 @@ class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
         ),
       );
 
-  void tryAgain() => _bloc.onTryAgain.add(null);
+  void _tryAgain() => _bloc.onTryAgain.add(null);
 
   void _pushMovieDetails(int movieId) {
     Navigator.of(context).pushNamed(
