@@ -40,7 +40,7 @@ class Repository {
   }
 
   Future<MovieDetails> getMovieDetails(int movieId) async {
-    final isFavorite = await isFavoriteMovie(movieId);
+    final isFavorite = await _movieCDS.isFavoriteMovie(movieId);
 
     try {
       final remoteModel = await _movieRDS.getMovieDetails(movieId);
@@ -68,9 +68,6 @@ class Repository {
         )
         .toList();
   }
-
-  Future<bool> isFavoriteMovie(int movieId) =>
-      _movieCDS.isFavoriteMovie(movieId);
 
   /*
     The reason why this function receives the 'isFavorite' parameter, instead of
