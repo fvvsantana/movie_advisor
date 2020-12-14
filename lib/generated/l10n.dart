@@ -45,6 +45,36 @@ class S {
     );
   }
 
+  /// `No movies to show.`
+  String get moviesListEmptyStateMessage {
+    return Intl.message(
+      'No movies to show.',
+      name: 'moviesListEmptyStateMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Favorites`
+  String get favoriteMoviesAppBarTitle {
+    return Intl.message(
+      'Favorites',
+      name: 'favoriteMoviesAppBarTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No favorite movies yet.`
+  String get favoriteMoviesEmptyStateMessage {
+    return Intl.message(
+      'No favorite movies yet.',
+      name: 'favoriteMoviesEmptyStateMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Movie details`
   String get movieDetailsAppBarTitle {
     return Intl.message(
@@ -70,6 +100,66 @@ class S {
     return Intl.message(
       'Genres',
       name: 'movieDetailsGenresTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on fetching favorite status of the movie`
+  String get movieDetailsFavoriteFetchingErrorMessage {
+    return Intl.message(
+      'Error on fetching favorite status of the movie',
+      name: 'movieDetailsFavoriteFetchingErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Added to favorites`
+  String get movieDetailsAddToFavoritesSuccessMessage {
+    return Intl.message(
+      'Added to favorites',
+      name: 'movieDetailsAddToFavoritesSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on adding to favorites`
+  String get movieDetailsAddToFavoritesErrorMessage {
+    return Intl.message(
+      'Error on adding to favorites',
+      name: 'movieDetailsAddToFavoritesErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Removed from favorites`
+  String get movieDetailsRemoveFromFavoritesSuccessMessage {
+    return Intl.message(
+      'Removed from favorites',
+      name: 'movieDetailsRemoveFromFavoritesSuccessMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on removing from favorites`
+  String get movieDetailsRemoveFromFavoritesErrorMessage {
+    return Intl.message(
+      'Error on removing from favorites',
+      name: 'movieDetailsRemoveFromFavoritesErrorMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error on favorite operation`
+  String get movieDetailsGenericFavoriteErrorMessage {
+    return Intl.message(
+      'Error on favorite operation',
+      name: 'movieDetailsGenericFavoriteErrorMessage',
       desc: '',
       args: [],
     );
@@ -140,6 +230,16 @@ class S {
     return Intl.message(
       'An unexpected error has occurred.',
       name: 'errorEmptyStateGenericErrorContent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retryEmptyStateRetryButtonText {
+    return Intl.message(
+      'Retry',
+      name: 'retryEmptyStateRetryButtonText',
       desc: '',
       args: [],
     );

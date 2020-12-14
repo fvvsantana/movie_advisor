@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/data/models/movie_details_model.dart';
+import 'package:movie_advisor/model/movie_details.dart';
+import 'package:movie_advisor/presentation/common/favorite_button.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 
-class MovieDetails extends StatelessWidget {
-  const MovieDetails({@required this.movieDetails})
-      : assert(movieDetails != null);
+class MovieDetailsContent extends StatelessWidget {
+  const MovieDetailsContent({
+    @required this.movieDetails,
+    @required this.onFavoriteButtonPressed,
+  })  : assert(movieDetails != null),
+        assert(onFavoriteButtonPressed != null);
 
-  final MovieDetailsModel movieDetails;
+  final MovieDetails movieDetails;
+  final VoidCallback onFavoriteButtonPressed;
 
   @override
   Widget build(BuildContext context) => SingleChildScrollView(
@@ -19,8 +24,18 @@ class MovieDetails extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TitleText(
-                text: movieDetails.title,
+              Row(
+                children: [
+                  Expanded(
+                    child: TitleText(
+                      text: movieDetails.title,
+                    ),
+                  ),
+                  FavoriteButton(
+                    onPressed: onFavoriteButtonPressed,
+                    isFavorite: movieDetails.isFavorite,
+                  ),
+                ],
               ),
               Container(
                 height: 300,
@@ -50,7 +65,7 @@ class MovieDetails extends StatelessWidget {
                 height: 8,
               ),
               Text(
-                  movieDetails.genres.join(', '),
+                movieDetails.genres.join(', '),
               ),
             ],
           ),

@@ -3,18 +3,17 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
+import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
-  MovieDetailsBloc({@required remoteDS, @required movieId})
-      : _remoteDS = remoteDS,
-        _movieId = movieId,
-        assert(remoteDS != null),
+  MovieDetailsBloc({@required this.repository, @required this.movieId})
+      : assert(repository != null),
         assert(movieId != null) {
     _subscriptions
       ..add(
-        _fetchMovieDetails().listen(_onNewStateSubject.add),
+        _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
       )
       ..add(
         _onTryAgainSubject.stream
@@ -22,35 +21,75 @@ class MovieDetailsBloc {
               (_) => _fetchMovieDetails(),
             )
             .listen(_onNewStateSubject.add),
+      )
+      ..add(
+        _onToggleFavoriteSubject.stream
+            .flatMap((_) => _toggleFavorite())
+            .listen(_onNewFavoriteResultSubject.add),
       );
   }
 
-  final MovieRemoteDataSource _remoteDS;
-  final int _movieId;
+  final int movieId;
+  final Repository repository;
 
   final _subscriptions = CompositeSubscription();
+  final _onFocusGainedSubject = StreamController<void>();
   final _onNewStateSubject = BehaviorSubject<MovieDetailsResponseState>();
   final _onTryAgainSubject = StreamController<void>();
+  final _onNewFavoriteResultSubject = BehaviorSubject<FavoriteActionResult>();
+  final _onToggleFavoriteSubject = StreamController<bool>();
+
+  Sink<void> get onFocusGained => _onFocusGainedSubject.sink;
 
   Stream<MovieDetailsResponseState> get onNewState => _onNewStateSubject;
 
   Sink<void> get onTryAgain => _onTryAgainSubject.sink;
+
+  Stream<FavoriteActionResult> get onNewFavoriteResult =>
+      _onNewFavoriteResultSubject.stream;
+
+  Sink<void> get onToggleFavorite => _onToggleFavoriteSubject.sink;
 
   Stream<MovieDetailsResponseState> _fetchMovieDetails() async* {
     yield Loading();
 
     try {
       yield Success(
-        movieDetails: await _remoteDS.getMovieDetails(_movieId),
+        movieDetails: await repository.getMovieDetails(movieId),
       );
     } catch (error) {
-      yield Error.fromObject(error: error);
+      yield Error(error: error);
+    }
+  }
+
+  Stream<FavoriteActionResult> _toggleFavorite() async* {
+    final lastState = _onNewStateSubject.value;
+    if (lastState is Success) {
+      final movieDetails = lastState.movieDetails;
+      final newIsFavorite = !movieDetails.isFavorite;
+
+      try {
+        await repository.setFavoriteMovie(movieId, newIsFavorite);
+        _onNewStateSubject.sink.add(
+          Success(
+            movieDetails: movieDetails.copy(isFavorite: newIsFavorite),
+          ),
+        );
+        yield FavoriteSuccess(newIsFavorite: newIsFavorite);
+      } catch (_) {
+        yield FavoriteError(newIsFavorite: newIsFavorite);
+      }
+    } else {
+      yield FavoriteRaceConditionError();
     }
   }
 
   void dispose() {
     _subscriptions.dispose();
+    _onFocusGainedSubject.close();
     _onNewStateSubject.close();
     _onTryAgainSubject.close();
+    _onNewFavoriteResultSubject.close();
+    _onToggleFavoriteSubject.close();
   }
 }

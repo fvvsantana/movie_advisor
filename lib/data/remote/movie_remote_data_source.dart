@@ -1,48 +1,44 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/data/models/movie_details_model.dart';
-import 'package:movie_advisor/data/models/movie_summary_model.dart';
-import 'package:movie_advisor/data/remote/url_builder.dart';
+
 import 'package:movie_advisor/common/errors.dart';
+import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
+import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
+import 'package:movie_advisor/data/remote/url_builder.dart';
 
 class MovieRemoteDataSource {
-  const MovieRemoteDataSource({@required dio})
-      : _dio = dio,
-        assert(dio != null);
-  final Dio _dio;
+  const MovieRemoteDataSource({@required this.dio}) : assert(dio != null);
+  final Dio dio;
 
-  void _throwCustomError(dynamic error) {
-    stderr.write(error);
-    // Treat errors
-    if (error is DioError && error.type == DioErrorType.DEFAULT) {
-      throw const NoInternetError();
-    } else {
-      throw GenericError.fromObject(object: error);
-    }
-  }
-
-  Future<List<MovieSummaryModel>> getMoviesList() => _dio
+  Future<List<MovieSummaryRM>> getMoviesList() => dio
           .get(
         UrlBuilder.getMoviesList(),
       )
           .then((response) {
-        // Request successful at this point
         final data = List<Map<String, dynamic>>.from(response.data);
         return data
             .map(
-              (movie) => MovieSummaryModel.fromJson(movie),
+              (movie) => MovieSummaryRM.fromJson(movie),
             )
             .toList();
-      }).catchError(_throwCustomError);
+      }).catchError(_treatError);
 
-  Future<MovieDetailsModel> getMovieDetails(int movieId) => _dio
+  Future<MovieDetailsRM> getMovieDetails(int movieId) => dio
       .get(
         UrlBuilder.getMovieDetails(movieId),
       )
       .then(
-        (response) => MovieDetailsModel.fromJson(response.data),
+        (response) => MovieDetailsRM.fromJson(response.data),
       )
-      .catchError(_throwCustomError);
+      .catchError(_treatError);
+
+  void _treatError(dynamic error) {
+    print(error);
+
+    if (error is DioError && error.type == DioErrorType.DEFAULT) {
+      throw const NoInternetError();
+    } else {
+      throw error;
+    }
+  }
 }

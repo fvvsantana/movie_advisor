@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
+import 'package:movie_advisor/data/repository.dart';
 
 class MoviesListBloc {
-  MoviesListBloc({@required remoteDS})
-      : _remoteDS = remoteDS,
-        assert(remoteDS != null) {
+  MoviesListBloc({@required this.repository}) : assert(repository != null) {
     _subscriptions
       ..add(
         _fetchMoviesList().listen(_onNewStateSubject.add),
@@ -23,7 +21,7 @@ class MoviesListBloc {
       );
   }
 
-  final MovieRemoteDataSource _remoteDS;
+  final Repository repository;
 
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MoviesListResponseState>();
@@ -38,10 +36,10 @@ class MoviesListBloc {
 
     try {
       yield Success(
-        moviesList: await _remoteDS.getMoviesList(),
+        moviesList: await repository.getMoviesList(),
       );
     } catch (error) {
-      yield Error.fromObject(error: error);
+      yield Error(error: error);
     }
   }
 

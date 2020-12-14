@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'movie_details_model.dart';
+part of 'movie_details_rm.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-MovieDetailsModel _$MovieDetailsModelFromJson(Map<String, dynamic> json) {
-  return MovieDetailsModel(
+MovieDetailsRM _$MovieDetailsRMFromJson(Map<String, dynamic> json) {
+  return MovieDetailsRM(
     id: json['id'] as int,
     title: json['title'] as String,
     imageUrl: json['poster_url'] as String,
@@ -16,7 +16,7 @@ MovieDetailsModel _$MovieDetailsModelFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$MovieDetailsModelToJson(MovieDetailsModel instance) =>
+Map<String, dynamic> _$MovieDetailsRMToJson(MovieDetailsRM instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,

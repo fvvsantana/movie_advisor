@@ -1,14 +1,24 @@
 {
   "@@locale": "pt_BR",
   "moviesListAppBarTitle": "Recomendador de Filmes",
+  "moviesListEmptyStateMessage": "Sem filmes para mostrar.",
+  "favoriteMoviesAppBarTitle": "Favoritos",
+  "favoriteMoviesEmptyStateMessage": "Sem filmes favoritos ainda.",
   "movieDetailsAppBarTitle": "Detalhes do filme",
   "movieDetailsSynopsisTitle": "Sinopse",
   "movieDetailsGenresTitle": "Gêneros",
+  "movieDetailsFavoriteFetchingErrorMessage": "Erro ao buscar o status de favorito do filme",
+  "movieDetailsAddToFavoritesSuccessMessage": "Adicionado aos favoritos",
+  "movieDetailsAddToFavoritesErrorMessage": "Erro ao adicionar aos favoritos",
+  "movieDetailsRemoveFromFavoritesSuccessMessage": "Removido dos favoritos",
+  "movieDetailsRemoveFromFavoritesErrorMessage": "Erro ao remover dos favoritos",
+  "movieDetailsGenericFavoriteErrorMessage": "Error na operação de favoritos",
   "bottomNavigationMoviesTitle": "Filmes",
   "bottomNavigationFavoritesTitle": "Favoritos",
   "errorEmptyStateButtonTitle": "Tentar novamente",
   "errorEmptyStateNoInternetErrorTitle": "Erro de Conexão",
   "errorEmptyStateNoInternetErrorContent": "Certifique-se que há conexão de internet ou verifique sua configuração de DNS.",
   "errorEmptyStateGenericErrorTitle": "Erro",
-  "errorEmptyStateGenericErrorContent": "Um erro inesperado ocorreu."
+  "errorEmptyStateGenericErrorContent": "Um erro inesperado ocorreu.",
+  "retryEmptyStateRetryButtonText": "Tentar novamente"
 }
