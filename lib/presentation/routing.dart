@@ -7,27 +7,27 @@ import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.d
 void defineRoutes() {
   FluroRouter.appRouter
     ..define(
-      _Constants.homeResource,
+      _homeResource,
       handler: Handler(
         handlerFunc: (context, params) => HomeScreen(),
       ),
     )
     ..define(
-      _Constants.moviesResource,
+      _moviesResource,
       handler: Handler(
         handlerFunc: (context, params) => MoviesListPage(),
       ),
     )
     ..define(
-      '${_Constants.moviesResource}/:${_Constants.moviesPathParameterId}',
+      '$_moviesResource/:$_moviesPathParameterId',
       handler: Handler(
         handlerFunc: (context, params) => MovieDetailsPage(
-          id: int.parse(params[_Constants.moviesPathParameterId][0]),
+          id: int.parse(params[_moviesPathParameterId][0]),
         ),
       ),
     )
     ..define(
-      _Constants.favoritesResource,
+      _favoritesResource,
       handler: Handler(
         handlerFunc: (context, params) => FavoriteMoviesPage(),
       ),
@@ -35,18 +35,16 @@ void defineRoutes() {
 }
 
 class RouteNameBuilder {
-  static String home() => _Constants.homeResource;
+  static String home() => _homeResource;
 
-  static String moviesList() => _Constants.moviesResource;
+  static String moviesList() => _moviesResource;
 
-  static String movieById(int id) => '${_Constants.moviesResource}/$id';
+  static String movieById(int id) => '$_moviesResource/$id';
 
-  static String favoritesList() => _Constants.favoritesResource;
+  static String favoritesList() => _favoritesResource;
 }
 
-class _Constants {
-  static const String homeResource = '/';
-  static const String moviesResource = 'movies';
-  static const String moviesPathParameterId = 'id';
-  static const String favoritesResource = 'favorites';
-}
+const _homeResource = '/';
+const _moviesResource = 'movies';
+const _moviesPathParameterId = 'id';
+const _favoritesResource = 'favorites';
