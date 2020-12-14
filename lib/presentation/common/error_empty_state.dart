@@ -12,24 +12,8 @@ class ErrorEmptyState extends StatelessWidget {
   })  : assert(error != null),
         assert(onTryAgainTap != null);
 
-  final CustomError error;
+  final dynamic error;
   final VoidCallback onTryAgainTap;
-
-  String _getTitle(BuildContext context) {
-    if (error is NoInternetError) {
-      return S.of(context).errorEmptyStateNoInternetErrorTitle;
-    } else {
-      return S.of(context).errorEmptyStateGenericErrorTitle;
-    }
-  }
-
-  String _getContent(BuildContext context) {
-    if (error is NoInternetError) {
-      return S.of(context).errorEmptyStateNoInternetErrorContent;
-    } else {
-      return S.of(context).errorEmptyStateGenericErrorContent;
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Center(
@@ -40,13 +24,13 @@ class ErrorEmptyState extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TitleText(
-                text: _getTitle(context),
+                text: _getErrorTitle(context),
               ),
               const SizedBox(
                 height: 10,
               ),
               Text(
-                _getContent(context),
+                _getErrorContent(context),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
@@ -64,4 +48,20 @@ class ErrorEmptyState extends StatelessWidget {
           ),
         ),
       );
+
+  String _getErrorTitle(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorTitle;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorTitle;
+    }
+  }
+
+  String _getErrorContent(BuildContext context) {
+    if (error is NoInternetError) {
+      return S.of(context).errorEmptyStateNoInternetErrorContent;
+    } else {
+      return S.of(context).errorEmptyStateGenericErrorContent;
+    }
+  }
 }

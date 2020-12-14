@@ -1,14 +1,24 @@
 {
   "@@locale": "en_US",
   "moviesListAppBarTitle": "Movie Advisor",
+  "moviesListEmptyStateMessage": "No movies to show.",
+  "favoriteMoviesAppBarTitle": "Favorites",
+  "favoriteMoviesEmptyStateMessage": "No favorite movies yet.",
   "movieDetailsAppBarTitle": "Movie details",
   "movieDetailsSynopsisTitle": "Synopsis",
   "movieDetailsGenresTitle": "Genres",
+  "movieDetailsFavoriteFetchingErrorMessage": "Error on fetching favorite status of the movie",
+  "movieDetailsAddToFavoritesSuccessMessage": "Added to favorites",
+  "movieDetailsAddToFavoritesErrorMessage": "Error on adding to favorites",
+  "movieDetailsRemoveFromFavoritesSuccessMessage": "Removed from favorites",
+  "movieDetailsRemoveFromFavoritesErrorMessage": "Error on removing from favorites",
+  "movieDetailsGenericFavoriteErrorMessage": "Error on favorite operation",
   "bottomNavigationMoviesTitle": "Movies",
   "bottomNavigationFavoritesTitle": "Favorites",
   "errorEmptyStateButtonTitle": "Try again",
   "errorEmptyStateNoInternetErrorTitle": "Connection Error",
   "errorEmptyStateNoInternetErrorContent": "Make sure you have internet connection or check your DNS settings.",
   "errorEmptyStateGenericErrorTitle": "Error",
-  "errorEmptyStateGenericErrorContent": "An unexpected error has occurred."
+  "errorEmptyStateGenericErrorContent": "An unexpected error has occurred.",
+  "retryEmptyStateRetryButtonText": "Retry"
 }

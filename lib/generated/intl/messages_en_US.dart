@@ -28,9 +28,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorEmptyStateGenericErrorTitle" : MessageLookupByLibrary.simpleMessage("Error"),
     "errorEmptyStateNoInternetErrorContent" : MessageLookupByLibrary.simpleMessage("Make sure you have internet connection or check your DNS settings."),
     "errorEmptyStateNoInternetErrorTitle" : MessageLookupByLibrary.simpleMessage("Connection Error"),
+    "favoriteMoviesAppBarTitle" : MessageLookupByLibrary.simpleMessage("Favorites"),
+    "favoriteMoviesEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No favorite movies yet."),
+    "movieDetailsAddToFavoritesErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on adding to favorites"),
+    "movieDetailsAddToFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Added to favorites"),
     "movieDetailsAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie details"),
+    "movieDetailsFavoriteFetchingErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on fetching favorite status of the movie"),
+    "movieDetailsGenericFavoriteErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on favorite operation"),
     "movieDetailsGenresTitle" : MessageLookupByLibrary.simpleMessage("Genres"),
+    "movieDetailsRemoveFromFavoritesErrorMessage" : MessageLookupByLibrary.simpleMessage("Error on removing from favorites"),
+    "movieDetailsRemoveFromFavoritesSuccessMessage" : MessageLookupByLibrary.simpleMessage("Removed from favorites"),
     "movieDetailsSynopsisTitle" : MessageLookupByLibrary.simpleMessage("Synopsis"),
-    "moviesListAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie Advisor")
+    "moviesListAppBarTitle" : MessageLookupByLibrary.simpleMessage("Movie Advisor"),
+    "moviesListEmptyStateMessage" : MessageLookupByLibrary.simpleMessage("No movies to show."),
+    "retryEmptyStateRetryButtonText" : MessageLookupByLibrary.simpleMessage("Retry")
   };
 }

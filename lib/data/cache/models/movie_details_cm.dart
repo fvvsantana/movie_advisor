@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
-import 'package:json_annotation/json_annotation.dart';
+import 'package:hive/hive.dart';
+import 'package:movie_advisor/data/cache/hive_type_ids.dart';
 
-part 'movie_details_model.g.dart';
+part 'movie_details_cm.g.dart';
 
-@JsonSerializable(nullable: false)
-class MovieDetailsModel {
-  const MovieDetailsModel({
+
+@HiveType(typeId: HiveTypeId.movieDetails)
+class MovieDetailsCM {
+  const MovieDetailsCM({
     @required this.id,
     @required this.title,
     @required this.imageUrl,
@@ -17,15 +19,14 @@ class MovieDetailsModel {
         assert(synopsis != null),
         assert(genres != null);
 
-  factory MovieDetailsModel.fromJson(Map<String, dynamic> json) =>
-      _$MovieDetailsModelFromJson(json);
-  Map<String, dynamic> toJson() => _$MovieDetailsModelToJson(this);
-
+  @HiveField(0)
   final int id;
+  @HiveField(1)
   final String title;
-  @JsonKey(name: 'poster_url')
+  @HiveField(2)
   final String imageUrl;
-  @JsonKey(name: 'overview')
+  @HiveField(3)
   final String synopsis;
+  @HiveField(4)
   final List<String> genres;
 }

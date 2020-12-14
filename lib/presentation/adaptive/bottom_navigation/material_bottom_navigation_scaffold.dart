@@ -50,19 +50,6 @@ class _MaterialBottomNavigationScaffoldState
     super.initState();
   }
 
-  void _setMaterialNavigationBarTabs() {
-    _materialNavigationBarTabs = widget.navigationBarTabs
-        .map(
-          (barItem) => _MaterialBottomNavigationTab(
-            bottomNavigationBarItem: barItem.bottomNavigationBarItem,
-            navigatorKey: barItem.navigatorKey,
-            subtreeKey: GlobalKey(),
-            initialPageName: barItem.initialPageName,
-          ),
-        )
-        .toList();
-  }
-
   void _initAnimationControllers() {
     _animationControllers.addAll(
       widget.navigationBarTabs.map<AnimationController>(
@@ -78,21 +65,25 @@ class _MaterialBottomNavigationScaffoldState
     }
   }
 
+  void _setMaterialNavigationBarTabs() {
+    _materialNavigationBarTabs = widget.navigationBarTabs
+        .map(
+          (barItem) => _MaterialBottomNavigationTab(
+            bottomNavigationBarItem: barItem.bottomNavigationBarItem,
+            navigatorKey: barItem.navigatorKey,
+            subtreeKey: GlobalKey(),
+            initialPageName: barItem.initialPageName,
+          ),
+        )
+        .toList();
+  }
+
   @override
   void didUpdateWidget(MaterialBottomNavigationScaffold oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.navigationBarTabs != oldWidget.navigationBarTabs) {
       _setMaterialNavigationBarTabs();
     }
-  }
-
-  @override
-  void dispose() {
-    _animationControllers.forEach(
-      (controller) => controller.dispose(),
-    );
-
-    super.dispose();
   }
 
   @override
@@ -125,6 +116,15 @@ class _MaterialBottomNavigationScaffoldState
           onTap: widget.onItemSelected,
         ),
       );
+
+  @override
+  void dispose() {
+    _animationControllers.forEach(
+      (controller) => controller.dispose(),
+    );
+
+    super.dispose();
+  }
 }
 
 class _FadePageFlow extends StatelessWidget {

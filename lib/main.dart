@@ -1,11 +1,29 @@
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/presentation/routing.dart';
+import 'package:fluro/fluro.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive/hive.dart';
+
+import 'package:movie_advisor/presentation/routing.dart';
+import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
+import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
 import 'package:movie_advisor/generated/l10n.dart';
 
-void main() {
+Future<void> main() async {
+
   defineRoutes();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  Hive
+    ..init((await getApplicationDocumentsDirectory()).path)
+    ..registerAdapter<MovieSummaryCM>(
+      MovieSummaryCMAdapter(),
+    )
+    ..registerAdapter<MovieDetailsCM>(
+      MovieDetailsCMAdapter(),
+    );
+
 
   runApp(
     MyApp(),
