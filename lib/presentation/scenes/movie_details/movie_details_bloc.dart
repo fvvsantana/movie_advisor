@@ -8,8 +8,10 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_fa
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
-  MovieDetailsBloc({@required this.repository, @required this.movieId})
-      : assert(repository != null),
+  MovieDetailsBloc({
+    @required this.repository,
+    @required this.movieId,
+  })  : assert(repository != null),
         assert(movieId != null) {
     _subscriptions
       ..add(
