@@ -21,11 +21,12 @@ class FavoriteMoviesBloc {
       );
   }
 
+  final Repository repository;
+  
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();
   final _onNewStateSubject = BehaviorSubject<FavoriteMoviesResponseState>();
   final _onTryAgainSubject = StreamController<void>();
-  final Repository repository;
 
   Sink<void> get onFocusGained => _onFocusGainedSubject.sink;
 
