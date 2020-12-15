@@ -19,8 +19,8 @@ class _MoviesListPageState extends State<MoviesListPage> {
   MoviesListBloc _bloc;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void initState() {
+    super.initState();
     _bloc = Provider.of<MoviesListBloc>(context, listen: false);
   }
 

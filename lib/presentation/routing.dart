@@ -21,10 +21,13 @@ void defineRoutes() {
     ..define(
       _moviesResource,
       handler: Handler(
-        handlerFunc: (context, params) => Provider<MoviesListBloc>(
-          create: (context) => MoviesListBloc(
-            repository: Provider.of<Repository>(context, listen: false),
-          ),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, MoviesListBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              MoviesListBloc(
+                repository: repository,
+              ),
           dispose: (_, bloc) => bloc.dispose(),
           child: MoviesListPage(),
         ),
@@ -33,11 +36,14 @@ void defineRoutes() {
     ..define(
       '$_moviesResource/:$_moviesPathParameterId',
       handler: Handler(
-        handlerFunc: (context, params) => Provider<MovieDetailsBloc>(
-          create: (context) => MovieDetailsBloc(
-            repository: Provider.of<Repository>(context, listen: false),
-            movieId: int.parse(params[_moviesPathParameterId][0]),
-          ),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, MovieDetailsBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              MovieDetailsBloc(
+                repository: repository,
+                movieId: int.parse(params[_moviesPathParameterId][0]),
+              ),
           dispose: (_, bloc) => bloc.dispose(),
           child: MovieDetailsPage(),
         ),
@@ -46,10 +52,13 @@ void defineRoutes() {
     ..define(
       _favoritesResource,
       handler: Handler(
-        handlerFunc: (context, params) => Provider<FavoriteMoviesBloc>(
-          create: (context) => FavoriteMoviesBloc(
-            repository: Provider.of<Repository>(context, listen: false),
-          ),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, FavoriteMoviesBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              FavoriteMoviesBloc(
+                repository: repository,
+              ),
           dispose: (_, bloc) => bloc.dispose(),
           child: FavoriteMoviesPage(),
         ),

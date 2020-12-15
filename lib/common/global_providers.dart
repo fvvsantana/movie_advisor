@@ -11,10 +11,8 @@ final List<SingleChildWidget> globalProviders = [
 ];
 
 final List<SingleChildWidget> independentProviders = [
-  Provider<MovieRemoteDataSource>(
-    create: (_) => MovieRemoteDataSource(
-      dio: Dio(),
-    ),
+  Provider<Dio>(
+    create: (_) => Dio(),
   ),
   Provider<MovieCacheDataSource>(
     create: (_) => MovieCacheDataSource(),
@@ -22,8 +20,15 @@ final List<SingleChildWidget> independentProviders = [
 ];
 
 final List<SingleChildWidget> dependentProviders = [
+  ProxyProvider<Dio, MovieRemoteDataSource>(
+    update: (_, dio, rds) =>
+        rds ??
+        MovieRemoteDataSource(
+          dio: dio,
+        ),
+  ),
   ProxyProvider2<MovieRemoteDataSource, MovieCacheDataSource, Repository>(
     update: (_, rds, cds, repository) =>
-        Repository(movieRDS: rds, movieCDS: cds),
+        repository ?? Repository(movieRDS: rds, movieCDS: cds),
   ),
 ];
