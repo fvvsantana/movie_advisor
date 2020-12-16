@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
@@ -11,18 +10,15 @@ import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.d
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
 class MoviesListPage extends StatefulWidget {
+  const MoviesListPage({@required this.bloc}) : assert(bloc != null);
+  final MoviesListBloc bloc;
+
   @override
   _MoviesListPageState createState() => _MoviesListPageState();
 }
 
 class _MoviesListPageState extends State<MoviesListPage> {
-  MoviesListBloc _bloc;
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = Provider.of<MoviesListBloc>(context, listen: false);
-  }
+  MoviesListBloc get _bloc => widget.bloc;
 
   @override
   Widget build(BuildContext context) => Scaffold(

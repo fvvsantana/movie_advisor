@@ -29,7 +29,11 @@ void defineRoutes() {
                 repository: repository,
               ),
           dispose: (_, bloc) => bloc.dispose(),
-          child: MoviesListPage(),
+          child: Consumer<MoviesListBloc>(
+            builder: (_, bloc, __) => MoviesListPage(
+              bloc: bloc,
+            ),
+          ),
         ),
       ),
     )
