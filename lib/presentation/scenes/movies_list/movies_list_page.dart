@@ -36,14 +36,14 @@ class _MoviesListPageState extends State<MoviesListPage> {
             snapshot: snapshot,
             errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
               error: errorState.error,
-              onTryAgainTap: tryAgain,
+              onTryAgainTap: _tryAgain,
             ),
             successWidgetBuilder: (context, successState) {
               final moviesList = successState.moviesList;
               return moviesList.isEmpty
                   ? RetryEmptyState(
                       message: S.of(context).moviesListEmptyStateMessage,
-                      onRetry: tryAgain,
+                      onRetry: _tryAgain,
                     )
                   : MoviesList(
                       movies: moviesList,
@@ -54,7 +54,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
         ),
       );
 
-  void tryAgain() => _bloc.onTryAgain.add(null);
+  void _tryAgain() => _bloc.onTryAgain.add(null);
 
   void _pushMovieDetails(int movieId) {
     Navigator.of(context).pushNamed(

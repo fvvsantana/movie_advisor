@@ -60,7 +60,11 @@ void defineRoutes() {
                 repository: repository,
               ),
           dispose: (_, bloc) => bloc.dispose(),
-          child: FavoriteMoviesPage(),
+          child: Consumer<FavoriteMoviesBloc>(
+            builder: (_, bloc, __) => FavoriteMoviesPage(
+              bloc: bloc,
+            ),
+          ),
         ),
       ),
     );

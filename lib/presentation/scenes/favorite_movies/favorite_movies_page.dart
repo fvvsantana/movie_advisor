@@ -9,22 +9,19 @@ import 'package:movie_advisor/presentation/common/retry_empty_state.dart';
 import 'package:movie_advisor/presentation/routing.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
-import 'package:provider/provider.dart';
 
 class FavoriteMoviesPage extends StatefulWidget {
+  const FavoriteMoviesPage({@required this.bloc}) : assert(bloc != null);
+  final FavoriteMoviesBloc bloc;
+
   @override
   _FavoriteMoviesPageState createState() => _FavoriteMoviesPageState();
 }
 
 class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
-  FavoriteMoviesBloc _bloc;
   final _focusDetectorKey = UniqueKey();
 
-  @override
-  void initState() {
-    super.initState();
-    _bloc = Provider.of<FavoriteMoviesBloc>(context, listen: false);
-  }
+  FavoriteMoviesBloc get _bloc => widget.bloc;
 
   @override
   Widget build(BuildContext context) => Scaffold(

@@ -22,7 +22,7 @@ class FavoriteMoviesBloc {
   }
 
   final Repository repository;
-  
+
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();
   final _onNewStateSubject = BehaviorSubject<FavoriteMoviesResponseState>();
