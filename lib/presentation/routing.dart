@@ -49,7 +49,11 @@ void defineRoutes() {
                 movieId: int.parse(params[_moviesPathParameterId][0]),
               ),
           dispose: (_, bloc) => bloc.dispose(),
-          child: MovieDetailsPage(),
+          child: Consumer<MovieDetailsBloc>(
+            builder: (_, bloc, __) => MovieDetailsPage(
+              bloc: bloc,
+            ),
+          ),
         ),
       ),
     )

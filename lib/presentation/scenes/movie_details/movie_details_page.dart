@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:focus_detector/focus_detector.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';
@@ -13,19 +12,16 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_fa
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsPage extends StatefulWidget {
+  const MovieDetailsPage({@required this.bloc}) : assert(bloc != null);
+  final MovieDetailsBloc bloc;
+
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
-  MovieDetailsBloc _bloc;
+  MovieDetailsBloc get _bloc => widget.bloc;
   final _focusDetectorKey = UniqueKey();
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = Provider.of<MovieDetailsBloc>(context, listen: false);
-  }
 
   @override
   Widget build(BuildContext context) => FocusDetector(
@@ -69,7 +65,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       message = favoriteState.newIsFavorite
           ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
           : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
-    }else if(favoriteState is FavoriteRaceConditionError){
+    } else if (favoriteState is FavoriteRaceConditionError) {
       message = S.of(context).movieDetailsGenericFavoriteErrorMessage;
     }
 
