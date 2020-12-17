@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:fluro/fluro.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
-import 'package:movie_advisor/data/cache/models/movie_details_cm.dart';
-import 'package:movie_advisor/data/cache/models/movie_summary_cm.dart';
+import 'package:movie_advisor/data/cache/hive_settings.dart';
 import 'package:movie_advisor/presentation/routing.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -60,23 +57,13 @@ final List<SingleChildWidget> _repositoryProviders = [
 ];
 
 FluroRouter _buildFluroRouter() {
-  defineRoutes();
-  return FluroRouter.appRouter;
+  final router = FluroRouter.appRouter;
+  defineRoutes(router);
+  return router;
 }
 
 HiveInterface _buildHive() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  getApplicationDocumentsDirectory().then((dir) {
-    Hive
-      ..init(dir.path)
-      ..registerAdapter<MovieSummaryCM>(
-        MovieSummaryCMAdapter(),
-      )
-      ..registerAdapter<MovieDetailsCM>(
-        MovieDetailsCMAdapter(),
-      );
-  });
-
-  return Hive;
+  final hive = Hive;
+  initHive(hive);
+  return hive;
 }

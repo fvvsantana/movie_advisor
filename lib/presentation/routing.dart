@@ -10,8 +10,8 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_pa
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
 
-void defineRoutes() {
-  FluroRouter.appRouter
+void defineRoutes(FluroRouter router) {
+  router
     ..define(
       _homeResource,
       handler: Handler(
