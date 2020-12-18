@@ -8,7 +8,11 @@ import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_fa
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsBloc {
-  MovieDetailsBloc({@required this.movieId}) : assert(movieId != null) {
+  MovieDetailsBloc({
+    @required this.repository,
+    @required this.movieId,
+  })  : assert(repository != null),
+        assert(movieId != null) {
     _subscriptions
       ..add(
         _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
@@ -28,7 +32,7 @@ class MovieDetailsBloc {
   }
 
   final int movieId;
-  final _repository = Repository();
+  final Repository repository;
 
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();
@@ -53,7 +57,7 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: await _repository.getMovieDetails(movieId),
+        movieDetails: await repository.getMovieDetails(movieId),
       );
     } catch (error) {
       yield Error(error: error);
@@ -67,7 +71,7 @@ class MovieDetailsBloc {
       final newIsFavorite = !movieDetails.isFavorite;
 
       try {
-        await _repository.setFavoriteMovie(movieId, newIsFavorite);
+        await repository.setFavoriteMovie(movieId, newIsFavorite);
         _onNewStateSubject.sink.add(
           Success(
             movieDetails: movieDetails.copy(isFavorite: newIsFavorite),
@@ -77,7 +81,7 @@ class MovieDetailsBloc {
       } catch (_) {
         yield FavoriteError(newIsFavorite: newIsFavorite);
       }
-    }else{
+    } else {
       yield FavoriteRaceConditionError();
     }
   }

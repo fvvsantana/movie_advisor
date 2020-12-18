@@ -1,11 +1,17 @@
 import 'package:fluro/fluro.dart';
+import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
+import 'package:provider/provider.dart';
+
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_page.dart';
 import 'package:movie_advisor/presentation/scenes/home_screen/home_screen.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_page.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_page.dart';
 
-void defineRoutes() {
-  FluroRouter.appRouter
+void defineRoutes(FluroRouter router) {
+  router
     ..define(
       _homeResource,
       handler: Handler(
@@ -15,21 +21,59 @@ void defineRoutes() {
     ..define(
       _moviesResource,
       handler: Handler(
-        handlerFunc: (context, params) => MoviesListPage(),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, MoviesListBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              MoviesListBloc(
+                repository: repository,
+              ),
+          dispose: (_, bloc) => bloc.dispose(),
+          child: Consumer<MoviesListBloc>(
+            builder: (_, bloc, __) => MoviesListPage(
+              bloc: bloc,
+            ),
+          ),
+        ),
       ),
     )
     ..define(
       '$_moviesResource/:$_moviesPathParameterId',
       handler: Handler(
-        handlerFunc: (context, params) => MovieDetailsPage(
-          id: int.parse(params[_moviesPathParameterId][0]),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, MovieDetailsBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              MovieDetailsBloc(
+                repository: repository,
+                movieId: int.parse(params[_moviesPathParameterId][0]),
+              ),
+          dispose: (_, bloc) => bloc.dispose(),
+          child: Consumer<MovieDetailsBloc>(
+            builder: (_, bloc, __) => MovieDetailsPage(
+              bloc: bloc,
+            ),
+          ),
         ),
       ),
     )
     ..define(
       _favoritesResource,
       handler: Handler(
-        handlerFunc: (context, params) => FavoriteMoviesPage(),
+        handlerFunc: (context, params) =>
+            ProxyProvider<Repository, FavoriteMoviesBloc>(
+          update: (_, repository, bloc) =>
+              bloc ??
+              FavoriteMoviesBloc(
+                repository: repository,
+              ),
+          dispose: (_, bloc) => bloc.dispose(),
+          child: Consumer<FavoriteMoviesBloc>(
+            builder: (_, bloc, __) => FavoriteMoviesPage(
+              bloc: bloc,
+            ),
+          ),
+        ),
       ),
     );
 }

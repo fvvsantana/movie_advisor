@@ -10,12 +10,15 @@ import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.d
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
 class MoviesListPage extends StatefulWidget {
+  const MoviesListPage({@required this.bloc}) : assert(bloc != null);
+  final MoviesListBloc bloc;
+
   @override
   _MoviesListPageState createState() => _MoviesListPageState();
 }
 
 class _MoviesListPageState extends State<MoviesListPage> {
-  final _bloc = MoviesListBloc();
+  MoviesListBloc get _bloc => widget.bloc;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -29,14 +32,14 @@ class _MoviesListPageState extends State<MoviesListPage> {
             snapshot: snapshot,
             errorWidgetBuilder: (context, errorState) => ErrorEmptyState(
               error: errorState.error,
-              onTryAgainTap: onTryAgain,
+              onTryAgainTap: _tryAgain,
             ),
             successWidgetBuilder: (context, successState) {
               final moviesList = successState.moviesList;
               return moviesList.isEmpty
                   ? RetryEmptyState(
                       message: S.of(context).moviesListEmptyStateMessage,
-                      onRetry: onTryAgain,
+                      onRetry: _tryAgain,
                     )
                   : MoviesList(
                       movies: moviesList,
@@ -47,7 +50,7 @@ class _MoviesListPageState extends State<MoviesListPage> {
         ),
       );
 
-  void onTryAgain() => _bloc.onTryAgain.add(null);
+  void _tryAgain() => _bloc.onTryAgain.add(null);
 
   void _pushMovieDetails(int movieId) {
     Navigator.of(context).pushNamed(

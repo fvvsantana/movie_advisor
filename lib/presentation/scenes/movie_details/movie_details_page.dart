@@ -6,31 +6,22 @@ import 'package:movie_advisor/presentation/common/action_handler.dart';
 import 'package:movie_advisor/presentation/common/async_snapshot_response_view.dart';
 import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/popups.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_content.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_content.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
 class MovieDetailsPage extends StatefulWidget {
-  const MovieDetailsPage({
-    @required this.id,
-  }) : assert(id != null);
-
-  final int id;
+  const MovieDetailsPage({@required this.bloc}) : assert(bloc != null);
+  final MovieDetailsBloc bloc;
 
   @override
   _MovieDetailsPageState createState() => _MovieDetailsPageState();
 }
 
 class _MovieDetailsPageState extends State<MovieDetailsPage> {
-  MovieDetailsBloc _bloc;
+  MovieDetailsBloc get _bloc => widget.bloc;
   final _focusDetectorKey = UniqueKey();
-
-  @override
-  void initState() {
-    super.initState();
-    _bloc = MovieDetailsBloc(movieId: widget.id);
-  }
 
   @override
   Widget build(BuildContext context) => FocusDetector(
@@ -74,7 +65,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       message = favoriteState.newIsFavorite
           ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
           : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
-    }else if(favoriteState is FavoriteRaceConditionError){
+    } else if (favoriteState is FavoriteRaceConditionError) {
       message = S.of(context).movieDetailsGenericFavoriteErrorMessage;
     }
 

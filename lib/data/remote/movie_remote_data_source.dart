@@ -1,14 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
+import 'package:movie_advisor/common/errors.dart';
 import 'package:movie_advisor/data/remote/models/movie_details_rm.dart';
 import 'package:movie_advisor/data/remote/models/movie_summary_rm.dart';
 import 'package:movie_advisor/data/remote/url_builder.dart';
-import 'package:movie_advisor/common/errors.dart';
 
 class MovieRemoteDataSource {
-  final _dio = Dio();
+  const MovieRemoteDataSource({@required this.dio}) : assert(dio != null);
+  final Dio dio;
 
-  Future<List<MovieSummaryRM>> getMoviesList() => _dio
+  Future<List<MovieSummaryRM>> getMoviesList() => dio
           .get(
         UrlBuilder.getMoviesList(),
       )
@@ -21,7 +23,7 @@ class MovieRemoteDataSource {
             .toList();
       }).catchError(_treatError);
 
-  Future<MovieDetailsRM> getMovieDetails(int movieId) => _dio
+  Future<MovieDetailsRM> getMovieDetails(int movieId) => dio
       .get(
         UrlBuilder.getMovieDetails(movieId),
       )
@@ -39,5 +41,4 @@ class MovieRemoteDataSource {
       throw error;
     }
   }
-
 }

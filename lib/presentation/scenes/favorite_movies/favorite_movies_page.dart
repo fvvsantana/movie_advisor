@@ -11,13 +11,17 @@ import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movie
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
 
 class FavoriteMoviesPage extends StatefulWidget {
+  const FavoriteMoviesPage({@required this.bloc}) : assert(bloc != null);
+  final FavoriteMoviesBloc bloc;
+
   @override
   _FavoriteMoviesPageState createState() => _FavoriteMoviesPageState();
 }
 
 class _FavoriteMoviesPageState extends State<FavoriteMoviesPage> {
-  final _bloc = FavoriteMoviesBloc();
   final _focusDetectorKey = UniqueKey();
+
+  FavoriteMoviesBloc get _bloc => widget.bloc;
 
   @override
   Widget build(BuildContext context) => Scaffold(

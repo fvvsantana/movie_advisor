@@ -1,24 +1,31 @@
-import 'package:movie_advisor/data/cache/cache_data_source.dart';
-import 'package:movie_advisor/data/remote/remote_data_source.dart';
+import 'package:flutter/material.dart';
+import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
+import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/model/movie_details.dart';
 import 'package:movie_advisor/model/movie_summary.dart';
 import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
 class Repository {
-  final _movieRDS = MovieRemoteDataSource();
-  final _movieCDS = MovieCacheDataSource();
+  const Repository({
+    @required this.movieRDS,
+    @required this.movieCDS,
+  })  : assert(movieRDS != null),
+        assert(movieCDS != null);
+
+  final MovieRemoteDataSource movieRDS;
+  final MovieCacheDataSource movieCDS;
 
   Future<List<MovieSummary>> getMoviesList() async {
     try {
-      final remoteModelList = await _movieRDS.getMoviesList();
+      final remoteModelList = await movieRDS.getMoviesList();
 
       final cacheModelList = remoteModelList
           .map(
             (remoteModel) => remoteModel.toCache(),
           )
           .toList();
-      await _movieCDS.upsertMoviesList(cacheModelList);
+      await movieCDS.upsertMoviesList(cacheModelList);
 
       return cacheModelList
           .map(
@@ -26,7 +33,7 @@ class Repository {
           )
           .toList();
     } catch (_) {
-      final cacheModelList = await _movieCDS.getMoviesList();
+      final cacheModelList = await movieCDS.getMoviesList();
       if (cacheModelList != null) {
         return cacheModelList
             .map(
@@ -40,17 +47,17 @@ class Repository {
   }
 
   Future<MovieDetails> getMovieDetails(int movieId) async {
-    final isFavorite = await _movieCDS.isFavoriteMovie(movieId);
+    final isFavorite = await movieCDS.isFavoriteMovie(movieId);
 
     try {
-      final remoteModel = await _movieRDS.getMovieDetails(movieId);
+      final remoteModel = await movieRDS.getMovieDetails(movieId);
 
       final cacheModel = remoteModel.toCache();
-      await _movieCDS.upsertMovieDetails(cacheModel);
+      await movieCDS.upsertMovieDetails(cacheModel);
 
       return cacheModel.toDomain(isFavorite);
     } catch (_) {
-      final cacheModel = await _movieCDS.getMovieDetails(movieId);
+      final cacheModel = await movieCDS.getMovieDetails(movieId);
       if (cacheModel != null) {
         return cacheModel.toDomain(isFavorite);
       }
@@ -61,7 +68,7 @@ class Repository {
 
   Future<List<MovieSummary>> getFavoriteMovies() async {
     final moviesList = await getMoviesList();
-    final favoriteMovieIds = await _movieCDS.getFavoriteMovies();
+    final favoriteMovieIds = await movieCDS.getFavoriteMovies();
     return moviesList
         .where(
           (movie) => favoriteMovieIds.contains(movie.id),
@@ -77,6 +84,6 @@ class Repository {
    */
   Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
       isFavorite
-          ? await _movieCDS.upsertFavoriteMovie(movieId)
-          : await _movieCDS.deleteFavoriteMovie(movieId);
+          ? await movieCDS.upsertFavoriteMovie(movieId)
+          : await movieCDS.deleteFavoriteMovie(movieId);
 }
