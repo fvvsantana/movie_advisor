@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  domain:
+    path: ./domain
   flutter:
     sdk: flutter
   dio: 3.0.10
