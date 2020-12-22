@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/data/movie_repository.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 
@@ -32,7 +32,7 @@ class MovieDetailsBloc {
   }
 
   final int movieId;
-  final Repository repository;
+  final MovieRepository repository;
 
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();

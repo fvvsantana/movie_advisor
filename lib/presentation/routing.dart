@@ -1,5 +1,5 @@
 import 'package:fluro/fluro.dart';
-import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/data/movie_repository.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ void defineRoutes(FluroRouter router) {
       _moviesResource,
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<Repository, MoviesListBloc>(
+            ProxyProvider<MovieRepository, MoviesListBloc>(
           update: (_, repository, bloc) =>
               bloc ??
               MoviesListBloc(
@@ -41,7 +41,7 @@ void defineRoutes(FluroRouter router) {
       '$_moviesResource/:$_moviesPathParameterId',
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<Repository, MovieDetailsBloc>(
+            ProxyProvider<MovieRepository, MovieDetailsBloc>(
           update: (_, repository, bloc) =>
               bloc ??
               MovieDetailsBloc(
@@ -61,7 +61,7 @@ void defineRoutes(FluroRouter router) {
       _favoritesResource,
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<Repository, FavoriteMoviesBloc>(
+            ProxyProvider<MovieRepository, FavoriteMoviesBloc>(
           update: (_, repository, bloc) =>
               bloc ??
               FavoriteMoviesBloc(

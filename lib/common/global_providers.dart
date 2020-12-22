@@ -8,7 +8,7 @@ import 'package:provider/single_child_widget.dart';
 
 import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
-import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/data/movie_repository.dart';
 
 final List<SingleChildWidget> globalProviders = [
   ..._routingProviders,
@@ -50,9 +50,9 @@ final List<SingleChildWidget> _cdsProviders = [
 ];
 
 final List<SingleChildWidget> _repositoryProviders = [
-  ProxyProvider2<MovieRemoteDataSource, MovieCacheDataSource, Repository>(
+  ProxyProvider2<MovieRemoteDataSource, MovieCacheDataSource, MovieRepository>(
     update: (_, rds, cds, repository) =>
-        repository ?? Repository(movieRDS: rds, movieCDS: cds),
+        repository ?? MovieRepository(movieRDS: rds, movieCDS: cds),
   ),
 ];
 

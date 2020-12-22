@@ -6,8 +6,8 @@ import 'package:movie_advisor/model/movie_summary.dart';
 import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
-class Repository {
-  const Repository({
+class MovieRepository {
+  const MovieRepository({
     @required this.movieRDS,
     @required this.movieCDS,
   })  : assert(movieRDS != null),

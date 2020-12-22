@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/repository.dart';
+import 'package:movie_advisor/data/movie_repository.dart';
 
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc({@required this.repository}): assert(repository != null) {
@@ -21,7 +21,7 @@ class FavoriteMoviesBloc {
       );
   }
 
-  final Repository repository;
+  final MovieRepository repository;
 
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();
