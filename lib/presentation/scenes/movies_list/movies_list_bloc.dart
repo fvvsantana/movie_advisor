@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 import 'package:movie_advisor/data/movie_repository.dart';
 import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 
 class MoviesListBloc {
   MoviesListBloc({@required this.repository}) : assert(repository != null) {

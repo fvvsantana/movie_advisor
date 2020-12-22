@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
-import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
+
 import 'package:domain/models/movie_details.dart';
 import 'package:domain/models/movie_summary.dart';
+import 'package:domain/gateways/movie_repository_gateway.dart';
+import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
+import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
-class MovieRepository {
+class MovieRepository implements MovieRepositoryGateway{
   const MovieRepository({
     @required this.movieRDS,
     @required this.movieCDS,
@@ -16,6 +18,7 @@ class MovieRepository {
   final MovieRemoteDataSource movieRDS;
   final MovieCacheDataSource movieCDS;
 
+  @override
   Future<List<MovieSummary>> getMoviesList() async {
     try {
       final remoteModelList = await movieRDS.getMoviesList();
@@ -46,6 +49,7 @@ class MovieRepository {
     }
   }
 
+  @override
   Future<MovieDetails> getMovieDetails(int movieId) async {
     final isFavorite = await movieCDS.isFavoriteMovie(movieId);
 
@@ -66,6 +70,7 @@ class MovieRepository {
     }
   }
 
+  @override
   Future<List<MovieSummary>> getFavoriteMovies() async {
     final moviesList = await getMoviesList();
     final favoriteMovieIds = await movieCDS.getFavoriteMovies();
@@ -82,6 +87,7 @@ class MovieRepository {
     the action based on the state of the ui, not based on the state of the
     database. There is no guarantee that both states are the same all the time.
    */
+  @override
   Future<void> setFavoriteMovie(int movieId, bool isFavorite) async =>
       isFavorite
           ? await movieCDS.upsertFavoriteMovie(movieId)
