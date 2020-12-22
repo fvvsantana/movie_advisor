@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/model/movie_summary.dart';
+import 'package:movie_advisor/presentation/models/movie_summary_vm.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 
 class MoviesListItem extends StatelessWidget {
@@ -10,7 +10,7 @@ class MoviesListItem extends StatelessWidget {
   })  : assert(movie != null),
         assert(onTap != null);
 
-  final MovieSummary movie;
+  final MovieSummaryVM movie;
   final void Function(int) onTap;
 
   @override

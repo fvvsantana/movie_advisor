@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/data/movie_repository.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
+import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
 
 class FavoriteMoviesBloc {
-  FavoriteMoviesBloc({@required this.repository}): assert(repository != null) {
+  FavoriteMoviesBloc({@required this.repository}) : assert(repository != null) {
     _subscriptions
       ..add(
         _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
@@ -39,7 +40,7 @@ class FavoriteMoviesBloc {
 
     try {
       yield Success(
-        favoriteMovies: await repository.getFavoriteMovies(),
+        favoriteMovies: (await repository.getFavoriteMovies()).toView(),
       );
     } catch (error) {
       yield Error(error: error);

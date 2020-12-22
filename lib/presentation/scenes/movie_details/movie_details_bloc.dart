@@ -6,6 +6,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:movie_advisor/data/movie_repository.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
+import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
 
 class MovieDetailsBloc {
   MovieDetailsBloc({
@@ -57,7 +58,7 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: await repository.getMovieDetails(movieId),
+        movieDetails: (await repository.getMovieDetails(movieId)).toView(),
       );
     } catch (error) {
       yield Error(error: error);

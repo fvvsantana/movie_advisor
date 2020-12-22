@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-class MovieDetails {
-  const MovieDetails({
+class MovieDetailsVM {
+  const MovieDetailsVM({
     @required this.id,
     @required this.title,
     @required this.imageUrl,
@@ -22,7 +22,7 @@ class MovieDetails {
   final List<String> genres;
   final bool isFavorite;
 
-  MovieDetails copy({
+  MovieDetailsVM copy({
     int id,
     String title,
     String imageUrl,
@@ -30,7 +30,7 @@ class MovieDetails {
     List<String> genres,
     bool isFavorite,
   }) =>
-      MovieDetails(
+      MovieDetailsVM(
         id: id ?? this.id,
         title: title ?? this.title,
         imageUrl: imageUrl ?? this.imageUrl,

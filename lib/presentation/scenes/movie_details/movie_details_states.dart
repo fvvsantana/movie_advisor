@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:movie_advisor/model/movie_details.dart';
+import 'package:movie_advisor/presentation/models/movie_details_vm.dart';
 
 abstract class MovieDetailsResponseState {}
 
@@ -14,5 +14,5 @@ class Success implements MovieDetailsResponseState {
   const Success({
     @required this.movieDetails,
   })  : assert(movieDetails != null);
-  final MovieDetails movieDetails;
+  final MovieDetailsVM movieDetails;
 }

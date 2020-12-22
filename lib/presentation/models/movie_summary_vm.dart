@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-class MovieSummary {
-  const MovieSummary({
+class MovieSummaryVM {
+  const MovieSummaryVM({
     @required this.id,
     @required this.title,
     @required this.imageUrl,

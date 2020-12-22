@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/model/movie_details.dart';
+import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/favorite_button.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
-
-import 'package:movie_advisor/generated/l10n.dart';
+import 'package:movie_advisor/presentation/models/movie_details_vm.dart';
 
 class MovieDetailsContent extends StatelessWidget {
   const MovieDetailsContent({
@@ -14,7 +13,7 @@ class MovieDetailsContent extends StatelessWidget {
   })  : assert(movieDetails != null),
         assert(onFavoriteButtonPressed != null);
 
-  final MovieDetails movieDetails;
+  final MovieDetailsVM movieDetails;
   final VoidCallback onFavoriteButtonPressed;
 
   @override

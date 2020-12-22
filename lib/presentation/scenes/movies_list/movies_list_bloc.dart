@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 import 'package:movie_advisor/data/movie_repository.dart';
+import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
 
 class MoviesListBloc {
   MoviesListBloc({@required this.repository}) : assert(repository != null) {
@@ -36,7 +37,7 @@ class MoviesListBloc {
 
     try {
       yield Success(
-        moviesList: await repository.getMoviesList(),
+        moviesList: (await repository.getMoviesList()).toView(),
       );
     } catch (error) {
       yield Error(error: error);
