@@ -1,3 +1,4 @@
+import 'package:domain/use_cases/get_movies_list_uc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:movie_advisor/data/movie_repository.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
@@ -22,11 +23,11 @@ void defineRoutes(FluroRouter router) {
       _moviesResource,
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<MovieRepository, MoviesListBloc>(
-          update: (_, repository, bloc) =>
+            ProxyProvider<GetMoviesListUC, MoviesListBloc>(
+          update: (_, useCase, bloc) =>
               bloc ??
               MoviesListBloc(
-                repository: repository,
+                getMoviesListUC: useCase,
               ),
           dispose: (_, bloc) => bloc.dispose(),
           child: Consumer<MoviesListBloc>(
