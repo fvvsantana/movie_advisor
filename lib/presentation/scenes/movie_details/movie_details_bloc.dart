@@ -3,17 +3,20 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/data/movie_repository.dart';
+import 'package:domain/use_cases/get_movie_details_uc.dart';
+import 'package:domain/use_cases/set_favorite_movie_uc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
 import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
 
 class MovieDetailsBloc {
   MovieDetailsBloc({
-    @required this.repository,
     @required this.movieId,
-  })  : assert(repository != null),
-        assert(movieId != null) {
+    @required this.getMovieDetailsUC,
+    @required this.setFavoriteMovieUC,
+  })  : assert(movieId != null),
+        assert(getMovieDetailsUC != null),
+        assert(setFavoriteMovieUC != null) {
     _subscriptions
       ..add(
         _onFocusGainedSubject.stream.listen(_onTryAgainSubject.add),
@@ -33,7 +36,8 @@ class MovieDetailsBloc {
   }
 
   final int movieId;
-  final MovieRepository repository;
+  final GetMovieDetailsUC getMovieDetailsUC;
+  final SetFavoriteMovieUC setFavoriteMovieUC;
 
   final _subscriptions = CompositeSubscription();
   final _onFocusGainedSubject = StreamController<void>();
@@ -58,7 +62,10 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: (await repository.getMovieDetails(movieId)).toView(),
+        movieDetails: (await getMovieDetailsUC.getFuture(
+          params: GetMovieDetailsUCParams(movieId: movieId),
+        ))
+            .toView(),
       );
     } catch (error) {
       yield Error(error: error);
@@ -72,7 +79,12 @@ class MovieDetailsBloc {
       final newIsFavorite = !movieDetails.isFavorite;
 
       try {
-        await repository.setFavoriteMovie(movieId, newIsFavorite);
+        await setFavoriteMovieUC.getFuture(
+          params: SetFavoriteMovieUCParams(
+            movieId: movieId,
+            isFavorite: newIsFavorite,
+          ),
+        );
         _onNewStateSubject.sink.add(
           Success(
             movieDetails: movieDetails.copy(isFavorite: newIsFavorite),

@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
-import 'package:domain/gateways/movie_repository.dart';
-import 'package:domain/use_cases/get_movies_list_uc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:hive/hive.dart';
-import 'package:movie_advisor/common/error_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'package:domain/gateways/error_logger.dart';
+import 'package:domain/gateways/movie_repository.dart';
+import 'package:domain/use_cases/get_movies_list_uc.dart';
+import 'package:domain/use_cases/get_movie_details_uc.dart';
+import 'package:domain/use_cases/set_favorite_movie_uc.dart';
+import 'package:movie_advisor/common/error_logger.dart';
 import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/data/movie_repository.dart';
@@ -74,6 +76,23 @@ final List<SingleChildWidget> _useCaseProviders = [
     update: (_, repository, logger, useCase) =>
         useCase ??
         GetMoviesListUC(
+          repository: repository,
+          logger: logger,
+        ),
+  ),
+  ProxyProvider2<MovieRepositoryGateway, ErrorLoggerGateway, GetMovieDetailsUC>(
+    update: (_, repository, logger, useCase) =>
+        useCase ??
+        GetMovieDetailsUC(
+          repository: repository,
+          logger: logger,
+        ),
+  ),
+  ProxyProvider2<MovieRepositoryGateway, ErrorLoggerGateway,
+      SetFavoriteMovieUC>(
+    update: (_, repository, logger, useCase) =>
+        useCase ??
+        SetFavoriteMovieUC(
           repository: repository,
           logger: logger,
         ),

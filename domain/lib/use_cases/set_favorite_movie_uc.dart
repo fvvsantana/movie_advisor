@@ -16,7 +16,7 @@ class SetFavoriteMovieUC extends UseCase<SetFavoriteMovieUCParams, void> {
   final MovieRepositoryGateway repository;
 
   @override
-  Future<MovieDetails> getRawFuture(
+  Future<void> getRawFuture(
           {@required SetFavoriteMovieUCParams params}) =>
       repository.setFavoriteMovie(params.movieId, params.isFavorite);
 }
