@@ -13,4 +13,7 @@ class NoInternetError extends CustomError {
       : super(message: 'Problem with internet connection or DNS service');
 }
 
-class UnexpectedError extends CustomError {}
+class UnexpectedError extends CustomError {
+  const UnexpectedError()
+      : super(message: 'An unexpected error has occurred');
+}
