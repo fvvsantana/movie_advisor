@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:domain/use_cases/get_favorite_movies_uc.dart';
 import 'package:fluro/fluro.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -93,6 +94,15 @@ final List<SingleChildWidget> _useCaseProviders = [
     update: (_, repository, logger, useCase) =>
         useCase ??
         SetFavoriteMovieUC(
+          repository: repository,
+          logger: logger,
+        ),
+  ),
+  ProxyProvider2<MovieRepositoryGateway, ErrorLoggerGateway,
+      GetFavoriteMoviesUC>(
+    update: (_, repository, logger, useCase) =>
+        useCase ??
+        GetFavoriteMoviesUC(
           repository: repository,
           logger: logger,
         ),

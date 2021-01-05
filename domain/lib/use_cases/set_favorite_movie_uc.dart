@@ -2,7 +2,6 @@ import 'package:meta/meta.dart';
 
 import 'package:domain/gateways/movie_repository.dart';
 import 'package:domain/gateways/error_logger.dart';
-import 'package:domain/models/movie_details.dart';
 import 'package:domain/use_cases/use_case.dart';
 
 class SetFavoriteMovieUC extends UseCase<SetFavoriteMovieUCParams, void> {
