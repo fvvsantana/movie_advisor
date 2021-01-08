@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:domain/models/movie_details.dart';
 import 'package:domain/models/movie_summary.dart';
-import 'package:domain/gateways/movie_repository.dart';
+import 'package:domain/data/movie_repository.dart';
 import 'package:movie_advisor/data/cache/movie_cache_data_source.dart';
 import 'package:movie_advisor/data/remote/movie_remote_data_source.dart';
 import 'package:movie_advisor/data/mappers/remote_to_cache.dart';
 import 'package:movie_advisor/data/mappers/cache_to_domain.dart';
 
-class MovieRepository implements MovieRepositoryGateway{
+class MovieRepository implements MovieRepositoryGateway {
   const MovieRepository({
     @required this.movieRDS,
     @required this.movieCDS,

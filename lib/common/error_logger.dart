@@ -1,6 +1,6 @@
 import 'package:logger/logger.dart';
 
-import 'package:domain/gateways/error_logger.dart';
+import 'package:domain/error_logger.dart';
 
 class ErrorLogger implements ErrorLoggerGateway {
   final Logger logger = Logger(

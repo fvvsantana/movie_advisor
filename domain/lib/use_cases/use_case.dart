@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 
-import 'package:domain/entities/errors.dart';
-import 'package:domain/gateways/error_logger.dart';
+import 'package:domain/errors.dart';
+import 'package:domain/error_logger.dart';
 
 abstract class UseCase<P, R> {
   const UseCase({@required this.logger}) : assert(logger != null);
@@ -19,7 +19,7 @@ abstract class UseCase<P, R> {
       ).catchError(
         (error) {
           if (error is! CustomError) {
-            throw UnexpectedError();
+            throw const UnexpectedError();
           } else {
             throw error;
           }

@@ -1,7 +1,7 @@
-import 'package:domain/gateways/error_logger.dart';
+import 'package:domain/error_logger.dart';
 import 'package:meta/meta.dart';
 
-import 'package:domain/gateways/movie_repository.dart';
+import 'package:domain/data/movie_repository.dart';
 import 'package:domain/models/movie_summary.dart';
 import 'package:domain/use_cases/use_case.dart';
 

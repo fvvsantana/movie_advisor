@@ -5,8 +5,8 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'package:domain/gateways/error_logger.dart';
-import 'package:domain/gateways/movie_repository.dart';
+import 'package:domain/error_logger.dart';
+import 'package:domain/data/movie_repository.dart';
 import 'package:domain/use_cases/get_movies_list_uc.dart';
 import 'package:domain/use_cases/get_movie_details_uc.dart';
 import 'package:domain/use_cases/set_favorite_movie_uc.dart';
