@@ -8,8 +8,7 @@ import 'package:movie_advisor/presentation/common/error_empty_state.dart';
 import 'package:movie_advisor/presentation/common/popups.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_content.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_models.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   const MovieDetailsPage({@required this.bloc}) : assert(bloc != null);

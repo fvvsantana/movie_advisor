@@ -5,9 +5,8 @@ import 'package:rxdart/rxdart.dart';
 
 import 'package:domain/use_cases/get_movie_details_uc.dart';
 import 'package:domain/use_cases/set_favorite_movie_uc.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_favorite_action_results.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_states.dart';
-import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_models.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_mappers.dart';
 
 class MovieDetailsBloc {
   MovieDetailsBloc({

@@ -4,7 +4,7 @@ import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/favorite_button.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
-import 'package:movie_advisor/presentation/models/movie_details_vm.dart';
+import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_models.dart';
 
 class MovieDetailsContent extends StatelessWidget {
   const MovieDetailsContent({
