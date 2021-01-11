@@ -4,7 +4,7 @@ import 'package:domain/models/movie_details.dart';
 import 'package:domain/models/movie_summary.dart';
 
 extension MovieSummaryCMMapper on MovieSummaryCM {
-  MovieSummary toDomain() => MovieSummary(
+  MovieSummary toDM() => MovieSummary(
         id: id,
         title: title,
         imageUrl: imageUrl,
@@ -12,7 +12,7 @@ extension MovieSummaryCMMapper on MovieSummaryCM {
 }
 
 extension MovieDetailsCMMapper on MovieDetailsCM {
-  MovieDetails toDomain(bool isFavorite) => MovieDetails(
+  MovieDetails toDM(bool isFavorite) => MovieDetails(
         id: id,
         title: title,
         imageUrl: imageUrl,

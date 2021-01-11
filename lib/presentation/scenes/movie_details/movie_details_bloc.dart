@@ -64,7 +64,7 @@ class MovieDetailsBloc {
         movieDetails: (await getMovieDetailsUC.getFuture(
           params: GetMovieDetailsUCParams(movieId: movieId),
         ))
-            .toView(),
+            .toVM(),
       );
     } catch (error) {
       yield Error(error: error);

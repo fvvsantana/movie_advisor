@@ -41,7 +41,7 @@ class FavoriteMoviesBloc {
 
     try {
       yield Success(
-        favoriteMovies: (await getFavoriteMoviesUC.getFuture()).toView(),
+        favoriteMovies: (await getFavoriteMoviesUC.getFuture()).toVM(),
       );
     } catch (error) {
       yield Error(error: error);

@@ -25,14 +25,14 @@ class MovieRepository implements MovieRepositoryGateway {
 
       final cacheModelList = remoteModelList
           .map(
-            (remoteModel) => remoteModel.toCache(),
+            (remoteModel) => remoteModel.toCM(),
           )
           .toList();
       await movieCDS.upsertMoviesList(cacheModelList);
 
       return cacheModelList
           .map(
-            (cacheModel) => cacheModel.toDomain(),
+            (cacheModel) => cacheModel.toDM(),
           )
           .toList();
     } catch (_) {
@@ -40,7 +40,7 @@ class MovieRepository implements MovieRepositoryGateway {
       if (cacheModelList != null) {
         return cacheModelList
             .map(
-              (cacheModel) => cacheModel.toDomain(),
+              (cacheModel) => cacheModel.toDM(),
             )
             .toList();
       }
@@ -56,14 +56,14 @@ class MovieRepository implements MovieRepositoryGateway {
     try {
       final remoteModel = await movieRDS.getMovieDetails(movieId);
 
-      final cacheModel = remoteModel.toCache();
+      final cacheModel = remoteModel.toCM();
       await movieCDS.upsertMovieDetails(cacheModel);
 
-      return cacheModel.toDomain(isFavorite);
+      return cacheModel.toDM(isFavorite);
     } catch (_) {
       final cacheModel = await movieCDS.getMovieDetails(movieId);
       if (cacheModel != null) {
-        return cacheModel.toDomain(isFavorite);
+        return cacheModel.toDM(isFavorite);
       }
 
       rethrow;

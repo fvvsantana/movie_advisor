@@ -38,7 +38,7 @@ class MoviesListBloc {
 
     try {
       yield Success(
-        moviesList: (await getMoviesListUC.getFuture()).toView(),
+        moviesList: (await getMoviesListUC.getFuture()).toVM(),
       );
     } catch (error) {
       yield Error(error: error);
