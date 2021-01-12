@@ -64,8 +64,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       message = favoriteState.newIsFavorite
           ? S.of(context).movieDetailsAddToFavoritesSuccessMessage
           : S.of(context).movieDetailsRemoveFromFavoritesSuccessMessage;
-    } else if (favoriteState is FavoriteRaceConditionError) {
-      message = S.of(context).movieDetailsGenericFavoriteErrorMessage;
     }
 
     showSnackBar(context, message);
