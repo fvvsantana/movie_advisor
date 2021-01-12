@@ -21,4 +21,21 @@ class MovieDetails {
   final String synopsis;
   final List<String> genres;
   final bool isFavorite;
+
+  MovieDetails copy({
+    int id,
+    String title,
+    String imageUrl,
+    String synopsis,
+    List<String> genres,
+    bool isFavorite,
+  }) =>
+      MovieDetails(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        imageUrl: imageUrl ?? this.imageUrl,
+        synopsis: synopsis ?? this.synopsis,
+        genres: genres ?? this.genres,
+        isFavorite: isFavorite ?? this.isFavorite,
+      );
 }

@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:domain/use_cases/get_favorite_movies_uc.dart';
-import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_states.dart';
-import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_models.dart';
 
 class FavoriteMoviesBloc {
   FavoriteMoviesBloc({@required this.getFavoriteMoviesUC})
@@ -41,7 +40,7 @@ class FavoriteMoviesBloc {
 
     try {
       yield Success(
-        favoriteMovies: (await getFavoriteMoviesUC.getFuture()).toVM(),
+        favoriteMovies: await getFavoriteMoviesUC.getFuture(),
       );
     } catch (error) {
       yield Error(error: error);

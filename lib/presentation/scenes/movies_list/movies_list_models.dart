@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:movie_advisor/presentation/models/movie_summary_vm.dart';
+import 'package:meta/meta.dart';
+
+import 'package:domain/models/movie_summary.dart';
 
 abstract class MoviesListResponseState {}
 
@@ -12,5 +13,6 @@ class Error implements MoviesListResponseState {
 
 class Success implements MoviesListResponseState {
   const Success({@required this.moviesList}) : assert(moviesList != null);
-  final List<MovieSummaryVM> moviesList;
+  final List<MovieSummary> moviesList;
 }
+

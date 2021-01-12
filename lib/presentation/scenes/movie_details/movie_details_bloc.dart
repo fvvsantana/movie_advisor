@@ -6,7 +6,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:domain/use_cases/get_movie_details_uc.dart';
 import 'package:domain/use_cases/set_favorite_movie_uc.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_models.dart';
-import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_mappers.dart';
 
 class MovieDetailsBloc {
   MovieDetailsBloc({
@@ -61,10 +60,9 @@ class MovieDetailsBloc {
 
     try {
       yield Success(
-        movieDetails: (await getMovieDetailsUC.getFuture(
+        movieDetails: await getMovieDetailsUC.getFuture(
           params: GetMovieDetailsUCParams(movieId: movieId),
-        ))
-            .toVM(),
+        ),
       );
     } catch (error) {
       yield Error(error: error);

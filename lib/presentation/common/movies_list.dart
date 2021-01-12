@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/presentation/models/movie_summary_vm.dart';
+import 'package:domain/models/movie_summary.dart';
 import 'package:movie_advisor/presentation/common/movies_list_item.dart';
 
 class MoviesList extends StatelessWidget {
@@ -10,7 +10,7 @@ class MoviesList extends StatelessWidget {
   })  : assert(movies != null),
         assert(onMovieTap != null);
 
-  final List<MovieSummaryVM> movies;
+  final List<MovieSummary> movies;
   final void Function(int) onMovieTap;
 
   @override

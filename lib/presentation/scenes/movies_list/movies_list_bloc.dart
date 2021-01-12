@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/presentation/mappers/domain_to_view.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
 import 'package:domain/use_cases/get_movies_list_uc.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_models.dart';
 
 class MoviesListBloc {
   MoviesListBloc({@required this.getMoviesListUC})
@@ -38,7 +37,7 @@ class MoviesListBloc {
 
     try {
       yield Success(
-        moviesList: (await getMoviesListUC.getFuture()).toVM(),
+        moviesList: await getMoviesListUC.getFuture(),
       );
     } catch (error) {
       yield Error(error: error);
