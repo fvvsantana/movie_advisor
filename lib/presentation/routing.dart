@@ -1,8 +1,11 @@
+import 'package:domain/use_cases/get_favorite_movies_uc.dart';
 import 'package:fluro/fluro.dart';
-import 'package:movie_advisor/data/repository.dart';
-import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
 import 'package:provider/provider.dart';
 
+import 'package:domain/use_cases/get_movies_list_uc.dart';
+import 'package:domain/use_cases/get_movie_details_uc.dart';
+import 'package:domain/use_cases/set_favorite_movie_uc.dart';
+import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_bloc.dart';
 import 'package:movie_advisor/presentation/scenes/favorite_movies/favorite_movies_page.dart';
 import 'package:movie_advisor/presentation/scenes/home_screen/home_screen.dart';
 import 'package:movie_advisor/presentation/scenes/movie_details/movie_details_bloc.dart';
@@ -22,11 +25,11 @@ void defineRoutes(FluroRouter router) {
       _moviesResource,
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<Repository, MoviesListBloc>(
-          update: (_, repository, bloc) =>
+            ProxyProvider<GetMoviesListUC, MoviesListBloc>(
+          update: (_, useCase, bloc) =>
               bloc ??
               MoviesListBloc(
-                repository: repository,
+                getMoviesListUC: useCase,
               ),
           dispose: (_, bloc) => bloc.dispose(),
           child: Consumer<MoviesListBloc>(
@@ -40,13 +43,14 @@ void defineRoutes(FluroRouter router) {
     ..define(
       '$_moviesResource/:$_moviesPathParameterId',
       handler: Handler(
-        handlerFunc: (context, params) =>
-            ProxyProvider<Repository, MovieDetailsBloc>(
-          update: (_, repository, bloc) =>
+        handlerFunc: (context, params) => ProxyProvider2<GetMovieDetailsUC,
+            SetFavoriteMovieUC, MovieDetailsBloc>(
+          update: (_, getMovieDetailsUC, setFavoriteMovieUC, bloc) =>
               bloc ??
               MovieDetailsBloc(
-                repository: repository,
                 movieId: int.parse(params[_moviesPathParameterId][0]),
+                getMovieDetailsUC: getMovieDetailsUC,
+                setFavoriteMovieUC: setFavoriteMovieUC,
               ),
           dispose: (_, bloc) => bloc.dispose(),
           child: Consumer<MovieDetailsBloc>(
@@ -61,11 +65,11 @@ void defineRoutes(FluroRouter router) {
       _favoritesResource,
       handler: Handler(
         handlerFunc: (context, params) =>
-            ProxyProvider<Repository, FavoriteMoviesBloc>(
-          update: (_, repository, bloc) =>
+            ProxyProvider<GetFavoriteMoviesUC, FavoriteMoviesBloc>(
+          update: (_, useCase, bloc) =>
               bloc ??
               FavoriteMoviesBloc(
-                repository: repository,
+                getFavoriteMoviesUC: useCase,
               ),
           dispose: (_, bloc) => bloc.dispose(),
           child: Consumer<FavoriteMoviesBloc>(

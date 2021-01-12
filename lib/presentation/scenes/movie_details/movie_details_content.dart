@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:movie_advisor/model/movie_details.dart';
+import 'package:domain/models/movie_details.dart';
+
+import 'package:movie_advisor/generated/l10n.dart';
 import 'package:movie_advisor/presentation/common/favorite_button.dart';
 import 'package:movie_advisor/presentation/common/image_from_network.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
-
-import 'package:movie_advisor/generated/l10n.dart';
 
 class MovieDetailsContent extends StatelessWidget {
   const MovieDetailsContent({

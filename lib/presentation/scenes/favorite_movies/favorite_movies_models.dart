@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:movie_advisor/model/movie_summary.dart';
+import 'package:domain/models/movie_summary.dart';
+import 'package:meta/meta.dart';
 
 abstract class FavoriteMoviesResponseState {}
 
@@ -15,3 +15,4 @@ class Success implements FavoriteMoviesResponseState {
       : assert(favoriteMovies != null);
   final List<MovieSummary> favoriteMovies;
 }
+

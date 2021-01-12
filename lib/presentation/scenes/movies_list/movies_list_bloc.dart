@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
-import 'package:movie_advisor/data/repository.dart';
+import 'package:domain/use_cases/get_movies_list_uc.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_models.dart';
 
 class MoviesListBloc {
-  MoviesListBloc({@required this.repository}) : assert(repository != null) {
+  MoviesListBloc({@required this.getMoviesListUC})
+      : assert(getMoviesListUC != null) {
     _subscriptions
       ..add(
         _fetchMoviesList().listen(_onNewStateSubject.add),
@@ -21,7 +22,7 @@ class MoviesListBloc {
       );
   }
 
-  final Repository repository;
+  final GetMoviesListUC getMoviesListUC;
 
   final _subscriptions = CompositeSubscription();
   final _onNewStateSubject = BehaviorSubject<MoviesListResponseState>();
@@ -36,7 +37,7 @@ class MoviesListBloc {
 
     try {
       yield Success(
-        moviesList: await repository.getMoviesList(),
+        moviesList: await getMoviesListUC.getFuture(),
       );
     } catch (error) {
       yield Error(error: error);

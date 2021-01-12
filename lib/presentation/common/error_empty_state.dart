@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_advisor/common/errors.dart';
+import 'package:domain/errors.dart';
 import 'package:movie_advisor/presentation/common/title_text.dart';
 
 import 'package:movie_advisor/generated/l10n.dart';

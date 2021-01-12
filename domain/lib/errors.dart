@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:meta/meta.dart';
 
 abstract class CustomError implements Exception {
   const CustomError({@required this.message}) : assert(message != null);
@@ -11,4 +11,9 @@ abstract class CustomError implements Exception {
 class NoInternetError extends CustomError {
   const NoInternetError()
       : super(message: 'Problem with internet connection or DNS service');
+}
+
+class UnexpectedError extends CustomError {
+  const UnexpectedError()
+      : super(message: 'An unexpected error has occurred');
 }

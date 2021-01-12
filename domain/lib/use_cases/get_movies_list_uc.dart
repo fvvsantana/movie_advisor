@@ -1,0 +1,21 @@
+import 'package:domain/error_logger.dart';
+import 'package:meta/meta.dart';
+
+import 'package:domain/data/movie_repository.dart';
+import 'package:domain/models/movie_summary.dart';
+import 'package:domain/use_cases/use_case.dart';
+
+class GetMoviesListUC extends UseCase<void, List<MovieSummary>> {
+  const GetMoviesListUC({
+    @required this.repository,
+    @required ErrorLoggerGateway logger,
+  })  : assert(repository != null),
+        assert(logger != null),
+        super(logger: logger);
+
+  final MovieRepositoryGateway repository;
+
+  @override
+  Future<List<MovieSummary>> getRawFuture({void params}) =>
+      repository.getMoviesList();
+}

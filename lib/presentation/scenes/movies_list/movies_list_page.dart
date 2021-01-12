@@ -7,7 +7,7 @@ import 'package:movie_advisor/presentation/common/movies_list.dart';
 import 'package:movie_advisor/presentation/common/retry_empty_state.dart';
 import 'package:movie_advisor/presentation/routing.dart';
 import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_bloc.dart';
-import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_states.dart';
+import 'package:movie_advisor/presentation/scenes/movies_list/movies_list_models.dart';
 
 class MoviesListPage extends StatefulWidget {
   const MoviesListPage({@required this.bloc}) : assert(bloc != null);
